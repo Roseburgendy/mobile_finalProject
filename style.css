@@ -289,46 +289,74 @@ body.home-page #header #navbar li a.active {
 #mobile i:hover {
   color: var(--primary-500);
 }
-
-
 #close {
     display: none;
 }
 
+/* === HERO SECTION behavior=== */
 #hero {
-    margin-top: -90px;   /* 顶上去覆盖 header */
-    padding-top: 200px;  /* 把内容拉下来避免被 header 挡住 */
+  margin-top: -90px;
+  height: 120vh;
+  position: relative;
+  overflow: hidden;
+}
+
+#hero .slider{
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    padding: 0 80px;
-    background: url("img/hero.webp") no-repeat;
-    background-size: cover;
-    width: 100%;
-    height: 120vh;
-    background-size: cover;
-    background-position: top 25% right 0;
+    position:absolute;
+    top:0;
+    left:0;
+    width: 400%; /* 4 slides */
+    height:100%;
+    float:left;
+    animation: slide-animation 20s  ease-in-out infinite;
+}
+#hero .slide {
+  flex: 0 0 25%;
+  height: 100vh;
+  position: relative;
+  background-size: contain;
+  background-position: center center;
+  background-repeat: no-repeat;
+
 }
 
-#hero h4 {
-    padding-bottom: 15px;
+.slide img {
+  width:100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 10%;
 }
 
-#hero h1 {
-    color: #088178;
+.slide .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, rgba(0,0,0,0.5), rgba(0,0,0,0));
+  z-index: 1;
 }
 
-#hero button {
-    background-image: url("img/button.png");
-    background-color: transparent;
-    color: #088178;
-    border: 0;
-    padding: 14px 80px 14px 65px;
-    background-repeat: no-repeat;
-    cursor: pointer;
-    font-weight: 700;
-    font-size: 15px;
+
+.caption {
+  position: absolute;
+  bottom: 80px;
+  left: 60px;
+  color: var(--text-950);
+  text-shadow: 0 0 10px rgba(0,0,0,0.5);
+  z-index: 2; /* 确保在遮罩之上 */
+}
+@keyframes slide-animation {
+  0%   { left: 0; }
+  20%  { left: 0; }
+  25%  { left: -100%; }
+  45%  { left: -100%; }
+  50%  { left: -200%; }
+  70%  { left: -200%; }
+  75%  { left: -300%; }
+  95%  { left: -300%; }
+  100% { left: 0; }
 }
 
 #feature {
@@ -1262,10 +1290,37 @@ footer a:hover {
         display: none;
     }
     #hero {
-        padding: 0 80px;
-        height: 70vh;
-        background-position: top 30% right 30%;
-    }
+       height: 70vh;
+       margin-top: -90px;
+     }
+
+     #hero .slider {
+       width: 400%;
+       height: 100%;
+     }
+
+     #hero .slide {
+       flex: 0 0 100vw;
+       height: 70vh;
+       background-size: cover;
+       background-position: center;
+     }
+
+     .slide img {
+       height: 100%;
+       width: 100%;
+       object-fit: cover;
+       object-position: center 20%;
+     }
+
+     .caption {
+       bottom: 50px;
+       left: 20px;
+       right: 20px;
+       font-size: 1rem;
+       text-align: center;
+     }
+     
     #feature {
         justify-content: center;
     }
