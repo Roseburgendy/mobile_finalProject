@@ -8,44 +8,58 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 $user_id = $_SESSION['user_id'];
-$product_id = $_POST['id'];
+$product_id = intval($_POST['id']);
+$size = $_POST['size'];
 $action = $_POST['action'];
+$key = $product_id . '_' . $size;
 
-// 查询是否已有该商品
-$stmt = $conn->prepare("SELECT quantity FROM cart WHERE user_id = ? AND product_id = ?");
-$stmt->bind_param("ii", $user_id, $product_id);
-$stmt->execute();
-$result = $stmt->get_result();
+// 安全检查
+if (!isset($_SESSION['cart'][$key])) {
+    header("Location: cart.php");
+    exit();
+}
 
-if ($result->num_rows > 0) {
-    $row = $result->fetch_assoc();
-    $quantity = $row['quantity'];
+$current_quantity = $_SESSION['cart'][$key]['quantity'];
 
-    if ($action === 'increase') {
-        $quantity++;
-    } elseif ($action === 'decrease') {
-        $quantity--;
+// 根据动作修改数量
+if ($action === 'increase') {
+    $_SESSION['cart'][$key]['quantity']++;
+} elseif ($action === 'decrease') {
+    $_SESSION['cart'][$key]['quantity']--;
+
+    // 如果数量减到 0 或以下，删除项
+    if ($_SESSION['cart'][$key]['quantity'] <= 0) {
+        unset($_SESSION['cart'][$key]);
+
+        // 同步删除数据库
+        $stmt = $conn->prepare("DELETE FROM cart WHERE user_id = ? AND product_id = ? AND size = ?");
+        $stmt->bind_param("iis", $user_id, $product_id, $size);
+        $stmt->execute();
+
+        $conn->close();
+        header("Location: cart.php");
+        exit();
     }
+}
 
-    if ($quantity <= 0) {
-        $del = $conn->prepare("DELETE FROM cart WHERE user_id = ? AND product_id = ?");
-        $del->bind_param("ii", $user_id, $product_id);
-        $del->execute();
-    } else {
-        $upd = $conn->prepare("UPDATE cart SET quantity = ? WHERE user_id = ? AND product_id = ?");
-        $upd->bind_param("iii", $quantity, $user_id, $product_id);
-        $upd->execute();
-    }
+// 更新数据库中的数量
+$new_quantity = $_SESSION['cart'][$key]['quantity'];
+$check = $conn->prepare("SELECT quantity FROM cart WHERE user_id = ? AND product_id = ? AND size = ?");
+$check->bind_param("iis", $user_id, $product_id, $size);
+$check->execute();
+$res = $check->get_result();
 
+if ($res->num_rows > 0) {
+    $upd = $conn->prepare("UPDATE cart SET quantity = ? WHERE user_id = ? AND product_id = ? AND size = ?");
+    $upd->bind_param("iiis", $new_quantity, $user_id, $product_id, $size);
+    $upd->execute();
 } else {
-    if ($action === 'increase') {
-        $ins = $conn->prepare("INSERT INTO cart (user_id, product_id, quantity) VALUES (?, ?, 1)");
-        $ins->bind_param("ii", $user_id, $product_id);
-        $ins->execute();
-    }
+    // 如果数据库中没有就插入（理论上应该不会）
+    $ins = $conn->prepare("INSERT INTO cart (user_id, product_id, size, quantity) VALUES (?, ?, ?, ?)");
+    $ins->bind_param("iisi", $user_id, $product_id, $size, $new_quantity);
+    $ins->execute();
 }
 
 $conn->close();
 header("Location: cart.php");
 exit();
-?>

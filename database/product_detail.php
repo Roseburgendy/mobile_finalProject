@@ -35,10 +35,32 @@ if ($result->num_rows === 1) {
 
     <p><a href="products.php"><button>← Back to Product List</button></a></p>
 
+
+    // 加入购物车按钮
+    <h3>Select Size and Add to Cart</h3>
+    <form action="add_to_cart.php" method="get">
+        <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+
+        <label for="size">Size:</label>
+        <select name="size" required>
+            <option value="">--Select Size--</option>
+            <option value="S">S</option>
+            <option value="M">M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+        </select>
+
+        <button type="submit">Add to Cart</button>
+    </form>
+
     <?php
 } else {
     echo "Product not found.";
 }
+
+
+
+
 
 $stmt->close();
 $conn->close();

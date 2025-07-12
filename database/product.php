@@ -24,16 +24,12 @@ if ($result->num_rows > 0) {
         // 库存数量
         echo "Stock: " . $row['stock'] . "<br>";
 
-        // 商品图片（如果有）
-        if (!empty($row['image_url'])) {
-            echo "<img src='" . htmlspecialchars($row['image_url']) . "' width='150'><br>";
+        // 商品图片（使用 main_image_url 字段）
+        if (!empty($row['main_image_url'])) {
+            echo "<img src='" . htmlspecialchars($row['main_image_url']) . "' width='150'><br>";
         }
 
-        // 加入购物车按钮（暂无功能）
-        echo "<a href='add_to_cart.php?id=" . $row['id'] . "'>";
-        echo "<button>Add to Cart</button></a> ";
-
-
+        
         // 查看详情按钮（跳转到详情页）
         echo "<a href='product_detail.php?id=" . $row['id'] . "'>";
         echo "<button>View Details</button>";

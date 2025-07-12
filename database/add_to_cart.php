@@ -1,26 +1,34 @@
 <?php
 session_start();
 
-if (!isset($_GET['id'])) {
-    echo "Invalid product ID.";
+// 获取商品 ID 和尺码
+if (!isset($_GET['id']) || !isset($_GET['size'])) {
+    echo "Missing product ID or size.";
     exit();
 }
 
 $product_id = $_GET['id'];
+$size = $_GET['size'];
 
-// 初始化购物车
+// 生成购物车的唯一键（例如：5_M）
+$cart_key = $product_id . '_' . $size;
+
+// 初始化购物车数组
 if (!isset($_SESSION['cart'])) {
     $_SESSION['cart'] = [];
 }
 
-// 如果商品已在购物车中，数量 +1，否则设为 1
-if (isset($_SESSION['cart'][$product_id])) {
-    $_SESSION['cart'][$product_id]++;
+// 如果已存在相同商品 + 尺码，数量加 1
+if (isset($_SESSION['cart'][$cart_key])) {
+    $_SESSION['cart'][$cart_key]['quantity']++;
 } else {
-    $_SESSION['cart'][$product_id] = 1;
+    $_SESSION['cart'][$cart_key] = [
+        'quantity' => 1,
+        'size' => $size
+    ];
 }
 
-// 跳转回商品列表页
+// 跳转回购物车页面
 header("Location: cart.php");
 exit();
 ?>
