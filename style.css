@@ -160,8 +160,6 @@ small { font-size: 0.750rem; } /* 12px */
   }
 }
 
-
-
 button.normal {
     font-size: 14px;
     font-weight: 600;
@@ -194,28 +192,7 @@ button.white {
 .section-m1 {
     margin: 40px 0px;
 }
-
-#header-main {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 80px;
-    position: sticky;
-    top: 0;
-    left: 0;
-    z-index: 999;
-     width: 100%;
-    transition: background-color 0.3s ease;
-     background-color: transparent;
-}
-#header-main.scrolled {
-  background-color: #fff;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-#header-main.scrolled #navbar li a {
-    color: var(--text-100); /* 滚动后变成深色文字 */
-}
-
+/* General NavBar structure */
 #header {
     display: flex;
     align-items: center;
@@ -225,12 +202,33 @@ button.white {
     top: 0;
     left: 0;
     z-index: 999;
-     width: 100%;
+    width: 100%;
     transition: background-color 0.3s ease;
-     background-color: var(--background-950);
+    background-color: #fff;
 }
-#header #navbar li a {
-    color: var(--text-100); /* 滚动后变成深色文字 */
+
+/* Initial BG for homepage nav bar: transparent */
+body.home-page #header {
+    background-color: transparent;
+}
+
+/* Initial TEXT COLOR for homepage nav bar: white color */
+body.home-page #header:not(.scrolled) #navbar li a {
+  color: var(--text-950);
+}
+
+/* BG FOR homepage navbar scrolled :WHITE*/
+body.home-page #header.scrolled {
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* HOVER BEHAVIOR:
+Scrolled + not scrolled will have same behavior
+change from ori color to highlighted color: primary-500*/
+body.home-page #header #navbar li a:hover,
+body.home-page #header #navbar li a.active {
+   color: var(--primary-500);
 }
 
 .logo {
@@ -253,7 +251,7 @@ button.white {
 #navbar li a {
     font-family: 'Poppins', sans-serif !important;
     text-decoration: none;
-    color: var(--text-950);
+    color: var(--text-100);
     transition: 0.3s ease;
 }
 
@@ -1165,21 +1163,55 @@ footer a:hover {
     .section-p1 {
         padding: 40px;
     }
-    #navbar {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: flex-start;
-        position: fixed;
-        top: 0px;
-        right: -300px;
-        width: 300px;
-        height: 100vh;
-        background: #ffffff !important;
-        box-shadow: 0 40px 60px rgba(0, 0, 0, 0.1);
-        transition: 0.3s;
-        padding: 80px 0 0 10px;
+
+/* === Mobile icon behavior(cart+ bar)=== */
+   /* Main page */
+   body.home-page #header:not(.scrolled) #mobile i {
+     color: var(--text-950);
+   }
+   /* else */
+   body.home-page #header.scrolled #mobile i,
+   body:not(.home-page) #header #mobile i {
+     color: var(--text-100);
+   }
+    /* HOVER BEHAVIOR:
+       Scrolled + not scrolled will have same behavior
+       change from ori color to highlighted color: primary-500*/
+       body.home-page #header #mobile i:hover,
+       body.home-page #header #mobile i:active{
+          color: var(--primary-500);
+       }
+            body:not(.home-page) #header #mobile i:hover,
+            body:not(.home-page) #header #mobile i:active{
+               color: var(--primary-500);
+            }
+
+/* === Mobile side menu behavior=== */
+     #navbar {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            position: fixed;
+            top: 0px;
+            right: -300px;
+            width: 300px;
+            height: 100vh;
+            background: #fff;
+            box-shadow: 0 40px 60px rgba(0, 0, 0, 0.1);
+            transition: 0.3s;
+            padding: 80px 0 0 10px;
     }
+    /* 如果打开了 mobile 菜单 */
+    #navbar.active li a {
+     color: var(--text-100) !important;
+    }
+
+    #navbar.active li a:hover,
+    #navbar.active li a.active {
+        color: var(--primary-500);
+    }
+
     /* Display inline icon text for cart, profile and wishlist*/
     #navbar li .link-text {
      display: inline;
@@ -1188,20 +1220,17 @@ footer a:hover {
     #navbar li {
         margin-bottom: 25px;
      }
-    #navbar li a {
-        color: var(--primary-100);
-    }
-        #navbar li a:hover,
-        #navbar li a.active {
+    #navbar li a:hover,
+    #navbar li a.active {
           color: var(--primary-500) !important;
-        }
+    }
 
-        #navbar li .link-text {
+    #navbar li .link-text {
           display: inline;
           padding-left: 8px;
         }
         /* Optional: Add a subtle shadow to distinguish it */
-        #navbar.active {
+    #navbar.active {
           box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
