@@ -13,6 +13,8 @@ if (close) {
         nav.classList.remove('active');
     })
 }
+
+/* === Nav Bar behavior=== */
 window.addEventListener("scroll", function () {
   const header = document.querySelector("#header");
   if (window.scrollY > 50) {
@@ -21,3 +23,35 @@ window.addEventListener("scroll", function () {
     header.classList.remove("scrolled");
   }
 });
+
+/* === HERO SECTION Slider behavior=== */
+const slider = document.querySelector('.slider');
+const dots = document.querySelectorAll('.dot');
+const totalSlides = dots.length;
+let currentIndex = 0;
+let interval;
+
+function goToSlide(index) {
+  slider.scrollTo({
+    left: index * slider.clientWidth,
+    behavior: 'smooth'
+  });
+  updateDots(index);
+  currentIndex = index;
+}
+
+function updateDots(index) {
+  dots.forEach(dot => dot.classList.remove('active'));
+  dots[index].classList.add('active');
+}
+
+function autoSlide() {
+  interval = setInterval(() => {
+    currentIndex = (currentIndex + 1) % totalSlides;
+    goToSlide(currentIndex);
+  }, 5000);
+}
+
+// 初始化
+autoSlide();
+
