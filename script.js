@@ -55,3 +55,34 @@ function autoSlide() {
 // 初始化
 autoSlide();
 
+
+//Increase/Decrease Number Input with Button
+ document.querySelectorAll('.quantity-container').forEach(container => {
+    const input = container.querySelector('.qty-input');
+    const minus = container.querySelector('.minus');
+    const plus = container.querySelector('.plus');
+
+    minus.addEventListener('click', () => {
+      let value = parseInt(input.value);
+      if (value > parseInt(input.min)) input.value = value - 1;
+    });
+
+    plus.addEventListener('click', () => {
+      let value = parseInt(input.value);
+      input.value = value + 1;
+    });
+  });
+
+
+ // 只在小屏生效
+  document.addEventListener('DOMContentLoaded', function () {
+    if (window.innerWidth < 768) {
+      document.querySelectorAll('.dropdown-btn').forEach(btn => {
+        btn.addEventListener('click', function (e) {
+          e.preventDefault();
+          const parentDropdown = btn.closest('.dropdown');
+          parentDropdown.classList.toggle('open');
+        });
+      });
+    }
+  });

@@ -176,15 +176,20 @@ button.normal {
 button.white {
     background: transparent;
     padding: 11px 18px;
+    font-family: Poppins;
     font-size: 13px;
     font-weight: 600;
-    color: var(--primary-500);
+    color: var(--primary-400);
     outline: none;
-    border: 2px solid var(--primary-500);
+    border: 2px solid var(--primary-400);
     cursor: pointer;
     transition: 0.2 ease;
 }
 
+button.white:hover {
+    background: var(--primary-400);
+    color: var(--text-950);
+}
 .section-p1 {
     padding: 40px 80px;
 }
@@ -226,8 +231,8 @@ body.home-page #header.scrolled {
 /* HOVER BEHAVIOR:
 Scrolled + not scrolled will have same behavior
 change from ori color to highlighted color: primary-500*/
-body.home-page #header #navbar li a:hover,
-body.home-page #header #navbar li a.active {
+body not(.home-page) #header #navbar li a:hover,
+body not(.home-page) #header #navbar li a.active {
    color: var(--primary-500);
 }
 
@@ -264,18 +269,33 @@ body.home-page #header #navbar li a.active {
     color: var(--primary-500);
 }
 
+
+/* 默认 hover 和 active 状态的下划线颜色：红 */
 #navbar li a.active::after,
 #navbar li a:hover::after {
-    content: "";
-    width: 30%;
-    height: 2px;
-    background: var(--primary-600);
-    position: absolute;
-    bottom: -4px;
-    left: 20px;
+  content: "";
+  width: 30%;
+  height: 2px;
+  background: var(--primary-600);
+  position: absolute;
+  bottom: -4px;
+  left: 20px;
 }
 
-#navbar li a i {
+/* 首页时（非scroll) hover 和 active 状态的下划线颜色为白色 */
+body.home-page #header:not(.scrolled) #navbar li a.active::after,
+body.home-page #header:not(.scrolled) #navbar li a:hover::after {
+  background: var(--text-950);
+}
+
+body.home-page #header:not(.scrolled) .logo {
+  filter: brightness(0) invert(1); /* 让红色 logo 显示为白色效果 */
+}
+body.home-page #header.scrolled .logo {
+  filter: none;
+}
+
+#navbar li a i span{
     font-weight: 500;
     font-size: 20px;
 }
@@ -291,6 +311,76 @@ body.home-page #header #navbar li a.active {
 }
 #close {
     display: none;
+}
+
+
+/* Parent item with dropdown */
+#navbar li.dropdown {
+  position: relative;
+}
+
+/* Hide dropdown initially */
+#navbar li .dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: white;
+  padding: 10px 0;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  min-width: 180px;
+}
+
+/* Dropdown item style */
+#navbar li .dropdown-menu li a {
+  display: block;
+  padding: 10px 10px;
+  color: var(--primary-900) !important;
+  white-space: nowrap;
+}
+
+#navbar li .dropdown-menu li a:hover {
+  color: var(--primary-500)!important;
+}
+/* 首页时（非scroll) hover 和 active 状态dropdown menu的下划线颜色为红色 */
+body.home-page #header:not(.scrolled) #navbar .dropdown-menu li a.active::after,
+body.home-page #header:not(.scrolled) #navbar .dropdown-menu li a:hover::after {
+  background: var(--primary-500) !important;
+}
+
+/* Show dropdown on hover (desktop) */
+#navbar li.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+/* Optional: caret icon */
+#navbar li.dropdown > a i {
+  margin-left: 5px;
+  font-size: 0.7em;
+}
+
+.dropdown-toggle {
+ font-family:Poppins;
+  background: none;
+  border: none;
+  font-size: 1rem;
+  gap:10px;
+  color: var(--primary-600);
+  width: 100%;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dropdown-btn {
+display: none; 
+  background: none;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  color: inherit;
 }
 
 /* === HERO SECTION behavior=== */
@@ -407,7 +497,7 @@ body.home-page #header #navbar li a.active {
     text-align: center;
     padding: 25px 15px;
     border-radius: 4px;
-    border: 1px solid #cce7d0;
+    border: 1px solid var(--secondary-50);
     box-shadow: 20px 20px 34px rgba(0, 0, 0, .03);
     transition: 0.3s ease;
     margin: 15px 0;
@@ -466,7 +556,7 @@ body.home-page #header #navbar li a.active {
     width: 23%;
     min-width: 250px;
     padding: 10px 12px;
-    border: 1px solid #cce7d0;
+    border: 1px solid var(--primary-400);
     border-radius: 25px;
     transition: .2s;
     position: relative;
@@ -489,11 +579,6 @@ body.home-page #header #navbar li a.active {
     padding: 10px 0;
 }
 
-#product1 .pro .des span {
-    color: #606063;
-    font-size: 12px;
-}
-
 #product1 .pro .des h5 {
     padding-top: 7px;
     color: #1a1a1a;
@@ -502,7 +587,7 @@ body.home-page #header #navbar li a.active {
 }
 
 #product1 .pro:hover .des h5 {
-    color: #088178;
+    color: var(--primary-400);
 }
 
 #product1 .pro .des i {
@@ -514,7 +599,7 @@ body.home-page #header #navbar li a.active {
     padding-top: 7px;
     font-size: 15px;
     font-weight: 700;
-    color: #088178;
+    color: var(--primary-400);;
 }
 
 #product1 .pro .cart {
@@ -522,10 +607,10 @@ body.home-page #header #navbar li a.active {
     height: 40px;
     line-height: 40px;
     border-radius: 50px;
-    background-color: #e8f6ea;
+    background-color: var( --primary-950);
     font-weight: 500;
-    color: #088178;
-    border: 1px solid #cce7d0;
+    color:var(--primary-400);;
+    border: 1px solid var(--primary-400);
     transition: 0.2s;
     position: absolute;
     bottom: 20px;
@@ -534,7 +619,7 @@ body.home-page #header #navbar li a.active {
 
 #product1 .pro .cart:hover {
     color: #fff;
-    background: #088178;
+    background:var( --primary-400);
     font-weight: 400;
 }
 
@@ -563,10 +648,6 @@ body.home-page #header #navbar li a.active {
 }
 #banner h3 span {
     color:var(--primary-500);
-}
-#banner button:hover {
-    background: var(--primary-500);
-    color: var(--text-950);
 }
 #sm-banner {
     display: flex;
@@ -774,7 +855,7 @@ footer a:hover {
 }
 
 
-/* Shop Page */
+/* === SINGLE PRODUCT DETAILS === */
 
 #page-header {
     height: 40vh;
@@ -811,7 +892,7 @@ footer a:hover {
 }
 
 
-/* Single Product */
+/* === SINGLE PRODUCT DETAILS === */
 
 #prodetails {
     display: flex;
@@ -835,23 +916,25 @@ footer a:hover {
 
 #prodetails .single-pro-details {
     width: 50%;
-    padding-top: 30px;
+    padding-top: 20px;
 }
-
+/*Name*/
 #prodetails .single-pro-details h4 {
     padding: 40px 0 20px 0;
 }
 
+/*Price*/
 #prodetails .single-pro-details h2 {
     font-size: 26px;
 }
-
+/*Size Select*/
 #prodetails .single-pro-details select {
     display: block;
     padding: 5px 10px;
-    margin-bottom: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
-
+/*Quantity Input*/
 #prodetails .single-pro-details input {
     width: 50px;
     height: 47px;
@@ -864,10 +947,6 @@ footer a:hover {
     outline: none;
 }
 
-#prodetails .single-pro-details button {
-    background: #088178;
-    color: #fff;
-}
 
 #prodetails .single-pro-details span {
     line-height: 25px;
@@ -1263,16 +1342,20 @@ footer a:hover {
             transition: 0.3s;
             padding: 80px 0 0 10px;
     }
-    /* 如果打开了 mobile 菜单 */
+    /* TEXT TAB*/
     #navbar.active li a {
      color: var(--text-100) !important;
     }
-
+/* Color Change on hover*/
     #navbar.active li a:hover,
     #navbar.active li a.active {
-        color: var(--primary-500);
+        color: var(--primary-500) !important;
     }
-
+  #navbar li a:hover::after,
+  #navbar li a.active::after {
+    display: block;
+    background: var(--primary-500) !important; /* 如果你希望 hover 时红色，可以保留；否则改为别的 */
+  }
     /* Display inline icon text for cart, profile and wishlist*/
     #navbar li .link-text {
      display: inline;
@@ -1281,8 +1364,8 @@ footer a:hover {
     #navbar li {
         margin-bottom: 25px;
      }
-    #navbar li a:hover,
-    #navbar li a.active {
+    #navbar li a:hover::after,
+    #navbar li a.active::after {
           color: var(--primary-500) !important;
     }
 
@@ -1294,7 +1377,6 @@ footer a:hover {
     #navbar.active {
           box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-
 
     #navbar.active {
         right: 0;
@@ -1318,6 +1400,15 @@ footer a:hover {
         left: 30px;
         color: #222;
     }
+      .dropdown-btn {
+    display: inline-block;
+  }
+  .dropdown.open .dropdown-menu {
+    display: block;
+    position: static;
+    box-shadow: none;
+  }
+
     #lg-bag,
     #lg-search {
         display: none;
@@ -1369,6 +1460,10 @@ footer a:hover {
     }
     #product1 .pro-container {
         justify-content: center;
+    }
+    #prodetails .single-pro-details select{
+        margin-top:20px;
+        margin-bottom:20px;
     }
     #product1 .pro {
         margin: 15px;
