@@ -135,15 +135,126 @@
         </div>
     </section>
 
-    <!-- Featured Products Section -->
+    <!-- Black Collection Products Section -->
     <section id="product1" class="section-p1">
         <h2>Black Collection 2025</h2>
         <p>Summer Collection New Morden Design</p>
         <div class="pro-container">
+            <!-- PHP Query -->
             <?php
-include 'config.php';
+require_once 'config.php';
+  // ONLY SHOW ITEMS IN COLLECTION AND LIMIT VIEW TO 4
+$sql = "SELECT * FROM products WHERE collection ='Black Collection 2025' LIMIT 4";
+$result = $conn->query($sql);
 
-$sql = "SELECT * FROM products";
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+?>
+            <div class="pro">
+                <a href="sproduct.php?id=<?php echo $row['id']; ?>">
+                    <img src="<?php echo $row['main_image_url']; ?>"
+                        alt="<?php echo htmlspecialchars($row['name']); ?>">
+                </a>
+                <div class="des">
+                    <h5><?php echo htmlspecialchars($row['name']); ?></h5>
+                    <h4>$<?php echo number_format($row['price'], 2); ?></h4>
+                </div>
+                <a href="wishlist.php?add=<?php echo $row['id']; ?>">
+                    <i class="far fa-heart cart" title="Add to Wishlist"></i>
+                </a>
+            </div>
+            <?php
+    }
+} else {
+    echo "<p>No products found.</p>";
+}
+?>
+            <!-- Read More Button -->
+            <div style="text-align: center; margin-top: 20px;">
+                <a href="collection_black.php" class="normal" style="text-decoration: none;">
+                    View Full Collection →
+                </a>
+            </div>
+
+    </section>
+
+    <!-- Promotional Banner Section -->
+    <section id="banner" class="section-m1">
+        <h2>POPPY OFFICIAL LINE</h2>
+        <h3>Up to <span>3,000pt</span> for New Members</h3>
+        <button class="white">Explore More</button>
+    </section>
+
+    <!-- Spring Collection Products Section -->
+    <section id="product1" class="section-p1">
+        <h2>Spring Collection 2025</h2>
+        <p>Summer Collection New Morden Design</p>
+        <div class="pro-container">
+            <!-- PHP Query -->
+            <?php
+require_once 'config.php';
+  // ONLY SHOW ITEMS IN COLLECTION AND LIMIT VIEW TO 4
+$sql = "SELECT * FROM products WHERE collection ='Spring Collection 2025' LIMIT 4";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+?>
+            <div class="pro">
+                <a href="sproduct.php?id=<?php echo $row['id']; ?>">
+                    <img src="<?php echo $row['main_image_url']; ?>"
+                        alt="<?php echo htmlspecialchars($row['name']); ?>">
+                </a>
+                <div class="des">
+                    <h5><?php echo htmlspecialchars($row['name']); ?></h5>
+                    <h4>$<?php echo number_format($row['price'], 2); ?></h4>
+                </div>
+                <a href="wishlist.php?add=<?php echo $row['id']; ?>">
+                    <i class="far fa-heart cart" title="Add to Wishlist"></i>
+                </a>
+            </div>
+            <?php
+    }
+} else {
+    echo "<p>No products found.</p>";
+}
+?>
+            <!-- Read More Button -->
+            <div style="text-align: center; margin-top: 20px;">
+                <a href="collection_black.php" class="normal" style="text-decoration: none;">
+                    View Full Collection →
+                </a>
+            </div>
+
+    </section>
+
+    
+    <!-- Two Promotional Mini Banners -->
+    <section id="sm-banner" class="section-p1">
+        <div class="banner-box">
+            <h4>Crazy Deals</h4>
+            <h2>Buy 1 Get 1 Free</h2>
+            <span>The best classic dress is on sale at Poppy</span>
+            <button class="white">Learn More</button>
+        </div>
+        <div class="banner-box banner-box2">
+            <h4>Spring/Summer</h4>
+            <h2>Upcoming Season</h2>
+            <span>The best classic dress is on sale at Poppy</span>
+            <button class="white">Collection</button>
+        </div>
+    </section>
+
+    <!-- Early Summer Collection Products Section -->
+    <section id="product1" class="section-p1">
+        <h2>Early Summer Collection 2025</h2>
+        <p>Summer Collection New Morden Design</p>
+        <div class="pro-container">
+            <!-- PHP Query -->
+            <?php
+require_once 'config.php';
+  // ONLY SHOW ITEMS IN COLLECTION AND LIMIT VIEW TO 4
+$sql = "SELECT * FROM products WHERE collection ='Early Summer Collection' LIMIT 4";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
@@ -168,11 +279,13 @@ if ($result->num_rows > 0) {
     echo "<p>No products found.</p>";
 }
 
-    $conn->close();
 ?>
-        </div>
-
-        </div>
+            <!-- Read More Button -->
+            <div style="text-align: center; margin-top: 20px;">
+                <a href="collection_black.php" class="normal" style="text-decoration: none;">
+                    View Full Collection →
+                </a>
+            </div>
 
     </section>
 
@@ -183,157 +296,50 @@ if ($result->num_rows > 0) {
         <button class="white">Explore More</button>
     </section>
 
-
-    <!-- New Arrivals Section (Same layout as Featured Products) -->
+    <!-- POPPY X KEITAMARUYAMA Products Section -->
     <section id="product1" class="section-p1">
-        <h2>New Arrivals</h2>
+        <h2>POPPY X KEITAMARUYAMA Special Collection</h2>
         <p>Summer Collection New Morden Design</p>
         <div class="pro-container">
-            <div class="pro">
-                <img src="img/products/Tunic_1.webp" alt="">
-                <div class="des">
-                    <span>adidas</span>
-                    <h5>Cartoon Astronaut T-Shirts</h5>
-                    <div class="star">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <h4>$78</h4>
-                </div>
-                <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
-            </div>
-            <div class="pro">
-                <img src="img/products/n2.jpg" alt="">
-                <div class="des">
-                    <span>adidas</span>
-                    <h5>Cartoon Astronaut T-Shirts</h5>
-                    <div class="star">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <h4>$78</h4>
-                </div>
-                <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
-            </div>
-            <div class="pro">
-                <img src="img/products/n3.jpg" alt="">
-                <div class="des">
-                    <span>adidas</span>
-                    <h5>Cartoon Astronaut T-Shirts</h5>
-                    <div class="star">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <h4>$78</h4>
-                </div>
-                <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
-            </div>
-            <div class="pro">
-                <img src="img/products/n4.jpg" alt="">
-                <div class="des">
-                    <span>adidas</span>
-                    <h5>Cartoon Astronaut T-Shirts</h5>
-                    <div class="star">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <h4>$78</h4>
-                </div>
-                <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
-            </div>
-            <div class="pro">
-                <img src="img/products/n5.jpg" alt="">
-                <div class="des">
-                    <span>adidas</span>
-                    <h5>Cartoon Astronaut T-Shirts</h5>
-                    <div class="star">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <h4>$78</h4>
-                </div>
-                <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
-            </div>
-            <div class="pro">
-                <img src="img/products/n6.jpg" alt="">
-                <div class="des">
-                    <span>adidas</span>
-                    <h5>Cartoon Astronaut T-Shirts</h5>
-                    <div class="star">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <h4>$78</h4>
-                </div>
-                <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
-            </div>
-            <div class="pro">
-                <img src="img/products/n7.jpg" alt="">
-                <div class="des">
-                    <span>adidas</span>
-                    <h5>Cartoon Astronaut T-Shirts</h5>
-                    <div class="star">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <h4>$78</h4>
-                </div>
-                <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
-            </div>
-            <div class="pro">
-                <img src="img/products/n8.jpg" alt="">
-                <div class="des">
-                    <span>adidas</span>
-                    <h5>Cartoon Astronaut T-Shirts</h5>
-                    <div class="star">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <h4>$78</h4>
-                </div>
-                <a href="#"><i class="fal fa-shopping-cart cart"></i></a>
-            </div>
-        </div>
-    </section>
+            <!-- PHP Query -->
+            <?php
+require_once 'config.php';
+  // ONLY SHOW ITEMS IN COLLECTION AND LIMIT VIEW TO 4
+$sql = "SELECT * FROM products WHERE collection ='POPPY X KEITAMARUYAMA' LIMIT 4";
+$result = $conn->query($sql);
 
-    <!-- Two Promotional Mini Banners -->
-    <section id="sm-banner" class="section-p1">
-        <div class="banner-box">
-            <h4>Crazy Deals</h4>
-            <h2>Buy 1 Get 1 Free</h2>
-            <span>The best classic dress is on sale at Poppy</span>
-            <button class="white">Learn More</button>
-        </div>
-        <div class="banner-box banner-box2">
-            <h4>Spring/Summer</h4>
-            <h2>Upcoming Season</h2>
-            <span>The best classic dress is on sale at Poppy</span>
-            <button class="white">Collection</button>
-        </div>
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+?>
+            <div class="pro">
+                <a href="sproduct.php?id=<?php echo $row['id']; ?>">
+                    <img src="<?php echo $row['main_image_url']; ?>"
+                        alt="<?php echo htmlspecialchars($row['name']); ?>">
+                </a>
+                <div class="des">
+                    <h5><?php echo htmlspecialchars($row['name']); ?></h5>
+                    <h4>$<?php echo number_format($row['price'], 2); ?></h4>
+                </div>
+                <a href="wishlist.php?add=<?php echo $row['id']; ?>">
+                    <i class="far fa-heart cart" title="Add to Wishlist"></i>
+                </a>
+            </div>
+            <?php
+    }
+} else {
+    echo "<p>No products found.</p>";
+}
+
+// Close link after all query
+    $conn->close();
+?>
+            <!-- Read More Button -->
+            <div style="text-align: center; margin-top: 20px;">
+                <a href="collection_black.php" class="normal" style="text-decoration: none;">
+                    View Full Collection →
+                </a>
+            </div>
+
     </section>
 
     <!-- Three Horizontal Banners Section -->
