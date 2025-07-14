@@ -5,14 +5,43 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
+    <title>Tech2etc Ecommerce Tutorial</title>
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
 
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body class="sub-page">
+<body class="home-page">
+
+    <?php
+include 'config.php';
+
+$category_id = isset($_GET['category']) ? intval($_GET['category']) : 0;
+$page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+$query = isset($_GET['query']) ? trim($_GET['query']) : '';
+$limit = 8;
+$offset = ($page - 1) * $limit;
+
+$where = "1";
+if ($category_id > 0) {
+    $where .= " AND category_id = $category_id";
+}
+if (!empty($query)) {
+    $escaped = $conn->real_escape_string($query);
+    $where .= " AND (name LIKE '%$escaped%' OR description LIKE '%$escaped%')";
+}
+
+$count_sql = "SELECT COUNT(*) AS total FROM products WHERE $where";
+$count_result = $conn->query($count_sql);
+$total_products = $count_result->fetch_assoc()['total'];
+$total_pages = ceil($total_products / $limit);
+
+$product_sql = "SELECT * FROM products WHERE $where LIMIT $limit OFFSET $offset";
+$product_result = $conn->query($product_sql);
+
+$categories_result = $conn->query("SELECT * FROM category");
+?>
+
     <!-- Header/Navbar Section -->
     <header id="header">
         <!-- Logo -->
@@ -20,10 +49,10 @@
         <!-- Desktop Navigation -->
         <div>
             <ul id="navbar">
-                <li><a class="active" href="index.html">Home</a></li>
+                <li><a href="index.html">Home</a></li>
                 <!--SHOP: Dropdown Menus -->
                 <li>
-                    <a href="shop.php">Shop</a>
+                    <a href="shop.php" class="active">Shop</a>
                 </li>
 
                 <!-- COLLECTION: Dropdown Menu -->
@@ -54,7 +83,7 @@
                         <li><a href="video.php">Videos</a></li>
                     </ul>
                 </li>
-                 <li><a href="about.html">About</a></li>
+                <li><a href="about.html" >About</a></li>
                 <!-- Icons: Wishlist, Profile, Cart -->
                 <li><a href="wishlist.html" title="Wishlist">
                         <i class="far fa-heart"></i>
@@ -78,78 +107,85 @@
         </div>
     </header>
 
-    <section id="page-header" class="about-header">
-
-        <h2>#let's_talk</h2>
-        <p>LEAVE A MESSAGE, We love to hear from you!</p>
-
+    <section id="page-header" class="shop-banner">
+        <h2>Shop</h2>
+        <p>Save more with coupons & up to 70% off!</p>
     </section>
 
-    <section id="contact-details" class="section-p1">
-        <div class="details">
-            <span>GET IN TOUCH</span>
-            <h2>Visit one of our agency locations or contact us today</h2>
-            <h3>Head Office</h3>
-            <div>
-                <li>
-                    <i class="fal fa-map"></i>
-                    <p>56 Glassford Street Glasgow G1 1UL New York</p>
-                </li>
-                <li>
-                    <i class="far fa-envelope"></i>
-                    <p>contact@example.com </p>
-                </li>
-                <li>
-                    <i class="fas fa-phone-alt"></i>
-                    <p>contact@example.com </p>
-                </li>
-                <li>
-                    <i class="far fa-clock"></i>
-                    <p>Monday to Saturday: 9.00am to 16.pm </p>
-                </li>
-            </div>
-        </div>
+    <section class="section-p1">
+        <div class="filter-bar-wrapper">
+            <!--filter bar-->
+            <div class="filter-bar">
+                <ul class="filter-list desktop-only">
+                    <li><a href="shop.php" class="<?= $category_id === 0 ? 'active' : '' ?>">All</a></li>
+                    <?php mysqli_data_seek($categories_result, 0); while($cat = $categories_result->fetch_assoc()): ?>
+                    <li><a href="shop.php?category=<?= $cat['id'] ?>&query=<?= urlencode($query) ?>"
+                            class="<?= $category_id == $cat['id'] ? 'active' : '' ?>">
+                            <?= htmlspecialchars($cat['name']) ?></a></li>
+                    <?php endwhile; ?>
+                </ul>
 
-        <div class="map">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2469.8088025254456!2d-1.256555484681452!3d51.754819700404106!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4876c6a9ef8c485b%3A0xd2ff1883a001afed!2sUniversity%20of%20Oxford!5e0!3m2!1sen!2sbd!4v1637232208485!5m2!1sen!2sbd"
-                width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-        </div>
-    </section>
-
-    <section id="form-details">
-        <form action="">
-            <span>LEAVE A MESSAGE</span>
-            <h2>We love to hear from you </h2>
-            <input type="text" name="" id="" placeholder="Your Name">
-            <input type="text" name="" id="" placeholder="E-mail">
-            <input type="text" name="" id="" placeholder="Subject">
-            <textarea name="" id="" cols="30" rows="10" placeholder="Your Message"></textarea>
-            <button class="normal">Submit</button>
-        </form>
-
-        <div class="people">
-            <div>
-                <img src="img/people/1.png" alt="">
-                <p><span>John Doe </span> Senior Marketing Manager <br> Phone: + 000 123 000 77 88 <br> Email: contact@example.com</p>
+                <select class="mobile-only category-dropdown" onchange="location = this.value;">
+                    <option value="shop.php" <?= $category_id === 0 ? 'selected' : '' ?>>All</option>
+                    <?php mysqli_data_seek($categories_result, 0); while($cat = $categories_result->fetch_assoc()): ?>
+                    <option value="shop.php?category=<?= $cat['id'] ?>&query=<?= urlencode($query) ?>"
+                        <?= $category_id == $cat['id'] ? 'selected' : '' ?>>
+                        <?= htmlspecialchars($cat['name']) ?>
+                    </option>
+                    <?php endwhile; ?>
+                </select>
             </div>
-            <div>
-                <img src="img/people/2.png" alt="">
-                <p><span>William Smith</span> Senior Marketing Manager <br> Phone: + 000 123 000 77 88 <br> Email: contact@example.com</p>
-            </div>
-            <div>
-                <img src="img/people/3.png" alt="">
-                <p><span>Emma Stone</span> Senior Marketing Manager <br> Phone: + 000 123 000 77 88 <br> Email: contact@example.com</p>
-            </div>
+            <!--Search bar-->
+            <form method="GET" action="shop.php" class="search-form">
+                <input type="hidden" name="category" value="<?= $category_id ?>">
+                <input type="text" name="query" value="<?= htmlspecialchars($query) ?>"
+                    placeholder="Search products...">
+                <button type="submit"><i class="fas fa-search"></i></button>
+            </form>
         </div>
     </section>
 
-    <section id="newsletter" class="section-m1 section-p1">
+    <section id="product1" class="section-p1">
+        <div class="pro-container">
+            <?php if ($product_result->num_rows > 0): while ($row = $product_result->fetch_assoc()): ?>
+            <div class="pro">
+                <a href="sproduct.php?id=<?= $row['id'] ?>">
+                    <img src="<?= htmlspecialchars($row['main_image_url']) ?>"
+                        alt="<?= htmlspecialchars($row['name']) ?>">
+                </a>
+                <div class="des">
+                    <h5><?= htmlspecialchars($row['name']) ?></h5>
+                    <h4>$<?= number_format($row['price'], 2) ?></h4>
+                </div>
+                <a href="wishlist.php?add=<?= $row['id'] ?>">
+                    <i class="far fa-heart cart" title="Add to Wishlist"></i>
+                </a>
+            </div>
+            <?php endwhile; else: ?>
+            <p>No products found.</p>
+            <?php endif; ?>
+        </div>
+    </section>
+
+    <section id="pagination" class="section-p1">
+        <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+        <a href="shop.php?category=<?= $category_id ?>&query=<?= urlencode($query) ?>&page=<?= $i ?>"
+            class="<?= $i === $page ? 'active' : '' ?>"> <?= $i ?> </a>
+        <?php endfor; ?>
+        <?php if ($page < $total_pages): ?>
+        <a href="shop.php?category=<?= $category_id ?>&query=<?= urlencode($query) ?>&page=<?= $page + 1 ?>">
+            <i class="fas fa-chevron-right"></i>
+        </a>
+        <?php endif; ?>
+    </section>
+
+    <section id="newsletter" class="section-p1 section-m1">
         <div class="newstext">
-            <h4>Sign Up For Newsletters </h4>
-            <p>Get E-mail updates about our latest shop and <span>special offers.</span></p>
+            <h4>Sign Up For Newsletters</h4>
+            <p>Get E-mail updates about our latest shop and <span>special offers.</span> </p>
         </div>
         <div class="form">
-            <input type="text" name="" placeholder="Your email address" id="">
+            <input type="text" placeholder="Your email address">
             <button class="normal">Sign Up</button>
         </div>
     </section>
@@ -158,7 +194,7 @@
         <div class="col">
             <img class="logo" src="img/logo.png" alt="">
             <h4>Contact</h4>
-            <p><strong>Address:</strong> 562 Wellington Road, Street 32, San Francisco</p>
+            <p><strong>Address: </strong> 562 Wellington Road, Street 32, San Francisco</p>
             <p><strong>Phone:</strong> +01 2222 365 /(+91) 01 2345 6789</p>
             <p><strong>Hours:</strong> 10:00 - 18:00, Mon - Sat</p>
             <div class="follow">
@@ -172,6 +208,7 @@
                 </div>
             </div>
         </div>
+
         <div class="col">
             <h4>About</h4>
             <a href="#">About Us</a>
@@ -180,6 +217,7 @@
             <a href="#">Terms & Conditions</a>
             <a href="#">Contact Us</a>
         </div>
+
         <div class="col">
             <h4>My Account</h4>
             <a href="#">Sign In</a>
@@ -188,9 +226,10 @@
             <a href="#">Track My Order</a>
             <a href="#">Help</a>
         </div>
+
         <div class="col install">
             <h4>Install App</h4>
-            <p>From App Store or Google Play </p>
+            <p>From App Store or Google Play</p>
             <div class="row">
                 <img src="img/pay/app.jpg" alt="">
                 <img src="img/pay/play.jpg" alt="">
@@ -199,15 +238,11 @@
             <img src="img/pay/pay.png" alt="">
         </div>
 
-        <!-- Copyright Footer -->
         <div class="copyright">
-            <p>© 2025, Poppy Fashion</p>
+            <p>© 2021, Tech2 etc - HTML CSS Ecommerce Template</p>
         </div>
     </footer>
-
-
     <script src="script.js"></script>
-
 </body>
 
 </html>

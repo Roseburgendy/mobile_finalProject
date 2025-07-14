@@ -13,6 +13,7 @@
 </head>
 
 <body class="sub-page">
+
     <!-- Header/Navbar Section -->
     <header id="header">
         <!-- Logo -->
@@ -54,7 +55,7 @@
                         <li><a href="video.php">Videos</a></li>
                     </ul>
                 </li>
-                 <li><a href="about.html">About</a></li>
+                <li><a href="about.html">About</a></li>
                 <!-- Icons: Wishlist, Profile, Cart -->
                 <li><a href="wishlist.html" title="Wishlist">
                         <i class="far fa-heart"></i>
@@ -77,83 +78,62 @@
             <i id="bar" class="far fa-bars"></i>
         </div>
     </header>
+    <section id="login-form">
+        <?php
+include 'config.php';
 
-    <section id="page-header" class="about-header">
+$error = "";
 
-        <h2>#let's_talk</h2>
-        <p>LEAVE A MESSAGE, We love to hear from you!</p>
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
 
-    </section>
+    // SEARCH FOR USERNAME
+    $sql = "SELECT * FROM users WHERE username = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $username);
+    
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-    <section id="contact-details" class="section-p1">
-        <div class="details">
-            <span>GET IN TOUCH</span>
-            <h2>Visit one of our agency locations or contact us today</h2>
-            <h3>Head Office</h3>
-            <div>
-                <li>
-                    <i class="fal fa-map"></i>
-                    <p>56 Glassford Street Glasgow G1 1UL New York</p>
-                </li>
-                <li>
-                    <i class="far fa-envelope"></i>
-                    <p>contact@example.com </p>
-                </li>
-                <li>
-                    <i class="fas fa-phone-alt"></i>
-                    <p>contact@example.com </p>
-                </li>
-                <li>
-                    <i class="far fa-clock"></i>
-                    <p>Monday to Saturday: 9.00am to 16.pm </p>
-                </li>
-            </div>
-        </div>
+    // Whether find the account
+    if ($result->num_rows === 1) {
+        $row = $result->fetch_assoc();
+        // verify the password
+        if (password_verify($password, $row['password'])) {
+            // successful login
+            $_SESSION['username'] = $username;
+           echo "<script>alert('LOGIN Successfully!'); window.location.href='index.php';</script>";
+            exit();
+        } else {
+             $errorMsg = "Wrong Password" . $conn->error;
+        }
+    } else {
+        $errorMsg = "The account does not exist" . $conn->error;
+    }
 
-        <div class="map">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2469.8088025254456!2d-1.256555484681452!3d51.754819700404106!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4876c6a9ef8c485b%3A0xd2ff1883a001afed!2sUniversity%20of%20Oxford!5e0!3m2!1sen!2sbd!4v1637232208485!5m2!1sen!2sbd"
-                width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-        </div>
-    </section>
+    $stmt->close();
+}
+?>
 
-    <section id="form-details">
-        <form action="">
-            <span>LEAVE A MESSAGE</span>
-            <h2>We love to hear from you </h2>
-            <input type="text" name="" id="" placeholder="Your Name">
-            <input type="text" name="" id="" placeholder="E-mail">
-            <input type="text" name="" id="" placeholder="Subject">
-            <textarea name="" id="" cols="30" rows="10" placeholder="Your Message"></textarea>
-            <button class="normal">Submit</button>
+        <!-- LOGIN FORM -->
+        <form method="post">
+            <h2>LOGIN</h2>
+            <label>Username</label>
+            <input type="text" name="username" required>
+            <label>Password</label>
+            <input type="password" name="password" required>
+            <button class="white">LOG IN</button>
         </form>
 
-        <div class="people">
-            <div>
-                <img src="img/people/1.png" alt="">
-                <p><span>John Doe </span> Senior Marketing Manager <br> Phone: + 000 123 000 77 88 <br> Email: contact@example.com</p>
-            </div>
-            <div>
-                <img src="img/people/2.png" alt="">
-                <p><span>William Smith</span> Senior Marketing Manager <br> Phone: + 000 123 000 77 88 <br> Email: contact@example.com</p>
-            </div>
-            <div>
-                <img src="img/people/3.png" alt="">
-                <p><span>Emma Stone</span> Senior Marketing Manager <br> Phone: + 000 123 000 77 88 <br> Email: contact@example.com</p>
-            </div>
-        </div>
+        <!-- REGISTER ENTRANCE -->
+        <form action="wy_register.php" method="get">
+            <h2>REGISTER</h2>
+            <p style="margin-bottom: 30px;">If you don't have an account, you can register now to access exclusive
+                content and faster checkout.</p>
+            <button class="white">Register Account</button>
+        </form>
     </section>
-
-    <section id="newsletter" class="section-m1 section-p1">
-        <div class="newstext">
-            <h4>Sign Up For Newsletters </h4>
-            <p>Get E-mail updates about our latest shop and <span>special offers.</span></p>
-        </div>
-        <div class="form">
-            <input type="text" name="" placeholder="Your email address" id="">
-            <button class="normal">Sign Up</button>
-        </div>
-    </section>
-
     <footer class="section-p1">
         <div class="col">
             <img class="logo" src="img/logo.png" alt="">
@@ -205,6 +185,14 @@
         </div>
     </footer>
 
+
+    <?php if (!empty($errorMsg)) : ?>
+    <script>
+    window.onload = function() {
+        alert("<?php echo addslashes($errorMsg); ?>");
+    };
+    </script>
+    <?php endif; ?>
 
     <script src="script.js"></script>
 

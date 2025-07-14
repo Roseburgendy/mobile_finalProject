@@ -58,21 +58,64 @@ while ($img = $image_result->fetch_assoc()) {
         <!-- Desktop Navigation -->
         <div>
             <ul id="navbar">
-                <li><a href="index.php">Home</a></li>
-                <li><a class="active" href="shop.html">Shop</a></li>
+                <li><a class="active" href="index.html">Home</a></li>
+                <!--SHOP: Dropdown Menus -->
+                <li class="dropdown">
+                    <div class="dropdown-toggle">
+                        <a href="#">SHOP</a>
+                        <button class="dropdown-btn"><span class="arrow">▾</span></button>
+                    </div>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">ALL-ITEMS</a></li>
+                        <li><a href="#">TOPS</a></li>
+                        <li><a href="#">SEE-THROUGH</a></li>
+                        <li><a href="#">TUNIC</a></li>
+                        <li><a href="#">DRESSES</a></li>
+                        <li><a href="#">BOTTOMS</a></li>
+                        <li><a href="#">BAG</a></li>
+                        <li><a href="#">ACCESSORY</a></li>
+                    </ul>
+                </li>
+
+                <!-- COLLECTION: Dropdown Menu -->
+                <li class="dropdown">
+                    <div class="dropdown-toggle">
+                        <a href="#">COLLECTIONS</a>
+                        <button class="dropdown-btn"><span class="arrow">▾</span></button>
+                    </div>
+                    <ul class="dropdown-menu">
+                        <li><a href="black_collection.php">Black Collection 2025</a></li>
+                        <li><a href="poppy_keita.php">POPPY X KEITAMARUYAMA</a></li>
+                        <li><a href="summer_collection.php">Early Summer Collection</a></li>
+                        <li><a href="spring_collection.php">Spring Collection</a></li>
+                    </ul>
+                </li>
+
                 <li><a href="blog.html">News</a></li>
-                <li><a href="about.html">LookBook</a></li>
+
+                <!-- LOOKBOOK: Dropdown Menu -->
+                <li class="dropdown">
+                    <div class="dropdown-toggle">
+                        <a href="#">LOOKBOOK</a>
+                        <button class="dropdown-btn"><span class="arrow">▾</span></button>
+                    </div>
+                    <ul class="dropdown-menu">
+                        <li><a href="editorial.php">Editorial</a></li>
+                        <li><a href="style.php">Style Inspo</a></li>
+                        <li><a href="video.php">Videos</a></li>
+                    </ul>
+                </li>
                 <!-- Icons: Wishlist, Profile, Cart -->
                 <li><a href="wishlist.html" title="Wishlist">
                         <i class="far fa-heart"></i>
                         <span class="link-text">Wishlist</span>
                     </a></li>
-                <li><a href="profile.html" title="Profile">
+                <li><a href="wy_login.php" title="Profile">
                         <i class="far fa-user"></i>
                         <span class="link-text">Profile</span>
                     </a></li>
                 <li><a href="cart.html" title="Cart">
-                        <i class="fas fa-shopping-cart"></i>
+                        <i class="far fa-shopping-cart"></i>
                         <span class="link-text">Cart</span>
                     </a></li>
                 <a href="#" id="close"><i class="far fa-times"></i></a>
@@ -261,25 +304,6 @@ while ($img = $image_result->fetch_assoc()) {
             <p>© 2025, Poppy Fashion</p>
         </div>
     </footer>
-
-    <script>
-    var MainImg = document.getElementById("MainImg");
-    var smallimg = document.getElementsByClassName("small-img");
-
-    smallimg[0].onclick = function() {
-        MainImg.src = smallimg[0].src;
-    }
-    smallimg[1].onclick = function() {
-        MainImg.src = smallimg[1].src;
-    }
-    smallimg[2].onclick = function() {
-        MainImg.src = smallimg[2].src;
-    }
-    smallimg[3].onclick = function() {
-        MainImg.src = smallimg[3].src;
-    }
-    </script>
-
 
     <script src="script.js"></script>
 </body>

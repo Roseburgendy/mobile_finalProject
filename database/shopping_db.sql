@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： 127.0.0.1
--- 生成日期： 2025-07-14 10:29:02
+-- 生成日期： 2025-07-14 21:13:41
 -- 服务器版本： 10.4.32-MariaDB
 -- PHP 版本： 8.2.12
 
@@ -229,6 +229,15 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- 转存表中的数据 `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `password`, `email`) VALUES
+(1, 'RoseWang', '$2y$10$UQUBuo9QtSMFZ4I8ioTuQeDUTOV34v7FpfFo.ti2FMCsCqhneMzvK', 'DMT2209231@xmu.edu.my'),
+(2, '12', '$2y$10$bsQfvSE.XQEtehW9mWfvr.OEs04TOFgob/UAmp.FfiJv1c0UFBKeG', 'rosewuxi@gmail.com'),
+(3, 'lzj', '$2y$10$3zgn9kI8TMlumykTZcCHNuwlgghLyMIgiKwdOkD1fYOmX4yrgzESi', 'lzj@xmu.edu.my');
+
+--
 -- 转储表的索引
 --
 
@@ -327,7 +336,7 @@ ALTER TABLE `products`
 -- 使用表AUTO_INCREMENT `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- 限制导出的表

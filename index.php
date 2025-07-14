@@ -17,48 +17,36 @@
     <!-- Header/Navbar Section -->
     <header id="header">
         <!-- Logo -->
-        <a href="index.html"><img src="img/Icon.png" class="logo" alt="Poppy Logo"></a>
+        <a href="index.php"><img src="img/Icon.png" class="logo" alt="Poppy Logo"></a>
         <!-- Desktop Navigation -->
         <div>
             <ul id="navbar">
                 <li><a class="active" href="index.html">Home</a></li>
                 <!--SHOP: Dropdown Menus -->
-                <li class="dropdown">
-                    <div class="dropdown-toggle">
-                        <a href="#">SHOP</a>
-                        <button class="dropdown-btn"><span class="arrow">▾</span></button>
-                    </div>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">ALL-ITEMS</a></li>
-                        <li><a href="#">TOPS</a></li>
-                        <li><a href="#">SEE-THROUGH</a></li>
-                        <li><a href="#">TUNIC</a></li>
-                        <li><a href="#">DRESSES</a></li>
-                        <li><a href="#">BOTTOMS</a></li>
-                        <li><a href="#">BAG</a></li>
-                        <li><a href="#">ACCESSORY</a></li>
-                    </ul>
+                <li>
+                    <a href="shop.php">Shop</a>
                 </li>
 
                 <!-- COLLECTION: Dropdown Menu -->
                 <li class="dropdown">
                     <div class="dropdown-toggle">
-                        <a href="#">COLLECTIONS</a>
+                        <a href="#">Collections</a>
                         <button class="dropdown-btn"><span class="arrow">▾</span></button>
                     </div>
                     <ul class="dropdown-menu">
-                        <li><a href="black.php">Black Collection 2025</a></li>
-                        <li><a href="spring.php">POPPY X KEITAMARUYAMA</a></li>
-                        <li><a href="summer.php">Early Summer Collection</a></li>
+                        <li><a href="black_collection.php">Black Collection 2025</a></li>
+                        <li><a href="poppy_keita.php">POPPY X KEITAMARUYAMA</a></li>
+                        <li><a href="summer_collection.php">Early Summer Collection</a></li>
+                        <li><a href="spring_collection.php">Spring Collection</a></li>
                     </ul>
                 </li>
 
-                <li><a href="blog.html">News</a></li>
+                <li><a href="news.php">News</a></li>
 
                 <!-- LOOKBOOK: Dropdown Menu -->
                 <li class="dropdown">
                     <div class="dropdown-toggle">
-                        <a href="#">LOOKBOOK</a>
+                        <a href="#">LookBook</a>
                         <button class="dropdown-btn"><span class="arrow">▾</span></button>
                     </div>
                     <ul class="dropdown-menu">
@@ -67,12 +55,13 @@
                         <li><a href="video.php">Videos</a></li>
                     </ul>
                 </li>
+                 <li><a href="about.html">About</a></li>
                 <!-- Icons: Wishlist, Profile, Cart -->
                 <li><a href="wishlist.html" title="Wishlist">
                         <i class="far fa-heart"></i>
                         <span class="link-text">Wishlist</span>
                     </a></li>
-                <li><a href="profile.html" title="Profile">
+                <li><a href="wy_login.php" title="Profile">
                         <i class="far fa-user"></i>
                         <span class="link-text">Profile</span>
                     </a></li>
@@ -171,8 +160,8 @@ if ($result->num_rows > 0) {
 ?>
             <!-- Read More Button -->
             <div style="text-align: center; margin-top: 20px;">
-                <a href="collection_black.php" class="normal" style="text-decoration: none;">
-                    View Full Collection →
+                <a href="black_collection.php" class="normal" style="text-decoration: none;">
+                    <button class="white">View Full Collection →</button>
                 </a>
             </div>
 
@@ -220,11 +209,11 @@ if ($result->num_rows > 0) {
 }
 ?>
             <!-- Read More Button -->
-            <div style="text-align: center; margin-top: 20px;">
-                <a href="collection_black.php" class="normal" style="text-decoration: none;">
-                    View Full Collection →
-                </a>
-            </div>
+<div style="text-align: center; margin-top: 20px;">
+    <a href="spring_collection.php">
+        <button class="white">View Full Collection →</button>
+    </a>
+</div>
 
     </section>
 
@@ -282,8 +271,8 @@ if ($result->num_rows > 0) {
 ?>
             <!-- Read More Button -->
             <div style="text-align: center; margin-top: 20px;">
-                <a href="collection_black.php" class="normal" style="text-decoration: none;">
-                    View Full Collection →
+                <a href="summer_collection.php" class="normal" style="text-decoration: none;">
+                    <button class="white">View Full Collection →</button>
                 </a>
             </div>
 
@@ -335,8 +324,8 @@ if ($result->num_rows > 0) {
 ?>
             <!-- Read More Button -->
             <div style="text-align: center; margin-top: 20px;">
-                <a href="collection_black.php" class="normal" style="text-decoration: none;">
-                    View Full Collection →
+                <a href="poppy_keita.php" class="normal" style="text-decoration: none;">
+                     <button class="white">View Full Collection →</button>
                 </a>
             </div>
 
@@ -376,17 +365,12 @@ if ($result->num_rows > 0) {
         <div class="col">
             <img class="logo" src="img/Icon.png" alt="">
             <h4>Contact</h4>
-            <p><strong>Address:</strong> 562 Wellington Road, Street 32, San Francisco</p>
-            <p><strong>Phone:</strong> +01 2222 365 / (+91) 01 2345 6789</p>
-            <p><strong>Hours:</strong> 10:00 - 18:00, Mon - Sat</p>
+            <p><strong>Address:</strong> 1F, 6-6-5 Jingumae, Shibuya-ku, Tokyo</p>
+            <p><strong>Hours:</strong> 10:00 - 19:00, Mon - Sat</p>
             <div class="follow">
                 <h4>Follow Us</h4>
                 <div class="icon">
-                    <i class="fab fa-facebook-f"></i>
-                    <i class="fab fa-twitter"></i>
                     <i class="fab fa-instagram"></i>
-                    <i class="fab fa-pinterest-p"></i>
-                    <i class="fab fa-youtube"></i>
                 </div>
             </div>
         </div>
