@@ -239,7 +239,6 @@ while ($img = $image_result->fetch_assoc()) {
         </div>
     </section>
 
-
     <section id="newsletter" class="section-p1 section-m1">
         <div class="newstext">
             <h4>Sign Up For Newsletters</h4>
@@ -304,6 +303,13 @@ while ($img = $image_result->fetch_assoc()) {
             <p>© 2025, Poppy Fashion</p>
         </div>
     </footer>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    $('.small-img').click(function () {
+        $('#MainImg').attr('src', $(this).attr('src'));
+    });
+</script>
+
 
     <script src="script.js"></script>
 </body>

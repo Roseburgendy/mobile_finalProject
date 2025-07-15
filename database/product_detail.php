@@ -35,8 +35,6 @@ if ($result->num_rows === 1) {
 
     <p><a href="products.php"><button>← Back to Product List</button></a></p>
 
-
-    // 加入购物车按钮
     <h3>Select Size and Add to Cart</h3>
     <form action="add_to_cart.php" method="get">
         <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
