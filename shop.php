@@ -78,9 +78,9 @@ $categories_result = $conn->query("SELECT * FROM category");
                         <button class="dropdown-btn"><span class="arrow">▾</span></button>
                     </div>
                     <ul class="dropdown-menu">
-                        <li><a href="editorial.php">Editorial</a></li>
-                        <li><a href="style.php">Style Inspo</a></li>
-                        <li><a href="video.php">Videos</a></li>
+                        <li><a href="editorial.html">Editorial</a></li>
+                        <li><a href="style.html">Style Inspo</a></li>
+                        <li><a href="video.html">Videos</a></li>
                     </ul>
                 </li>
                 <li><a href="about.html" >About</a></li>

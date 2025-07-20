@@ -1,33 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
+    <title>Editorial - Poppy Fashion</title>
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
-
     <link rel="stylesheet" href="style.css">
+    <style>
+        .lookbook-cards {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .lookbook-card {
+            flex: 1 1 300px;
+            max-width: 350px;
+            background: var(--text-950);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px var(--text-800);
+            margin-bottom: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1px solid var(--background-950);
+            transition: box-shadow 0.2s;
+        }
+        .lookbook-card:hover {
+            box-shadow: 0 8px 24px var(--text-700);
+        }
+        .lookbook-card img {
+            width: 100%;
+            border-radius: 8px;
+        }
+        .lookbook-card h3 {
+            margin: 1rem;
+            font-size: 2rem;
+            text-align: center;
+        }
+        .lookbook-card p {
+            margin: 1rem 0;
+            color: var(--text-400);
+            text-align: center;
+        }
+    </style>
 </head>
-
 <body class="sub-page">
-
     <!-- Header/Navbar Section -->
     <header id="header">
-        <!-- Logo -->
         <a href="index.php"><img src="img/Icon.png" class="logo" alt="Poppy Logo"></a>
-        <!-- Desktop Navigation -->
         <div>
             <ul id="navbar">
-                <li><a class="active" href="index.html">Home</a></li>
-                <!--SHOP: Dropdown Menus -->
-                <li>
-                    <a href="shop.php">Shop</a>
-                </li>
-
-                <!-- COLLECTION: Dropdown Menu -->
+                <li><a href="index.html">Home</a></li>
+                <li><a href="shop.php">Shop</a></li>
                 <li class="dropdown">
                     <div class="dropdown-toggle">
                         <a href="#">Collections</a>
@@ -40,105 +67,68 @@
                         <li><a href="spring_collection.php">Spring Collection</a></li>
                     </ul>
                 </li>
-
                 <li><a href="news.php">News</a></li>
-
-                <!-- LOOKBOOK: Dropdown Menu -->
                 <li class="dropdown">
                     <div class="dropdown-toggle">
                         <a href="lookbook.html">LookBook</a>
                         <button class="dropdown-btn"><span class="arrow">▾</span></button>
                     </div>
                     <ul class="dropdown-menu">
-                        <li><a href="editorial.html">Editorial</a></li>
+                        <li><a href="editorial.html" class="active">Editorial</a></li>
                         <li><a href="style.html">Style Inspo</a></li>
                         <li><a href="video.html">Videos</a></li>
                     </ul>
                 </li>
                 <li><a href="about.html">About</a></li>
-                <!-- Icons: Wishlist, Profile, Cart -->
-                <li><a href="wishlist.html" title="Wishlist">
-                        <i class="far fa-heart"></i>
-                        <span class="link-text">Wishlist</span>
-                    </a></li>
-                <li><a href="wy_login.php" title="Profile">
-                        <i class="far fa-user"></i>
-                        <span class="link-text">Profile</span>
-                    </a></li>
-                <li><a href="cart.html" title="Cart">
-                        <i class="far fa-shopping-cart"></i>
-                        <span class="link-text">Cart</span>
-                    </a></li>
+                <li><a href="wishlist.html" title="Wishlist"><i class="far fa-heart"></i><span class="link-text">Wishlist</span></a></li>
+                <li><a href="wy_login.php" title="Profile"><i class="far fa-user"></i><span class="link-text">Profile</span></a></li>
+                <li><a href="cart.html" title="Cart"><i class="far fa-shopping-cart"></i><span class="link-text">Cart</span></a></li>
                 <a href="#" id="close"><i class="far fa-times"></i></a>
             </ul>
         </div>
-        <!-- Mobile Icons -->
         <div id="mobile">
             <a href="cart.html" title="Cart"><i class="far fa-shopping-cart"></i></a>
             <i id="bar" class="far fa-bars"></i>
         </div>
     </header>
-    <section id="login-form">
-        <?php
-include 'config.php';
 
-$error = "";
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-
-    // SEARCH FOR USERNAME
-    $sql = "SELECT * FROM users WHERE username = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $username);
-    
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    // Whether find the account
-    if ($result->num_rows === 1) {
-        $row = $result->fetch_assoc();
-        // verify the password
-        if (password_verify($password, $row['password'])) {
-            // successful login
-            $_SESSION['username'] = $username;
-           echo "<script>alert('LOGIN Successfully!'); window.location.href='index.php';</script>";
-            exit();
-        } else {
-             $errorMsg = "Wrong Password" . $conn->error;
-        }
-    } else {
-        $errorMsg = "The account does not exist" . $conn->error;
-    }
-
-    $stmt->close();
-}
-?>
-
-        <!-- LOGIN FORM -->
-        <form method="post">
-            <h2>LOGIN</h2>
-            <label>Username</label>
-            <input type="text" name="username" required>
-            <label>Password</label>
-            <input type="password" name="password" required>
-            <button class="white">LOG IN</button>
-        </form>
-
-        <!-- REGISTER ENTRANCE -->
-        <form action="wy_register.php" method="get">
-            <h2>REGISTER</h2>
-            <p style="margin-bottom: 30px;">If you don't have an account, you can register now to access exclusive
-                content and faster checkout.</p>
-            <button class="white">Register Account</button>
-        </form>
+    <section id="page-header" class="about-header">
+        <h2>Editorial</h2>
+        <p>Discover our latest editorial stories from each collection.</p>
     </section>
+
+    <section id="collections-grid" class="section-p1 lookbook-cards">
+        <!-- Black Collection 2025 -->
+        <div class="lookbook-card">
+            <img src="img/lookbook/lookbooksub/a.png" alt="Black Collection 2025">
+            <h3>Black Collection 2025</h3>
+            <a href="lblack_collection.html" class="normal">View Collection</a>
+        </div>
+        <!-- POPPY X KEITAMARUYAMA -->
+        <div class="lookbook-card">
+            <img src="img/lookbook/lookbooksub/c.png" alt="POPPY X KEITAMARUYAMA">
+            <h3>POPPY X KEITAMARUYAMA</h3>
+            <a href="lpoppy_keita.html" class="normal">View Collection</a>
+        </div>
+        <!-- Early Summer Collection -->
+        <div class="lookbook-card">
+            <img src="img/lookbook/lookbooksub/d.png" alt="Early Summer Collection">
+            <h3>Early Summer Collection</h3>
+            <a href="lsummer_collection.html" class="normal">View Collection</a>
+        </div>
+        <!-- Spring Collection -->
+        <div class="lookbook-card">
+            <img src="img/lookbook/lookbooksub/b.png" alt="Spring Collection">
+            <h3>Spring Collection</h3>
+            <a href="lspring_collection.html" class="normal">View Collection</a>
+        </div>
+    </section>
+
     <footer class="section-p1">
         <div class="col">
             <img class="logo" src="img/logo.png" alt="">
             <h4>Contact</h4>
-            <p><strong>Address:</strong> 562 Wellington Road, Street 32, San Francisco</p>
+            <p><strong>Address: </strong> 562 Wellington Road, Street 32, San Francisco</p>
             <p><strong>Phone:</strong> +01 2222 365 /(+91) 01 2345 6789</p>
             <p><strong>Hours:</strong> 10:00 - 18:00, Mon - Sat</p>
             <div class="follow">
@@ -170,7 +160,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
         <div class="col install">
             <h4>Install App</h4>
-            <p>From App Store or Google Play </p>
+            <p>From App Store or Google Play</p>
             <div class="row">
                 <img src="img/pay/app.jpg" alt="">
                 <img src="img/pay/play.jpg" alt="">
@@ -178,24 +168,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <p>Secured Payment Gateways </p>
             <img src="img/pay/pay.png" alt="">
         </div>
-
-        <!-- Copyright Footer -->
         <div class="copyright">
             <p>© 2025, Poppy Fashion</p>
         </div>
     </footer>
-
-
-    <?php if (!empty($errorMsg)) : ?>
-    <script>
-    window.onload = function() {
-        alert("<?php echo addslashes($errorMsg); ?>");
-    };
-    </script>
-    <?php endif; ?>
-
     <script src="script.js"></script>
-
 </body>
-
-</html>
+</html> 
