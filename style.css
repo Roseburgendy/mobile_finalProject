@@ -36,7 +36,7 @@ h4 { font-size: 1.777rem; } /* 28.48px */
 h5 { font-size: 1.333rem; } /* 21.28px */
 small { font-size: 0.750rem; } /* 12px */
 
-:root {
+  :root {
     --text-50: #0d0d0d;
     --text-100: #1a1a1a;
     --text-200: #333333;
@@ -190,11 +190,12 @@ body.home-page #header.scrolled {
 
 /* HOVER BEHAVIOR:
 Scrolled + not scrolled will have same behavior
-change from ori color to highlighted color: primary-500*/
-body not(.home-page) #header #navbar li a:hover,
-body not(.home-page) #header #navbar li a.active {
+change from ori color to highlighted color: primary-500 */
+body:not(.home-page) #header #navbar li a:hover,
+body:not(.home-page) #header #navbar li a.active {
    color: var(--primary-500);
 }
+
 
 .logo {
   width: 120px;
@@ -2092,5 +2093,7 @@ footer a:hover {
         width: 100%;
         padding-top: 30px;
     }
+
+    
 
 }
