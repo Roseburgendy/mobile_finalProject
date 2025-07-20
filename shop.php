@@ -74,7 +74,7 @@ $categories_result = $conn->query("SELECT * FROM category");
                 <!-- LOOKBOOK: Dropdown Menu -->
                 <li class="dropdown">
                     <div class="dropdown-toggle">
-                        <a href="#">LookBook</a>
+                        <a href="lookbook.html">LookBook</a>
                         <button class="dropdown-btn"><span class="arrow">▾</span></button>
                     </div>
                     <ul class="dropdown-menu">

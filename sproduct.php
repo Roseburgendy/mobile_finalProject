@@ -96,7 +96,7 @@ while ($img = $image_result->fetch_assoc()) {
                 <!-- LOOKBOOK: Dropdown Menu -->
                 <li class="dropdown">
                     <div class="dropdown-toggle">
-                        <a href="#">LOOKBOOK</a>
+                        <a href="lookbook.html">LookBook</a>
                         <button class="dropdown-btn"><span class="arrow">▾</span></button>
                     </div>
                     <ul class="dropdown-menu">
