@@ -49,10 +49,10 @@ $categories_result = $conn->query("SELECT * FROM category");
         <!-- Desktop Navigation -->
         <div>
             <ul id="navbar">
-                <li><a href="index.html">Home</a></li>
+                <li><a class="active" href="index.php">Home</a></li>
                 <!--SHOP: Dropdown Menus -->
                 <li>
-                    <a href="shop.php" class="active">Shop</a>
+                    <a href="shop.php">Shop</a>
                 </li>
 
                 <!-- COLLECTION: Dropdown Menu -->
@@ -83,7 +83,7 @@ $categories_result = $conn->query("SELECT * FROM category");
                         <li><a href="video.php">Videos</a></li>
                     </ul>
                 </li>
-                <li><a href="about.html" >About</a></li>
+                <li><a href="about.html">About</a></li>
                 <!-- Icons: Wishlist, Profile, Cart -->
                 <li><a href="wishlist.html" title="Wishlist">
                         <i class="far fa-heart"></i>
@@ -93,7 +93,7 @@ $categories_result = $conn->query("SELECT * FROM category");
                         <i class="far fa-user"></i>
                         <span class="link-text">Profile</span>
                     </a></li>
-                <li><a href="cart.html" title="Cart">
+                <li><a href="wy_cart.php" title="Cart">
                         <i class="far fa-shopping-cart"></i>
                         <span class="link-text">Cart</span>
                     </a></li>

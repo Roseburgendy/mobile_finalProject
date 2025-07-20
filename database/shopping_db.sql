@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： 127.0.0.1
--- 生成日期： 2025-07-14 21:13:41
+-- 生成日期： 2025-07-20 22:30:42
 -- 服务器版本： 10.4.32-MariaDB
 -- PHP 版本： 8.2.12
 
@@ -181,39 +181,114 @@ CREATE TABLE `products` (
   `name` varchar(100) NOT NULL,
   `description` text DEFAULT NULL,
   `price` decimal(10,2) NOT NULL,
-  `stock` int(11) NOT NULL,
   `collection` varchar(25) NOT NULL,
   `main_image_url` varchar(255) DEFAULT NULL,
-  `category_id` int(11) DEFAULT NULL
+  `category_id` int(11) DEFAULT NULL,
+  `has_size` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- 转存表中的数据 `products`
 --
 
-INSERT INTO `products` (`id`, `name`, `description`, `price`, `stock`, `collection`, `main_image_url`, `category_id`) VALUES
-(1, 'Tulle ballon tunic', 'Balloon velinic featuring a luxurious use of three -dimensional tulle fabric.\r\n\r\nBy tailoring with tulle fabric, lightness is expressed, and for a moving design.\r\n\r\nThe chest is compact, and the shoulder straps are made of spaghetti code, giving a sophisticated and delicate impression.\r\n\r\nIt is an excellent thing that can be widely used, such as casual down styling and dressy items combined with street -like denim items.\r\n\r\n* Regarding the size, the measurement is performed by hand one by one, so some gaps may occur.\r\n* An error may occur depending on the characteristics of the fabric.', 677.00, 15, 'Black Collection 2025', 'img/products/Black_Collection/Item_1_Tunic.webp', 6),
-(2, 'Balloon sleeve cocoon dress', 'A gorgeous cocoon dress with a rounded, three-dimensional silhouette. The large tucks at the neck and the fluffy balloon sleeves create a romantic mood. Made from a firm jacquard fabric, it exudes a luxurious and sophisticated atmosphere. It is a carefully crafted piece that accentuates the beautiful shape. It is perfect for special occasions, but can also be worn casually with a cap and sneakers for everyday wear.', 810.00, 2, 'Black Collection 2025', 'img/products/Black_Collection/Item_2_Dress.webp\r\n', 1),
-(3, 'Pointe Backpack ', '\"Let\'s travel lightly\"\r\n\r\nI want to bring it to the future, and I hope I can travel lightly with all my memories and amulets that protect me.\r\n\r\nTo you who want to go lightly with a lot of luggage but can\'t find the perfect backpack\r\n\r\n“Pointe” is a backpack with a fleeting, delicate and dignified gloss inspired by the elegance of the ballerina.\r\n\r\nUse the original quilting fabric on the entire surface. The floral pattern and the design of the wafeline express the gorgeousness and kindness.\r\n\r\nIn addition, the scalap part of the flap is embroidered with a small floral pattern, giving a delicate impression.\r\n\r\nThe shoulder string is made of glossy material so that it does not give too much sporty impression, making it a light design that is easy to match with feminine and girly style.\r\n\r\nThe size of the A4 size is perfect, and it is a size that is easy to use for both daily/business.\r\n\r\n* Body weight: 500g\r\n\r\n* Regarding the size, the measurement is performed by hand one by one, so some gaps may occur.\r\n\r\n* An error may occur depending on the characteristics of the fabric.', 648.00, 3, 'Black Collection 2025', 'img/products/Black_Collection/Item_3_Bag.jpg', 4),
-(4, 'Flower jacquard cap', 'A cap made of jacquard fabric with a pop floral pattern that stands out. The casual cap shape is combined with the gorgeous and decorative jacquard fabric for a contrasting design. The front features a three-dimensional \"Flower\" embroidery, and the combination of the romantic font and black background is an eye-catching accent. While the material has a distinctive feel, the black color tightens up the styling, making this an easy-to-use item. *We also have the \"Flower jacquard cami tunic\" made of the same fabric.', 233.00, 3, 'Black Collection 2025', 'img/products/Black_Collection/Item_4_Cap.jpg', 3),
-(5, 'Wave gathered peplum bustier', 'The corset design gives a sophisticated impression, making it a versatile item that will enhance your style.\r\n\r\nThe mini length adds an airy feel.\r\n\r\nThe firm texture and volume create a silhouette with a three-dimensional feel that looks like it contains wind.', 781.00, 2, 'Early Summer Collection', 'img/products/Early_Summer_Collection/Item_1_Tunic.webp\r\n', 6),
-(6, 'Cocoon border t-shirt', 'A striped T-shirt with a pop coloring characteristic of POPPY.\r\n\r\nIt has a loose, loose fit and is easy to pick up.\r\n\r\nThe front hem is curved, and the silhouette can be freely adjusted with the drawstrings on the side.\r\n', 372.00, 4, 'Early Summer Collection', 'img/products/Early_Summer_Collection/Item_3_Top.jpg\r\n', 2),
-(7, 'Gold jacquard corset skirt', 'The corset design gives a sophisticated impression, making it a versatile item that will enhance your style.\r\n\r\nThe mini length adds an airy feel.\r\n\r\nThe firm texture and volume create a silhouette with a three-dimensional feel that looks like it contains wind.', 840.00, 2, 'Early Summer Collection', 'img/products/Early_Summer_Collection/Item_2_Bottom.jpg\r\n', 5),
-(8, 'Dot organgy tiered dress', 'A glamorous mini dress with eye-catching gold and light blue jacquard fabric.\r\n\r\nThis is a voluminous tiered design made from luxurious fabric.\r\n\r\nThe airy balloon sleeve is a 2-way design that can be worn as an off-shoulder.', 973.00, 1, 'Early Summer Collection', 'img/products/Early_Summer_Collection/Item_4_Dress.jpg\r\n', 1),
-(9, 'Gold jacquard puff mini dress', 'A striped T-shirt with a pop coloring characteristic of POPPY.\r\n\r\nIt has a loose, loose fit and is easy to pick up.\r\n\r\nThe front hem is curved, and the silhouette can be freely adjusted with the drawstrings on the side.\r\n', 972.00, 4, 'Early Summer Collection', 'img/products/Early_Summer_Collection/Item_5_Dress.jpg\r\n', 1),
-(10, 'Pleated long denim skirt', 'The corset design gives a sophisticated impression, making it a versatile item that will enhance your style.\r\n\r\nThe mini length adds an airy feel.\r\n\r\nThe firm texture and volume create a silhouette with a three-dimensional feel that looks like it contains wind.', 878.00, 1, 'Early Summer Collection', 'img/products/Early_Summer_Collection/Item_6_Bottom.jpg\r\n', 5),
-(12, 'Tiger art tote bag', 'A special collaboration item that combines KEITA MARUYAMA and POPPY patterns to create a piece of art. The design features a striking contrast between a dynamic tiger pattern and vibrant art that evokes the texture of paint. Collaborative embroidery on the front adds a special touch. With long handles that make it easy to carry on your shoulder and a wide gusset that can hold plenty of belongings, this highly functional tote bag is perfect for daily use, whether commuting to work, school, or outings. *Comes with a removable bottom plate', 260.00, 10, 'POPPY X KEITAMARUYAMA', 'img/products/POPPY_KEITAMARUYAMA/Item_1_Bag.jpg\r\n', 4),
-(13, 'Peach flower see-through tops (high neck)', 'A special collaboration item that combines the patterns of KEITA MARUYAMA and POPPY to create a single piece of art. The two contrasting pieces of art create an exquisite balance that draws the eye. The design is a mix of Japanese and Western styles, with a peach motif and roses. By linking the pattern placement and coloring, this piece allows you to enjoy both a unified atmosphere and the contrast between the motifs. --- The longer sleeves beautifully show off the lines of your arms, so they are less bulky when layered on top. The clean silhouette of the waistline and sleeves gives it a more stylish impression. It can be used as a layered item, or as a single piece for a casual, mode look, and can be used for a long season. It is easy to wear with excellent elasticity, has a smooth and comfortable feel, and is so light that you don\'t even feel the weight when wearing it. ', 448.00, 1, 'POPPY X KEITAMARUYAMA', 'img/products/POPPY_KEITAMARUYAMA/Item_2.jpg\r\n\r\n', 7),
-(14, 'Romantic patchwork tiered mini dress', 'A special collaboration item that combines KEITA MARUYAMA and POPPY patterns to create a work of art. The patchwork design is like a treasure chest, combining colorful patterns ranging from romantic to pop to sophisticated. Just wearing it will brighten up your mood. This mini dress features fluffy, voluminous sleeves and a gorgeous tiered design that will catch your eye. Made from organza fabric that combines a light texture with just the right amount of firmness, it creates a beautiful, three-dimensional silhouette. Perfect for special occasions or outings, it is also recommended for a casual look by pairing it with sweatshirts and denim items.', 723.00, 10, 'POPPY X KEITAMARUYAMA', 'img/products/POPPY_KEITAMARUYAMA/Item_3.jpg\r\n', 1),
-(15, 'Romantic patchwork organdy cami dress', 'A special collaboration item that combines KEITA MARUYAMA and POPPY patterns and incorporates them into a classic organza dress. The charm of this piece is the patchwork design that is like a treasure chest, combining colorful patterns from romantic to pop to sophisticated. Just wearing it will brighten up your mood. This dress has a light and fluffy silhouette that spreads out. The chest area has a switch and gathers, creating a delicate yet three-dimensional design. You can enjoy various styling such as layering it with a T-shirt or a see-through top, or wearing it as a skirt over a cut-and-sew or shirt. It is a great item that can be worn all year round. \r\n*The shoulder straps are adjustable.', 790.00, 14, 'POPPY X KEITAMARUYAMA', 'img/products/POPPY_KEITAMARUYAMA/Item_4.jpg\r\n\r\n', 1),
-(16, 'Peach flower see-through tops (round neck)', 'A special collaboration item that combines KEITA MARUYAMA and POPPY patterns to create a work of art. The patchwork design is like a treasure chest, combining colorful patterns ranging from romantic to pop to sophisticated. Just wearing it will brighten up your mood. \r\nThe longer sleeves flatter the lines of your arms, so they don\'t look bulky when layered. The sleek waistline and sleeves give a more stylish impression. It can be worn as a layered item, or as a single piece for a casual, fashionable look, making it perfect for a long season. It\'s easy to wear with excellent elasticity, has a smooth, comfortable feel, and is so light that you won\'t even notice the weight when wearing it. *The round neck has a clean, open design that makes your décolleté look even more beautiful. We also have a high-neck design in the same fabric.', 448.00, 10, 'POPPY X KEITAMARUYAMA', 'img/products/POPPY_KEITAMARUYAMA/Item_5.jpg\r\n', 7),
-(17, 'Romantic patchwork scarf', 'A special collaboration item that combines KEITA MARUYAMA and POPPY patterns to create a piece of art. The patchwork design is like a treasure chest, combining colorful patterns ranging from romantic to pop to sophisticated. Just wearing it will brighten up your mood. The delicate white collaboration embroidery adds a special touch. The compact size is attractive, and it is also recommended as a one-point accent around the neck or arm. It adds a subtle personality to your styling.', 292.00, 14, 'POPPY X KEITAMARUYAMA', 'img/products/POPPY_KEITAMARUYAMA/Item_6.jpg\r\n\r\n', 3),
-(18, 'Picnic see-through tops (round neck)', 'Photo print tops with picnic scenery reminiscent of warm seasonal visit.\r\n\r\nThe expression of the print unique to real photos is a nostalgic and artistic impression somewhere.\r\n\r\nThe long sleeve length makes the arm line beautifully fascinated, so it is difficult to bulk when stacked on top.\r\n\r\nBy making the waistline and sleeves a neat silhouette, a more stylish impression.\r\n\r\nAs a layered item, of course, it is an excellent thing that can be dressed in mode with one piece, and it plays an active part in the long season.\r\n\r\nIt is also a nice point that it has excellent elasticity and ease of wear, has a light and comfortable touch, and has a light texture that does not feel the weight when worn.\r\n\r\n', 422.00, 5, 'Spring Collection 2025', 'img/products/Spring_Collection/Item_1.jpg\r\n\r\n', 7),
-(19, 'Organdy flare mini dress', 'A mini dress with a soft volume sleeve and a gorgeous tiard switching design.\r\n\r\nUsing an organdy fabric that has a light texture and moderate firmness, it creates a beautiful silhouette with a three -dimensional feeling.\r\n\r\nWe recommend casually down coordination by combining sweatshirts and denim items as well as special plans and outings.', 584.00, 4, 'Spring Collection 2025', 'img/products/Spring_Collection/Item_2.jpg\r\n\r\n', 1),
-(20, 'Flower jacquard cap', 'A jacquard cap featuring a three -dimensional flower motif.\r\n\r\nWhile creating a sophistication with a clear white jacquard, it maintains the balance with the pop flower pattern.\r\n\r\nThe embroidery of the Poppy emblem accents.', 174.00, 20, 'Spring Collection 2025', 'img/products/Spring_Collection/Item_3.jpg\r\n\r\n', 3),
-(21, 'Lace layered round tops', 'Layered items of long sleeve tops and race tanks.\r\n\r\nThe vivid deep green colors the styling gorgeously.\r\n\r\nThe delicate lace fabric is luxuriously used, and the clean neck creates a sense of omission.\r\n\r\nA romantic accent is added to the chest of the race tank.\r\n\r\nThe stylish silhouette features a design that can be expected to improve style.\r\n\r\nSince it can be worn in separate separate, it is widely used not only as styling with tops as a leading role, but also as layered items such as dresses.\r\n\r\n', 372.00, 4, 'Spring Collection 2025', 'img/products/Spring_Collection/Item_4.jpg\r\n\r\n', 2),
-(22, 'Corset semi-wide pants', 'Design pants with a sophisticated impression that incorporates corset details.\r\n\r\nHigh waist corset design fulfills style up, and semi -wide silhouettes casually cover the body line.\r\n\r\nThe details of the tack and zipper are accented, adding individuality to cool.\r\n\r\nIt is an excellent thing that can be used in the business scene with a stylish impression.', 584.00, 10, 'Spring Collection 2025', 'img/products/Spring_Collection/Item_5.jpg\r\n\r\n', 5),
-(23, 'Sky color handkerchief hem tunic', 'A handkerchief hem tunic with an attractive flared silhouette with beautiful drapes.\r\n\r\nThe denim fabric has an uneven color that looks like the sky, creating an art-like design.\r\n\r\nThe relaxed look on the back and delicate shoulder straps express sophistication, and the romantic lace on the chest adds details that will never forget the feminine essence.\r\n\r\nThis is a great item that can be worn all year round depending on the items you layer.\r\n\r\n*The zipper will be changed to a silver hidden crucian type.', 410.00, 10, 'Spring Collection 2025', 'img/products/Spring_Collection/Item_6.jpg\r\n\r\n', 6);
+INSERT INTO `products` (`id`, `name`, `description`, `price`, `collection`, `main_image_url`, `category_id`, `has_size`) VALUES
+(1, 'Tulle ballon tunic', 'Balloon velinic featuring a luxurious use of three -dimensional tulle fabric.\r\n\r\nBy tailoring with tulle fabric, lightness is expressed, and for a moving design.\r\n\r\nThe chest is compact, and the shoulder straps are made of spaghetti code, giving a sophisticated and delicate impression.\r\n\r\nIt is an excellent thing that can be widely used, such as casual down styling and dressy items combined with street -like denim items.\r\n\r\n* Regarding the size, the measurement is performed by hand one by one, so some gaps may occur.\r\n* An error may occur depending on the characteristics of the fabric.', 677.00, 'Black Collection 2025', 'img/products/Black_Collection/Item_1_Tunic.webp', 6, 1),
+(2, 'Balloon sleeve cocoon dress', 'A gorgeous cocoon dress with a rounded, three-dimensional silhouette. The large tucks at the neck and the fluffy balloon sleeves create a romantic mood. Made from a firm jacquard fabric, it exudes a luxurious and sophisticated atmosphere. It is a carefully crafted piece that accentuates the beautiful shape. It is perfect for special occasions, but can also be worn casually with a cap and sneakers for everyday wear.', 810.00, 'Black Collection 2025', 'img/products/Black_Collection/Item_2_Dress.webp\r\n', 1, 1),
+(3, 'Pointe Backpack ', '\"Let\'s travel lightly\"\r\n\r\nI want to bring it to the future, and I hope I can travel lightly with all my memories and amulets that protect me.\r\n\r\nTo you who want to go lightly with a lot of luggage but can\'t find the perfect backpack\r\n\r\n“Pointe” is a backpack with a fleeting, delicate and dignified gloss inspired by the elegance of the ballerina.\r\n\r\nUse the original quilting fabric on the entire surface. The floral pattern and the design of the wafeline express the gorgeousness and kindness.\r\n\r\nIn addition, the scalap part of the flap is embroidered with a small floral pattern, giving a delicate impression.\r\n\r\nThe shoulder string is made of glossy material so that it does not give too much sporty impression, making it a light design that is easy to match with feminine and girly style.\r\n\r\nThe size of the A4 size is perfect, and it is a size that is easy to use for both daily/business.\r\n\r\n* Body weight: 500g\r\n\r\n* Regarding the size, the measurement is performed by hand one by one, so some gaps may occur.\r\n\r\n* An error may occur depending on the characteristics of the fabric.', 648.00, 'Black Collection 2025', 'img/products/Black_Collection/Item_3_Bag.jpg', 4, 1),
+(4, 'Flower jacquard cap', 'A cap made of jacquard fabric with a pop floral pattern that stands out. The casual cap shape is combined with the gorgeous and decorative jacquard fabric for a contrasting design. The front features a three-dimensional \"Flower\" embroidery, and the combination of the romantic font and black background is an eye-catching accent. While the material has a distinctive feel, the black color tightens up the styling, making this an easy-to-use item. *We also have the \"Flower jacquard cami tunic\" made of the same fabric.', 233.00, 'Black Collection 2025', 'img/products/Black_Collection/Item_4_Cap.jpg', 3, 0),
+(5, 'Wave gathered peplum bustier', 'The corset design gives a sophisticated impression, making it a versatile item that will enhance your style.\r\n\r\nThe mini length adds an airy feel.\r\n\r\nThe firm texture and volume create a silhouette with a three-dimensional feel that looks like it contains wind.', 781.00, 'Early Summer Collection', 'img/products/Early_Summer_Collection/Item_1_Tunic.webp\r\n', 6, 1),
+(6, 'Cocoon border t-shirt', 'A striped T-shirt with a pop coloring characteristic of POPPY.\r\n\r\nIt has a loose, loose fit and is easy to pick up.\r\n\r\nThe front hem is curved, and the silhouette can be freely adjusted with the drawstrings on the side.\r\n', 372.00, 'Early Summer Collection', 'img/products/Early_Summer_Collection/Item_3_Top.jpg\r\n', 2, 1),
+(7, 'Gold jacquard corset skirt', 'The corset design gives a sophisticated impression, making it a versatile item that will enhance your style.\r\n\r\nThe mini length adds an airy feel.\r\n\r\nThe firm texture and volume create a silhouette with a three-dimensional feel that looks like it contains wind.', 840.00, 'Early Summer Collection', 'img/products/Early_Summer_Collection/Item_2_Bottom.jpg\r\n', 5, 1),
+(8, 'Dot organgy tiered dress', 'A glamorous mini dress with eye-catching gold and light blue jacquard fabric.\r\n\r\nThis is a voluminous tiered design made from luxurious fabric.\r\n\r\nThe airy balloon sleeve is a 2-way design that can be worn as an off-shoulder.', 973.00, 'Early Summer Collection', 'img/products/Early_Summer_Collection/Item_4_Dress.jpg\r\n', 1, 1),
+(9, 'Gold jacquard puff mini dress', 'A striped T-shirt with a pop coloring characteristic of POPPY.\r\n\r\nIt has a loose, loose fit and is easy to pick up.\r\n\r\nThe front hem is curved, and the silhouette can be freely adjusted with the drawstrings on the side.\r\n', 972.00, 'Early Summer Collection', 'img/products/Early_Summer_Collection/Item_5_Dress.jpg\r\n', 1, 1),
+(10, 'Pleated long denim skirt', 'The corset design gives a sophisticated impression, making it a versatile item that will enhance your style.\r\n\r\nThe mini length adds an airy feel.\r\n\r\nThe firm texture and volume create a silhouette with a three-dimensional feel that looks like it contains wind.', 878.00, 'Early Summer Collection', 'img/products/Early_Summer_Collection/Item_6_Bottom.jpg\r\n', 5, 1),
+(12, 'Tiger art tote bag', 'A special collaboration item that combines KEITA MARUYAMA and POPPY patterns to create a piece of art. The design features a striking contrast between a dynamic tiger pattern and vibrant art that evokes the texture of paint. Collaborative embroidery on the front adds a special touch. With long handles that make it easy to carry on your shoulder and a wide gusset that can hold plenty of belongings, this highly functional tote bag is perfect for daily use, whether commuting to work, school, or outings. *Comes with a removable bottom plate', 260.00, 'POPPY X KEITAMARUYAMA', 'img/products/POPPY_KEITAMARUYAMA/Item_1_Bag.jpg\r\n', 4, 0),
+(13, 'Peach flower see-through tops (high neck)', 'A special collaboration item that combines the patterns of KEITA MARUYAMA and POPPY to create a single piece of art. The two contrasting pieces of art create an exquisite balance that draws the eye. The design is a mix of Japanese and Western styles, with a peach motif and roses. By linking the pattern placement and coloring, this piece allows you to enjoy both a unified atmosphere and the contrast between the motifs. --- The longer sleeves beautifully show off the lines of your arms, so they are less bulky when layered on top. The clean silhouette of the waistline and sleeves gives it a more stylish impression. It can be used as a layered item, or as a single piece for a casual, mode look, and can be used for a long season. It is easy to wear with excellent elasticity, has a smooth and comfortable feel, and is so light that you don\'t even feel the weight when wearing it. ', 448.00, 'POPPY X KEITAMARUYAMA', 'img/products/POPPY_KEITAMARUYAMA/Item_2.jpg\r\n\r\n', 7, 1),
+(14, 'Romantic patchwork tiered mini dress', 'A special collaboration item that combines KEITA MARUYAMA and POPPY patterns to create a work of art. The patchwork design is like a treasure chest, combining colorful patterns ranging from romantic to pop to sophisticated. Just wearing it will brighten up your mood. This mini dress features fluffy, voluminous sleeves and a gorgeous tiered design that will catch your eye. Made from organza fabric that combines a light texture with just the right amount of firmness, it creates a beautiful, three-dimensional silhouette. Perfect for special occasions or outings, it is also recommended for a casual look by pairing it with sweatshirts and denim items.', 723.00, 'POPPY X KEITAMARUYAMA', 'img/products/POPPY_KEITAMARUYAMA/Item_3.jpg\r\n', 1, 1),
+(15, 'Romantic patchwork organdy cami dress', 'A special collaboration item that combines KEITA MARUYAMA and POPPY patterns and incorporates them into a classic organza dress. The charm of this piece is the patchwork design that is like a treasure chest, combining colorful patterns from romantic to pop to sophisticated. Just wearing it will brighten up your mood. This dress has a light and fluffy silhouette that spreads out. The chest area has a switch and gathers, creating a delicate yet three-dimensional design. You can enjoy various styling such as layering it with a T-shirt or a see-through top, or wearing it as a skirt over a cut-and-sew or shirt. It is a great item that can be worn all year round. \r\n*The shoulder straps are adjustable.', 790.00, 'POPPY X KEITAMARUYAMA', 'img/products/POPPY_KEITAMARUYAMA/Item_4.jpg\r\n\r\n', 1, 1),
+(16, 'Peach flower see-through tops (round neck)', 'A special collaboration item that combines KEITA MARUYAMA and POPPY patterns to create a work of art. The patchwork design is like a treasure chest, combining colorful patterns ranging from romantic to pop to sophisticated. Just wearing it will brighten up your mood. \r\nThe longer sleeves flatter the lines of your arms, so they don\'t look bulky when layered. The sleek waistline and sleeves give a more stylish impression. It can be worn as a layered item, or as a single piece for a casual, fashionable look, making it perfect for a long season. It\'s easy to wear with excellent elasticity, has a smooth, comfortable feel, and is so light that you won\'t even notice the weight when wearing it. *The round neck has a clean, open design that makes your décolleté look even more beautiful. We also have a high-neck design in the same fabric.', 448.00, 'POPPY X KEITAMARUYAMA', 'img/products/POPPY_KEITAMARUYAMA/Item_5.jpg\r\n', 7, 1),
+(17, 'Romantic patchwork scarf', 'A special collaboration item that combines KEITA MARUYAMA and POPPY patterns to create a piece of art. The patchwork design is like a treasure chest, combining colorful patterns ranging from romantic to pop to sophisticated. Just wearing it will brighten up your mood. The delicate white collaboration embroidery adds a special touch. The compact size is attractive, and it is also recommended as a one-point accent around the neck or arm. It adds a subtle personality to your styling.', 292.00, 'POPPY X KEITAMARUYAMA', 'img/products/POPPY_KEITAMARUYAMA/Item_6.jpg\r\n\r\n', 3, 0),
+(18, 'Picnic see-through tops (round neck)', 'Photo print tops with picnic scenery reminiscent of warm seasonal visit.\r\n\r\nThe expression of the print unique to real photos is a nostalgic and artistic impression somewhere.\r\n\r\nThe long sleeve length makes the arm line beautifully fascinated, so it is difficult to bulk when stacked on top.\r\n\r\nBy making the waistline and sleeves a neat silhouette, a more stylish impression.\r\n\r\nAs a layered item, of course, it is an excellent thing that can be dressed in mode with one piece, and it plays an active part in the long season.\r\n\r\nIt is also a nice point that it has excellent elasticity and ease of wear, has a light and comfortable touch, and has a light texture that does not feel the weight when worn.\r\n\r\n', 422.00, 'Spring Collection 2025', 'img/products/Spring_Collection/Item_1.jpg\r\n\r\n', 7, 1),
+(19, 'Organdy flare mini dress', 'A mini dress with a soft volume sleeve and a gorgeous tiard switching design.\r\n\r\nUsing an organdy fabric that has a light texture and moderate firmness, it creates a beautiful silhouette with a three -dimensional feeling.\r\n\r\nWe recommend casually down coordination by combining sweatshirts and denim items as well as special plans and outings.', 584.00, 'Spring Collection 2025', 'img/products/Spring_Collection/Item_2.jpg\r\n\r\n', 1, 1),
+(20, 'Flower jacquard cap', 'A jacquard cap featuring a three -dimensional flower motif.\r\n\r\nWhile creating a sophistication with a clear white jacquard, it maintains the balance with the pop flower pattern.\r\n\r\nThe embroidery of the Poppy emblem accents.', 174.00, 'Spring Collection 2025', 'img/products/Spring_Collection/Item_3.jpg\r\n\r\n', 3, 0),
+(21, 'Lace layered round tops', 'Layered items of long sleeve tops and race tanks.\r\n\r\nThe vivid deep green colors the styling gorgeously.\r\n\r\nThe delicate lace fabric is luxuriously used, and the clean neck creates a sense of omission.\r\n\r\nA romantic accent is added to the chest of the race tank.\r\n\r\nThe stylish silhouette features a design that can be expected to improve style.\r\n\r\nSince it can be worn in separate separate, it is widely used not only as styling with tops as a leading role, but also as layered items such as dresses.\r\n\r\n', 372.00, 'Spring Collection 2025', 'img/products/Spring_Collection/Item_4.jpg\r\n\r\n', 2, 1),
+(22, 'Corset semi-wide pants', 'Design pants with a sophisticated impression that incorporates corset details.\r\n\r\nHigh waist corset design fulfills style up, and semi -wide silhouettes casually cover the body line.\r\n\r\nThe details of the tack and zipper are accented, adding individuality to cool.\r\n\r\nIt is an excellent thing that can be used in the business scene with a stylish impression.', 584.00, 'Spring Collection 2025', 'img/products/Spring_Collection/Item_5.jpg\r\n\r\n', 5, 1),
+(23, 'Sky color handkerchief hem tunic', 'A handkerchief hem tunic with an attractive flared silhouette with beautiful drapes.\r\n\r\nThe denim fabric has an uneven color that looks like the sky, creating an art-like design.\r\n\r\nThe relaxed look on the back and delicate shoulder straps express sophistication, and the romantic lace on the chest adds details that will never forget the feminine essence.\r\n\r\nThis is a great item that can be worn all year round depending on the items you layer.\r\n\r\n*The zipper will be changed to a silver hidden crucian type.', 410.00, 'Spring Collection 2025', 'img/products/Spring_Collection/Item_6.jpg\r\n\r\n', 6, 0);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `product_variants`
+--
+
+CREATE TABLE `product_variants` (
+  `id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `size` varchar(10) DEFAULT NULL,
+  `stock` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- 转存表中的数据 `product_variants`
+--
+
+INSERT INTO `product_variants` (`id`, `product_id`, `size`, `stock`) VALUES
+(196, 1, 'S', 1),
+(197, 1, 'M', 13),
+(198, 1, 'L', 12),
+(199, 2, 'S', 4),
+(200, 2, 'M', 20),
+(201, 2, 'L', 16),
+(202, 3, 'S', 8),
+(203, 3, 'M', 2),
+(204, 3, 'L', 6),
+(205, 5, 'S', 18),
+(206, 5, 'M', 9),
+(207, 5, 'L', 8),
+(208, 6, 'S', 3),
+(209, 6, 'M', 4),
+(210, 6, 'L', 15),
+(211, 7, 'S', 15),
+(212, 7, 'M', 4),
+(213, 7, 'L', 9),
+(214, 8, 'S', 4),
+(215, 8, 'M', 8),
+(216, 8, 'L', 12),
+(217, 9, 'S', 3),
+(218, 9, 'M', 19),
+(219, 9, 'L', 14),
+(220, 10, 'S', 20),
+(221, 10, 'M', 3),
+(222, 10, 'L', 5),
+(287, 13, 'S', 9),
+(288, 13, 'M', 17),
+(289, 13, 'L', 1),
+(290, 14, 'S', 16),
+(291, 14, 'M', 16),
+(292, 14, 'L', 8),
+(293, 15, 'S', 7),
+(294, 15, 'M', 13),
+(295, 15, 'L', 5),
+(296, 16, 'S', 6),
+(297, 16, 'M', 14),
+(298, 16, 'L', 0),
+(322, 18, 'S', 19),
+(323, 18, 'M', 0),
+(324, 18, 'L', 12),
+(325, 19, 'S', 12),
+(326, 19, 'M', 16),
+(327, 19, 'L', 13),
+(345, 21, 'S', 16),
+(346, 21, 'M', 8),
+(347, 21, 'L', 20),
+(348, 22, 'S', 15),
+(349, 22, 'M', 12),
+(350, 22, 'L', 20),
+(371, 4, NULL, 20),
+(372, 12, NULL, 14),
+(373, 17, NULL, 20),
+(374, 20, NULL, 9),
+(375, 23, NULL, 13);
 
 -- --------------------------------------------------------
 
@@ -285,6 +360,13 @@ ALTER TABLE `products`
   ADD KEY `category_id` (`category_id`);
 
 --
+-- 表的索引 `product_variants`
+--
+ALTER TABLE `product_variants`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `product_id` (`product_id`,`size`);
+
+--
 -- 表的索引 `users`
 --
 ALTER TABLE `users`
@@ -300,7 +382,7 @@ ALTER TABLE `users`
 -- 使用表AUTO_INCREMENT `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- 使用表AUTO_INCREMENT `category`
@@ -331,6 +413,12 @@ ALTER TABLE `order_items`
 --
 ALTER TABLE `products`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+
+--
+-- 使用表AUTO_INCREMENT `product_variants`
+--
+ALTER TABLE `product_variants`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=376;
 
 --
 -- 使用表AUTO_INCREMENT `users`
@@ -373,6 +461,12 @@ ALTER TABLE `order_items`
 --
 ALTER TABLE `products`
   ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON DELETE SET NULL;
+
+--
+-- 限制表 `product_variants`
+--
+ALTER TABLE `product_variants`
+  ADD CONSTRAINT `product_variants_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

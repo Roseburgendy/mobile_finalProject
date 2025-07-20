@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css?family=Poppins:700|Inter:400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400&family=Poppins:wght@400;700&display=swap');
+
 
 * {
   margin: 0;
@@ -15,6 +16,10 @@ body {
 h1, h2, h3, h4, h5 {
   font-family: 'Poppins', sans-serif;
   font-weight: 700;
+}
+a {
+  text-decoration: none !important;
+   color: inherit;
 }
 
 /* 3. Heading Sizes */
@@ -93,40 +98,58 @@ small { font-size: 0.750rem; } /* 12px */
     --accent-950: #faebeb;
 
   }
-button.normal {
-    font-size: 14px;
-    font-weight: 600;
-    padding: 15px 30px;
-    color:var(--text-100);
-    background-color: var(--primary-500);
-    border-radius: 4px;
-    cursor: pointer;
-    border: none;
-    outline: none;
-    transition: 0.2s;
+button.normal,
+button.continue,
+button.white,
+button.confirm-btn,
+button.cancel-btn {
+  font-family: Poppins;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 15px 30px;
+  height: 50px;
+  line-height: 1;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s ease;
 }
+
+button.normal {
+  color: var(--text-950);
+  background-color: var(--primary-400);
+  border: none;
+}
+
+button.confirm-btn {
+  color: var(--text-950);
+  background-color: var(--primary-400);
+  border: none;
+}
+
+button.continue {
+  color: var(--primary-400);
+  background: transparent;
+  border: 2px solid var(--primary-400);
+}
+
 
 button.white {
-    max-width: 250px;
-    background: transparent;
-    padding: 11px 18px;
-    font-family: Poppins;
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--primary-400);
-    outline: none;
-    border: 2px solid var(--primary-400);
-    cursor: pointer;
-    border-radius: 6px;
-    transition: 0.2 ease;
+  color: var(--primary-400);
+  background: transparent;
+  border: 2px solid var(--primary-400);
 }
-
 
 button.white:hover {
     background: var(--primary-400);
     color: var(--text-950);
 }
 
+
+button.cancel-btn {
+  color: var(--primary-400);
+  background: transparent;
+  border: 2px solid var(--primary-400);
+}
 .section-p1 {
     padding: 40px 80px;
 }
@@ -193,6 +216,7 @@ body not(.home-page) #header #navbar li a.active {
 #navbar li a {
     font-family: 'Poppins', sans-serif !important;
     text-decoration: none;
+    font-weight:bold;
     color: var(--text-100);
     transition: 0.3s ease;
 }
@@ -348,6 +372,26 @@ display: none;
   border-radius: 4px;
 }
 
+#hero .slider a {
+  display: block;
+  height: 100%;
+  width: 100%;
+  text-decoration: none;
+  color: inherit;
+}
+/* 让 a 标签填满 slide 容器 */
+#hero .slider a {
+  display: block;
+  height: 100%;
+  width: 100%;
+  text-decoration: none;
+  color: inherit; /* 保持文字颜色一致 */
+}
+
+/* 可选：加个鼠标样式提升交互体验 */
+#hero .slider a:hover {
+  cursor: pointer;
+}
 
 #hero .slide {
   flex: 0 0 25%;
@@ -629,12 +673,6 @@ display: none;
     padding-bottom: 15px;
 }
 
-#sm-banner .banner-box:hover button,
-#sm-banner .banner-box2:hover button {
-    background: #088178;
-    border: 1px solid #088178;
-    transition: 0.2s ease;
-}
 
 #banner3 {
     display: flex;
@@ -1007,6 +1045,7 @@ footer a:hover {
 /*Price*/
 #prodetails .single-pro-details h2 {
     font-size: 26px;
+    padding: 10px 0 15px 0;
 }
 
 /*Price*/
@@ -1015,20 +1054,159 @@ footer a:hover {
     font-size: 10px;
 }
 /*Size Select*/
-#prodetails .single-pro-details select {
-    display: block;
-    padding: 5px 10px;
-    margin-top: 20px;
-    margin-bottom: 20px;
+.size-selector {
+  display: flex;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.size-option {
+  width: 50px;
+  height: 50px;
+  border: 1px solid #ccc;
+  background-color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  pointer-events: auto !important;
+  z-index: 1 !important;
+}
+
+.size-option.selected {
+  border: 2px solid black;
+  font-weight: bold;
+}
+.size-option.disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* 遮罩层 */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 9999;
+  overflow: auto;
+}
+
+/* 内容区域居中 */
+.modal-content {
+  position: relative;
+  width: 760px;               
+  margin: 60px auto;         
+  background: #fff;
+  border-radius: 8px;
+  padding: 30px 20px;
+  box-sizing: border-box;
+}
+
+/* 顶部与中间分隔线 */
+.modal-content h3,
+.modal-content h4 {
+  margin: 0 0 15px;
+}
+
+.modal-divider {
+  border-top: 1px solid #ddd;
+  margin: 20px 0;
+}
+
+/* 推荐商品容器横滑 */
+.recommend-grid {
+     width: 100vw;
+  display: flex;
+  overflow-x: auto;
+  gap: 16px;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 10px;
+}
+
+/* 单个推荐项 */
+.recommend-item {
+    text-decoration:none;
+    color:inherit;
+  flex: 0 0 160px;
+  scroll-snap-align: start;
+}
+
+/* 底部按钮对齐 */
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.recommend-item:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* 图片区域 */
+.recommend-image img {
+  width: 100%;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+/* 推荐信息文字块 */
+.recommend-info {
+  font-family:Poppins;
+  padding: 6px 2px;
+  font-size: 13px;
+  text-decoration:none;
+}
+
+/* 商品标题 */
+.product-name {
+  font-weight: normal;
+  margin: 4px 0;
+  line-height: 1.2;
+   text-decoration:none;
+}
+
+/* 价格 */
+.price {
+  color: #000;
+  font-weight: bold;
+  margin: 4px 0;
+   text-decoration:none;
+}
+
+/* 说明文字 */
+.desc {
+  font-size: 11px;
+  color: #666;
+  line-height: 1.3;
+   text-decoration:none;
 }
 /*Quantity Input*/
-#prodetails .single-pro-details input {
-    width: 50px;
-    height: 47px;
-    padding-left: 10px;
+#prodetails .single-pro-details input[type="number"] {
+    font-family:Poppins;
+    width: 60px;
+    height: 45px;
+    padding: 5px 10px;
     font-size: 16px;
     margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    outline: none;
+    transition: all 0.2s ease-in-out;
 }
+
+/* 鼠标悬停时 */
+#prodetails .single-pro-details input[type="number"]:hover {
+    border-color: var(--primary-400);
+    background-color: #fff;
+}
+
 
 #prodetails .single-pro-details input:focus {
     outline: none;
@@ -1195,6 +1373,177 @@ footer a:hover {
 
 
 /* Cart Page */
+.cart-card {
+  display: flex;
+  gap: 20px;
+  border-bottom: 1px solid #ddd;
+  padding: 20px 0;
+  align-items: flex-start;
+  font-family: Poppins;
+}
+
+.cart-img img {
+  width: 180px;
+  object-fit: cover;
+}
+
+.cart-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.cart-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.product-title {
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 6px;
+}
+
+.product-meta {
+  font-size: 14px;
+  color: #333;
+  margin: 2px 0;
+}
+
+.product-price {
+  font-weight: bold;
+  margin-top: 6px;
+  font-size: 16px;
+}
+
+.remove-btn {
+  font-size: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #111;
+}
+
+.cart-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.quantity-block label {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.qty-select {
+  margin-top: 4px;
+  padding: 6px 10px;
+  font-size: 14px;
+}
+
+.subtotal {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.cart-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.cart-left {
+    flex: 1 1 65%;
+    overflow-x: auto;
+}
+
+.cart-right {
+    flex: 1 1 30%;
+    padding: 20px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    height: fit-content;
+    position: sticky;
+    top: 100px;
+}
+
+.summary-box {
+    font-family: Poppins;
+}
+
+.summary-box h3 {
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+.summary-box p {
+    display: flex;
+    justify-content: space-between;
+    margin: 8px 0;
+}
+
+.checkout-btn {
+    width: 100%;
+    background-color: #cc0000;
+    color: white;
+    padding: 12px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.notice {
+    font-size: 12px;
+    margin-top: 10px;
+    color: #555;
+}
+
+.deleteModal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 9999;
+  overflow: auto;
+}
+
+.deleteModal-content {
+  position: relative;
+  width: 760px;               
+  margin: 200px auto;         
+  background: #fff;
+  border-radius: 8px;
+  padding: 30px 30px;
+  box-sizing: border-box;
+}
+/* 顶部与中间分隔线 */
+.deleteModal-content h3,
+.deleteModal-content p {
+  margin: 0 0 20px;
+}
+
+.deleteModal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 40px;
+}
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+    font-size: 20px;
+}
+@media (max-width: 768px) {
+
+}
 
 #cart {
     overflow-x: auto;
@@ -1283,12 +1632,6 @@ footer a:hover {
     border: 1px solid #e2e9e1;
 }
 
-#cuopon button,
-#subtotal button {
-    background: #088178;
-    color: #fff;
-    padding: 12px 20px;
-}
 
 #subtotal {
     width: 50%;
@@ -1529,7 +1872,100 @@ footer a:hover {
         border: 1px solid #ccc;
         border-radius: 5px;
     }
+
+/* Shop model Page */
+
+    .modal-content {
+    width: 90vw;
+    margin: 40px auto;
+    padding: 20px 15px;
+    border-radius: 6px;
+  }
+    .modal-content h3{
+    font-size: 30px;
+  }
+
+    .modal-content h4{
+    font-size: 20px;
+  }
+  .recommend-grid {
+    flex-direction: column;
+    overflow-x: hidden;
+    gap: 16px;
+  }
+
+  .recommend-item {
+    flex: 1 1 auto;
+    width: 100%;
+  }
+
+  .recommend-image img {
+    width:60%;
+    height: 60%;
+    border-radius: 6px;
+  }
+
+  .modal-actions {
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .modal-actions button{
+    width: 100%;
+    padding: 14px 0;
+    font-size: 15px;
+  }
+
+  /* 推荐信息文字块 */
+.recommend-info {
+  font-family:Poppins;
+  padding: 6px 2px;
+  font-size: 15px;
+   text-decoration:none;
 }
+/* 商品标题 */
+.product-name {
+  font-weight: normal;
+  margin: 4px 0;
+  line-height: 1.2;
+   text-decoration:none;
+}
+
+/* 价格 */
+.price {
+  color: #000;
+  font-weight: bold;
+  margin: 4px 0;
+   text-decoration:none;
+}
+
+/* 说明文字 */
+.desc {
+  font-size: 11px;
+  color: #666;
+  line-height: 1.3;
+   text-decoration:none;
+}
+
+  .cart-card {
+    flex-direction: column;
+  }
+
+  .cart-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+    .cart-container {
+        flex-direction: column;
+    }
+    .cart-left, .cart-right {
+        flex: 1 1 100%;
+    }
+}
+
+
 
 @media (max-width:477px) {
     .section-p1 {

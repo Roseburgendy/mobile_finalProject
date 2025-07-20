@@ -21,7 +21,7 @@
         <!-- Desktop Navigation -->
         <div>
             <ul id="navbar">
-                <li><a class="active" href="index.html">Home</a></li>
+                <li><a class="active" href="index.php">Home</a></li>
                 <!--SHOP: Dropdown Menus -->
                 <li>
                     <a href="shop.php">Shop</a>
@@ -65,7 +65,7 @@
                         <i class="far fa-user"></i>
                         <span class="link-text">Profile</span>
                     </a></li>
-                <li><a href="cart.html" title="Cart">
+                <li><a href="wy_cart.php" title="Cart">
                         <i class="far fa-shopping-cart"></i>
                         <span class="link-text">Cart</span>
                     </a></li>
@@ -80,6 +80,7 @@
     </header>
     <section id="login-form">
         <?php
+        session_start();
 include 'config.php';
 
 $error = "";
@@ -103,6 +104,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (password_verify($password, $row['password'])) {
             // successful login
             $_SESSION['username'] = $username;
+            $_SESSION['user_id'] = $row['id'];
            echo "<script>alert('LOGIN Successfully!'); window.location.href='index.php';</script>";
             exit();
         } else {

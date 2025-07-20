@@ -21,7 +21,7 @@
         <!-- Desktop Navigation -->
         <div>
             <ul id="navbar">
-                <li><a class="active" href="index.html">Home</a></li>
+                <li><a class="active" href="index.php">Home</a></li>
                 <!--SHOP: Dropdown Menus -->
                 <li>
                     <a href="shop.php">Shop</a>
@@ -55,7 +55,7 @@
                         <li><a href="video.php">Videos</a></li>
                     </ul>
                 </li>
-                 <li><a href="about.html">About</a></li>
+                <li><a href="about.html">About</a></li>
                 <!-- Icons: Wishlist, Profile, Cart -->
                 <li><a href="wishlist.html" title="Wishlist">
                         <i class="far fa-heart"></i>
@@ -65,7 +65,7 @@
                         <i class="far fa-user"></i>
                         <span class="link-text">Profile</span>
                     </a></li>
-                <li><a href="cart.html" title="Cart">
+                <li><a href="wy_cart.php" title="Cart">
                         <i class="far fa-shopping-cart"></i>
                         <span class="link-text">Cart</span>
                     </a></li>
@@ -82,39 +82,48 @@
     <!-- Hero Section -->
     <section id="hero">
         <div class="slider">
-            <div class="slide slide1">
-                <img src="img/hero_section/Hero_1.webp" alt="Hero Slide">
-                <div class="overlay"></div>
-                <div class="caption">
-                    <h3>POPPY 2025 SPRING COLLECTION</h3>
-                    <p>Step into the season with soft silhouettes and blooming hues. A fresh take on effortless
-                        elegance.</p>
+            <a href="spring_collection.php">
+                <div class="slide slide1">
+                    <img src="img/hero_section/Hero_1.webp" alt="Hero Slide">
+                    <div class="overlay"></div>
+                    <div class="caption">
+                        <h3>POPPY 2025 SPRING COLLECTION</h3>
+                        <p>Step into the season with soft silhouettes and blooming hues. A fresh take on effortless
+                            elegance.</p>
+                    </div>
                 </div>
-            </div>
-            <div class="slide slide2">
-                <img src="img/hero_section/Hero_2.webp" alt="Hero Slide">
-                <div class="overlay"></div>
-                <div class="caption">
-                    <h3>POPPY BLACK COLLECTION</h3>
-                    <p>Where minimal meets bold. A timeless monochrome story made for day to night transitions.</p>
+            </a>
+            <a href="black_collection.php">
+                <div class="slide slide2">
+                    <img src="img/hero_section/Hero_2.webp" alt="Hero Slide">
+                    <div class="overlay"></div>
+                    <div class="caption">
+                        <h3>POPPY BLACK COLLECTION</h3>
+                        <p>Where minimal meets bold. A timeless monochrome story made for day to night transitions.</p>
+                    </div>
                 </div>
-            </div>
-            <div class="slide slide3">
-                <img src="img/hero_section/Hero_3.webp" alt="Hero Slide">
-                <div class="overlay"></div>
-                <div class="caption">
-                    <h3>POPPY EARLY SUMMER COLLECTION</h3>
-                    <p>Breezy textures, sun-kissed tones. Feel the lightness of early summer in every movement.</p>
+            </a>
+            <a href="summer_collection.php">
+                <div class="slide slide3">
+                    <img src="img/hero_section/Hero_3.webp" alt="Hero Slide">
+                    <div class="overlay"></div>
+                    <div class="caption">
+                        <h3>POPPY EARLY SUMMER COLLECTION</h3>
+                        <p>Breezy textures, sun-kissed tones. Feel the lightness of early summer in every movement.</p>
+                    </div>
                 </div>
-            </div>
-            <div class="slide slide4">
-                <img src="img/hero_section/Hero_4.webp" alt="Hero Slide">
-                <div class="overlay"></div>
-                <div class="caption">
-                    <h3>POPPY X KEITAMARUYAMA</h3>
-                    <p>A fusion of cultures, colors, and craftsmanship. Discover the limited-edition collab capsule.</p>
+            </a>
+            <a href="poppy_keita.php">
+                <div class="slide slide4">
+                    <img src="img/hero_section/Hero_4.webp" alt="Hero Slide">
+                    <div class="overlay"></div>
+                    <div class="caption">
+                        <h3>POPPY X KEITAMARUYAMA</h3>
+                        <p>A fusion of cultures, colors, and craftsmanship. Discover the limited-edition collab capsule.
+                        </p>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
         <div class="dots" id="slider-dots">
             <span class="dot active" data-index="0"></span>
@@ -209,15 +218,15 @@ if ($result->num_rows > 0) {
 }
 ?>
             <!-- Read More Button -->
-<div style="text-align: center; margin-top: 20px;">
-    <a href="spring_collection.php">
-        <button class="white">View Full Collection →</button>
-    </a>
-</div>
+            <div style="text-align: center; margin-top: 20px;">
+                <a href="spring_collection.php">
+                    <button class="white">View Full Collection →</button>
+                </a>
+            </div>
 
     </section>
 
-    
+
     <!-- Two Promotional Mini Banners -->
     <section id="sm-banner" class="section-p1">
         <div class="banner-box">
@@ -325,7 +334,7 @@ if ($result->num_rows > 0) {
             <!-- Read More Button -->
             <div style="text-align: center; margin-top: 20px;">
                 <a href="poppy_keita.php" class="normal" style="text-decoration: none;">
-                     <button class="white">View Full Collection →</button>
+                    <button class="white">View Full Collection →</button>
                 </a>
             </div>
 

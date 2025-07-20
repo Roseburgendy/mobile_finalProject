@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tech2etc Ecommerce Tutorial</title>
+    <title>Poppy Fashion</title>
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -20,31 +20,55 @@ if (!isset($_GET['id'])) {
     echo "Product ID not found.";
     exit();
 }
-// search for main product
+// search for main product and categoryid
 $product_id = $_GET['id'];
 $sql = "SELECT * FROM products WHERE id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $product_id);
 $stmt->execute();
 $result = $stmt->get_result();
-
 if ($result->num_rows !== 1) {
     echo "Product not found.";
     exit();
 }
-
 $product = $result->fetch_assoc();
+
 // Search for small pics
 $image_sql = "SELECT image_url FROM image_list WHERE product_id = ?";
 $image_stmt = $conn->prepare($image_sql);
 $image_stmt->bind_param("i", $product_id);
 $image_stmt->execute();
 $image_result = $image_stmt->get_result();
-
 $images = [];
 while ($img = $image_result->fetch_assoc()) {
     $images[] = $img['image_url'];
 }
+
+// Get category name
+$category_name="";
+$cat_stmt = $conn->prepare("SELECT name FROM category WHERE id = ?");
+$cat_stmt-> bind_param("i",$product['category_id']);
+$cat_stmt->execute();
+$cat_result = $cat_stmt->get_result();
+if ($cat_result->num_rows > 0) {
+    $category_name = $cat_result->fetch_assoc()['name'];
+}
+
+
+$size_stock_map = [];
+
+// 查询所有该商品的 size 和库存
+$variant_stmt = $conn->prepare("SELECT size, stock FROM product_variants WHERE product_id = ?");
+$variant_stmt->bind_param("i", $product_id);
+$variant_stmt->execute();
+$variant_result = $variant_stmt->get_result();
+
+while ($variant = $variant_result->fetch_assoc()) {
+    $size_stock_map[$variant['size']] = $variant['stock'];
+}
+
+
+$conn->close();
 
 ?>
 
@@ -58,29 +82,16 @@ while ($img = $image_result->fetch_assoc()) {
         <!-- Desktop Navigation -->
         <div>
             <ul id="navbar">
-                <li><a class="active" href="index.html">Home</a></li>
+                <li><a class="active" href="index.php">Home</a></li>
                 <!--SHOP: Dropdown Menus -->
-                <li class="dropdown">
-                    <div class="dropdown-toggle">
-                        <a href="#">SHOP</a>
-                        <button class="dropdown-btn"><span class="arrow">▾</span></button>
-                    </div>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">ALL-ITEMS</a></li>
-                        <li><a href="#">TOPS</a></li>
-                        <li><a href="#">SEE-THROUGH</a></li>
-                        <li><a href="#">TUNIC</a></li>
-                        <li><a href="#">DRESSES</a></li>
-                        <li><a href="#">BOTTOMS</a></li>
-                        <li><a href="#">BAG</a></li>
-                        <li><a href="#">ACCESSORY</a></li>
-                    </ul>
+                <li>
+                    <a href="shop.php">Shop</a>
                 </li>
 
                 <!-- COLLECTION: Dropdown Menu -->
                 <li class="dropdown">
                     <div class="dropdown-toggle">
-                        <a href="#">COLLECTIONS</a>
+                        <a href="#">Collections</a>
                         <button class="dropdown-btn"><span class="arrow">▾</span></button>
                     </div>
                     <ul class="dropdown-menu">
@@ -91,12 +102,12 @@ while ($img = $image_result->fetch_assoc()) {
                     </ul>
                 </li>
 
-                <li><a href="blog.html">News</a></li>
+                <li><a href="news.php">News</a></li>
 
                 <!-- LOOKBOOK: Dropdown Menu -->
                 <li class="dropdown">
                     <div class="dropdown-toggle">
-                        <a href="#">LOOKBOOK</a>
+                        <a href="#">LookBook</a>
                         <button class="dropdown-btn"><span class="arrow">▾</span></button>
                     </div>
                     <ul class="dropdown-menu">
@@ -105,6 +116,7 @@ while ($img = $image_result->fetch_assoc()) {
                         <li><a href="video.php">Videos</a></li>
                     </ul>
                 </li>
+                <li><a href="about.html">About</a></li>
                 <!-- Icons: Wishlist, Profile, Cart -->
                 <li><a href="wishlist.html" title="Wishlist">
                         <i class="far fa-heart"></i>
@@ -114,7 +126,7 @@ while ($img = $image_result->fetch_assoc()) {
                         <i class="far fa-user"></i>
                         <span class="link-text">Profile</span>
                     </a></li>
-                <li><a href="cart.html" title="Cart">
+                <li><a href="wy_cart.php" title="Cart">
                         <i class="far fa-shopping-cart"></i>
                         <span class="link-text">Cart</span>
                     </a></li>
@@ -148,24 +160,78 @@ while ($img = $image_result->fetch_assoc()) {
 
         <!-- PRODUCT DESCRIPTIONS -->
         <div class="single-pro-details">
-            <h6>Home / <?php echo $product['collection']; ?></h6>
+            <h6>Home / <?php echo $product['collection']; ?>/ <?php echo htmlspecialchars($category_name); ?></h6>
             <h4><?php echo htmlspecialchars($product['name']); ?></h4>
             <h2>$<?php echo number_format($product['price'], 2); ?></h2>
             <!-- CART OPERATIONS -->
-            <select>
-                <option>Select Size</option>
-                <option>XL</option>
-                <option>XXL</option>
-                <option>Small</option>
-                <option>Large</option>
-            </select>
-            <input type="number" value="1">
-            <button class="white">Add To Cart</button>
+            <?php
+// Get current category id
+$category_id = strtolower($product['category_id']);
+// Define category that no need to show the select size options
+$no_size_categories = [3, 4];
+// If not in the no-need-to-show category
+if (!in_array($category_id, $no_size_categories)):
+?>
+<div class="size-selector">
+    <?php
+    $sizes = ['S', 'M', 'L'];
+    foreach ($sizes as $size) {
+        $stock = $size_stock_map[$size] ?? 0;
+        $disabled = $stock <= 0 ? 'disabled' : '';
+        $selected = ($size === 'M') ? 'selected' : '';
+        $class = ($size === 'M') ? 'size-option selected' : 'size-option';
+        echo "<button class='$class' data-size='$size' $disabled>$size</button>";
+    }
+    ?>
+</div>
+<input type="hidden" id="selectedSize" name="size" value="M">
+
+
+            <?php endif; ?>
+
+            <p id="stockText">
+                <?php
+if (!in_array($product['category_id'], $no_size_categories)) {
+    $stock = $size_stock_map['M'] ?? 0;
+    echo $stock > 0 ? "In stock: $stock item(s)" : "<span style='color:red;'>Out of stock</span>";
+} else {
+    // PRODUCTS THAT DONT HAVE SIZE
+    $stock = $size_stock_map[NULL] ?? 0;
+    echo $stock > 0 ? "In stock: $stock item(s)" : "<span style='color:red;'>Out of stock</span>";
+}
+?>
+            </p>
+
+            <input id="quantityInput" type="number" value="1" min="1" max="<?php echo $stock; ?>">
+            <a href="add_to_cart.php">
+                <button class="white">Add To Cart</button>
+            </a>
             <!-- DETAILS -->
             <h4>Product Details</h4>
             <span><?php echo nl2br(htmlspecialchars($product['description'])); ?></span>
         </div>
     </section>
+
+    <div id="cartModal" class="modal">
+        <div class="modal-content">
+            <h3>1 Items added to your cart</h3>
+            <p><strong>Subtotal</strong> (<span id="cart-count"></span> item): RM <span id="cart-total"></span></p>
+
+            <div class="modal-divider"></div>
+
+            <h4>Items Purchased Together</h4>
+            <div class="recommend-grid" id="recommendations">
+                <!-- JS 动态注入推荐项 -->
+            </div>
+
+            <div class="modal-divider"></div>
+
+            <div class="modal-actions">
+                <a href="wy_cart.php"><button class="normal">View Cart</button></a>
+                <button class="continue">Continue Shopping</button>
+            </div>
+        </div>
+    </div>
 
     <section id="product1" class="section-p1">
         <h2>Featured Products </h2>
@@ -303,13 +369,117 @@ while ($img = $image_result->fetch_assoc()) {
             <p>© 2025, Poppy Fashion</p>
         </div>
     </footer>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-    $('.small-img').click(function () {
-        $('#MainImg').attr('src', $(this).attr('src'));
-    });
-</script>
 
+    <script>
+    // HANDLE IMAGE PICKER LOGIC
+    $(function() {
+        $('.small-img').click(function() {
+            $('#MainImg').attr('src', $(this).attr('src'));
+        });
+    });
+
+    // HANDLE SIZE SELECTOR LOGIC
+
+    const stockMap = <?php echo json_encode($size_stock_map); ?>;
+
+    document.querySelectorAll('.size-option').forEach(button => {
+        button.addEventListener('click', () => {
+            const size = button.dataset.size;
+            const stock = stockMap[size] || 0;
+            const stockText = stock > 0 ? `In stock: ${stock} item(s)` : 'Out of stock';
+            document.getElementById('stockText').innerText = stockText;
+        });
+    });
+
+    const sizeStock = <?php echo json_encode($size_stock_map); ?>;
+    document.addEventListener('DOMContentLoaded', function() {
+        const sizeButtons = document.querySelectorAll('.size-option');
+        const selectedSizeInput = document.getElementById('selectedSize');
+        const quantityInput = document.getElementById('quantityInput');
+
+        sizeButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                sizeButtons.forEach(b => b.classList.remove('selected'));
+                this.classList.add('selected');
+                const size = this.dataset.size;
+                selectedSizeInput.value = size;
+
+                // 设置数量最大值
+                const maxStock = sizeStock[size] || 0;
+                quantityInput.max = maxStock;
+                if (parseInt(quantityInput.value) > maxStock) {
+                    quantityInput.value = maxStock;
+                }
+            });
+
+            // 初始禁用按钮样式
+            if (btn.hasAttribute('disabled')) {
+                btn.classList.add('disabled');
+            }
+        });
+    });
+
+
+    // HANDLE ADD TO CART LOGIC
+    $(document).ready(function() {
+        $('.white').click(function(e) {
+            e.preventDefault();
+            const productId = <?php echo $product_id; ?>;
+            const quantity = $('#quantityInput').val();
+            const selectedSize = $('#selectedSize').val();
+
+            // SEND TO DATABASE(BACKEND)
+            $.post("add_to_cart.php", {
+                    product_id: productId,
+                    quantity: quantity,
+                    size: selectedSize
+                },
+                // PARSE JSON DATA FROM DATABASE
+                function(response) {
+                    const data = JSON.parse(response);
+                    // IF NOT LOGED IN REQUIRE USER TO LOG IN
+                    if (data.status === 'not_logged_in') {
+                        alert("Please log in first!");
+                        window.location.href = "wy_login.php";
+                        return;
+                    }
+                    // UPDATE THE CART
+                    if (data.status === 'success') {
+                        $('#cart-count').text(data.cart_count);
+                        $('#cart-total').text(data.cart_total);
+
+                        // Recommendation items
+                        const recHTML = data.recommendations.map(r => `
+                    <div class="recommend-item">
+                      <a href="sproduct.php?id=${r.id}">
+                        <div class="recommend-image">
+                          <img src="${r.main_image_url}" alt="">
+                        </div>
+                        <div class="recommend-info">
+                          <div class="desc">${r.collection}</div>
+                          <div class="product-name">${r.name}</div>
+                          <div class="price">RM ${parseFloat(r.price).toFixed(2)}</div>
+                        </div>
+                      </a>
+                    </div>
+                `).join('');
+
+                        $('#recommendations').html(recHTML);
+                        $('#cartModal').fadeIn();
+
+                        // FORBID BG TO MOVE
+                        $('body').css('overflow', 'hidden');
+                    }
+                });
+        });
+
+        // close the modal window
+        $('.continue').click(function() {
+            $('#cartModal').fadeOut();
+            $('body').css('overflow', '');
+        });
+    });
+    </script>
 
     <script src="script.js"></script>
 </body>

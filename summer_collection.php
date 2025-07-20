@@ -40,49 +40,70 @@ $product_result = $conn->query($product_sql);
 $categories_result = $conn->query("SELECT * FROM category");
 ?>
 
-<header id="header">
-    <a href="index.php"><img src="img/Icon.png" class="logo" alt="Poppy Logo"></a>
-    <div>
-        <ul id="navbar">
-            <li><a href="index.php">Home</a></li>
-            <li><a href="shop.php">Shop</a></li>
-            <li class="dropdown">
-                <div class="dropdown-toggle">
-                    <a href="#" class="active" >Collections</a>
-                    <button class="dropdown-btn"><span class="arrow">▾</span></button>
-                </div>
-                <ul class="dropdown-menu">
-                    <li><a href="black_collection.php">Black Collection 2025</a></li>
-                    <li><a href="poppy_keita.php">POPPY X KEITAMARUYAMA</a></li>
-                    <li><a href="summer_collection.php">Early Summer Collection</a></li>
-                    <li><a href="spring_collection.php">Spring Collection</a></li>
-                </ul>
-            </li>
-            <li><a href="news.php">News</a></li>
-            <li class="dropdown">
-                <div class="dropdown-toggle">
-                    <a href="#">LookBook</a>
-                    <button class="dropdown-btn"><span class="arrow">▾</span></button>
-                </div>
-                <ul class="dropdown-menu">
-                    <li><a href="editorial.php">Editorial</a></li>
-                    <li><a href="style.php">Style Inspo</a></li>
-                    <li><a href="video.php">Videos</a></li>
-                </ul>
-            </li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="wishlist.html" title="Wishlist"><i class="far fa-heart"></i><span class="link-text">Wishlist</span></a></li>
-            <li><a href="wy_login.php" title="Profile"><i class="far fa-user"></i><span class="link-text">Profile</span></a></li>
-            <li><a href="cart.html" title="Cart"><i class="far fa-shopping-cart"></i><span class="link-text">Cart</span></a></li>
-            <a href="#" id="close"><i class="far fa-times"></i></a>
-        </ul>
-    </div>
-    <div id="mobile">
-        <a href="cart.html" title="Cart"><i class="far fa-shopping-cart"></i></a>
-        <i id="bar" class="far fa-bars"></i>
-    </div>
-</header>
+    <!-- Header/Navbar Section -->
+    <header id="header">
+        <!-- Logo -->
+        <a href="index.php"><img src="img/Icon.png" class="logo" alt="Poppy Logo"></a>
+        <!-- Desktop Navigation -->
+        <div>
+            <ul id="navbar">
+                <li><a class="active" href="index.php">Home</a></li>
+                <!--SHOP: Dropdown Menus -->
+                <li>
+                    <a href="shop.php">Shop</a>
+                </li>
 
+                <!-- COLLECTION: Dropdown Menu -->
+                <li class="dropdown">
+                    <div class="dropdown-toggle">
+                        <a href="#">Collections</a>
+                        <button class="dropdown-btn"><span class="arrow">▾</span></button>
+                    </div>
+                    <ul class="dropdown-menu">
+                        <li><a href="black_collection.php">Black Collection 2025</a></li>
+                        <li><a href="poppy_keita.php">POPPY X KEITAMARUYAMA</a></li>
+                        <li><a href="summer_collection.php">Early Summer Collection</a></li>
+                        <li><a href="spring_collection.php">Spring Collection</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="news.php">News</a></li>
+
+                <!-- LOOKBOOK: Dropdown Menu -->
+                <li class="dropdown">
+                    <div class="dropdown-toggle">
+                        <a href="#">LookBook</a>
+                        <button class="dropdown-btn"><span class="arrow">▾</span></button>
+                    </div>
+                    <ul class="dropdown-menu">
+                        <li><a href="editorial.php">Editorial</a></li>
+                        <li><a href="style.php">Style Inspo</a></li>
+                        <li><a href="video.php">Videos</a></li>
+                    </ul>
+                </li>
+                <li><a href="about.html">About</a></li>
+                <!-- Icons: Wishlist, Profile, Cart -->
+                <li><a href="wishlist.html" title="Wishlist">
+                        <i class="far fa-heart"></i>
+                        <span class="link-text">Wishlist</span>
+                    </a></li>
+                <li><a href="wy_login.php" title="Profile">
+                        <i class="far fa-user"></i>
+                        <span class="link-text">Profile</span>
+                    </a></li>
+                <li><a href="wy_cart.php" title="Cart">
+                        <i class="far fa-shopping-cart"></i>
+                        <span class="link-text">Cart</span>
+                    </a></li>
+                <a href="#" id="close"><i class="far fa-times"></i></a>
+            </ul>
+        </div>
+        <!-- Mobile Icons -->
+        <div id="mobile">
+            <a href="cart.html" title="Cart"><i class="far fa-shopping-cart"></i></a>
+            <i id="bar" class="far fa-bars"></i>
+        </div>
+    </header>
 <section id="page-header" class="summer-banner">
     <h2>Early Summer Collection 2025</h2>
     <p>Save more with coupons & up to 70% off!</p>
