@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- 主机： 127.0.0.1
--- 生成日期： 2025-07-20 22:30:42
+-- 主机： 127.0.0.1:3307
+-- 生成日期： 2025-07-21 10:56:03
 -- 服务器版本： 10.4.32-MariaDB
 -- PHP 版本： 8.2.12
 
@@ -141,7 +141,32 @@ INSERT INTO `image_list` (`id`, `product_id`, `image_url`) VALUES
 (69, 22, 'img/products/Spring_Collection/Detail_5/3.jpg'),
 (70, 23, 'img/products/Spring_Collection/Detail_6/1.jpg'),
 (71, 23, 'img/products/Spring_Collection/Detail_6/2.jpg'),
-(72, 23, 'img/products/Spring_Collection/Detail_6/3.jpg');
+(72, 23, 'img/products/Spring_Collection/Detail_6/3.jpg'),
+(73, 24, 'img/products/General_Collection/1.png'),
+(74, 24, 'img/products/General_Collection/2.png'),
+(75, 24, 'img/products/General_Collection/3.png'),
+(76, 25, 'img/products/General_Collection/Detail_2/1.png'),
+(77, 25, 'img/products/General_Collection/Detail_2/2.png'),
+(78, 26, 'img/products/General_Collection/Detail_3/1.png'),
+(79, 26, 'img/products/General_Collection/Detail_3/2.png'),
+(80, 27, 'img/products/General_Collection/Detail_4/1.png'),
+(81, 27, 'img/products/General_Collection/Detail_4/2.png'),
+(82, 27, 'img/products/General_Collection/Detail_4/3.png'),
+(83, 27, 'img/products/General_Collection/Detail_4/4.png'),
+(84, 28, 'img/products/General_Collection/D_5.png'),
+(85, 29, 'img/products/General_Collection/D_6.png'),
+(86, 30, 'img/products/General_Collection/D_7.png'),
+(87, 31, 'img/products/General_Collection/D_8.png'),
+(88, 32, 'img/products/General_Collection/D_9.png'),
+(89, 33, 'img/products/General_Collection/D_10.png'),
+(90, 34, 'img/products/General_Collection/D_11.png'),
+(91, 35, 'img/products/General_Collection/D_12.png'),
+(92, 36, 'img/products/General_Collection/D_13.png'),
+(93, 37, 'img/products/General_Collection/D_14.png'),
+(94, 38, 'img/products/General_Collection/D_15.png'),
+(95, 39, 'img/products/General_Collection/D_16.png'),
+(96, 40, 'img/products/General_Collection/D_17.png'),
+(97, 41, 'img/products/General_Collection/D_18.png');
 
 -- --------------------------------------------------------
 
@@ -213,7 +238,25 @@ INSERT INTO `products` (`id`, `name`, `description`, `price`, `collection`, `mai
 (20, 'Flower jacquard cap', 'A jacquard cap featuring a three -dimensional flower motif.\r\n\r\nWhile creating a sophistication with a clear white jacquard, it maintains the balance with the pop flower pattern.\r\n\r\nThe embroidery of the Poppy emblem accents.', 174.00, 'Spring Collection 2025', 'img/products/Spring_Collection/Item_3.jpg\r\n\r\n', 3, 0),
 (21, 'Lace layered round tops', 'Layered items of long sleeve tops and race tanks.\r\n\r\nThe vivid deep green colors the styling gorgeously.\r\n\r\nThe delicate lace fabric is luxuriously used, and the clean neck creates a sense of omission.\r\n\r\nA romantic accent is added to the chest of the race tank.\r\n\r\nThe stylish silhouette features a design that can be expected to improve style.\r\n\r\nSince it can be worn in separate separate, it is widely used not only as styling with tops as a leading role, but also as layered items such as dresses.\r\n\r\n', 372.00, 'Spring Collection 2025', 'img/products/Spring_Collection/Item_4.jpg\r\n\r\n', 2, 1),
 (22, 'Corset semi-wide pants', 'Design pants with a sophisticated impression that incorporates corset details.\r\n\r\nHigh waist corset design fulfills style up, and semi -wide silhouettes casually cover the body line.\r\n\r\nThe details of the tack and zipper are accented, adding individuality to cool.\r\n\r\nIt is an excellent thing that can be used in the business scene with a stylish impression.', 584.00, 'Spring Collection 2025', 'img/products/Spring_Collection/Item_5.jpg\r\n\r\n', 5, 1),
-(23, 'Sky color handkerchief hem tunic', 'A handkerchief hem tunic with an attractive flared silhouette with beautiful drapes.\r\n\r\nThe denim fabric has an uneven color that looks like the sky, creating an art-like design.\r\n\r\nThe relaxed look on the back and delicate shoulder straps express sophistication, and the romantic lace on the chest adds details that will never forget the feminine essence.\r\n\r\nThis is a great item that can be worn all year round depending on the items you layer.\r\n\r\n*The zipper will be changed to a silver hidden crucian type.', 410.00, 'Spring Collection 2025', 'img/products/Spring_Collection/Item_6.jpg\r\n\r\n', 6, 0);
+(23, 'Sky color handkerchief hem tunic', 'A handkerchief hem tunic with an attractive flared silhouette with beautiful drapes.\r\n\r\nThe denim fabric has an uneven color that looks like the sky, creating an art-like design.\r\n\r\nThe relaxed look on the back and delicate shoulder straps express sophistication, and the romantic lace on the chest adds details that will never forget the feminine essence.\r\n\r\nThis is a great item that can be worn all year round depending on the items you layer.\r\n\r\n*The zipper will be changed to a silver hidden crucian type.', 410.00, 'Spring Collection 2025', 'img/products/Spring_Collection/Item_6.jpg\r\n\r\n', 6, 0),
+(24, 'Half-moon gathered bag (Toile de Jouy)', 'A half -moon -type shoulder bag with a rounded and catchy form.\r\n\r\nUsing a fabric that is firm and glossy, the random tack sent throughout creates a romantic atmosphere.\r\n\r\nThe outside is a lace -up detail using eyelets, and the sweetness is also designed with an edge.\r\n\r\nIncorporate gathers into the shoulder strap to accent the coordination.\r\n\r\nThree colors of girly light pink, vivid light green with a trendy feeling, and romantic Toward juice pattern.\r\n\r\nIt is a fashionable item that matches feminine style and cool style.\r\n\r\n[Size]\r\nHeight: 20cm /Central part height: 17cm\r\nWidth: 35cm\r\n\r\n* Regarding the size, the measurement is performed by hand one by one, so some gaps may occur.\r\n\r\n* An error may occur depending on the characteristics of the fabric.', 728.00, 'General Collection', 'img/products/General_Collection/Detail_3/Item_1_Bag.png', 4, 1),
+(25, 'Toile de Jouy cap', 'A typical poppy hat that strikes a balance between romance and casualness.\r\n\r\nThe design features subtle touches such as swans and ribbons that give an elegant impression while being easy to blend in casually.\r\n\r\nThe three-dimensional embroidery of the \"P\" is an accent, and the overall look is a highlight.\r\n\r\nThis item is full of the unique charm of poppies and matches feminine and casual clothing.', 199.00, 'General Collection', 'img/General_Collection/Item_2_Hat.png', 3, 0),
+(26, '\"P\" embroidered denim bucket hat', '\"Candy Series\"\r\n\r\nKunika, a candy artist living in London, collaborated with Poppy to produce original cookies.\r\n\r\nA new series that incorporates the original cookie design into this project has appeared.\r\n\r\nThe charm of Kunika\'s original cookies with a delicate and beautiful design\r\nPlease enjoy the sweet and romantic world together.\r\n\r\n[Viewpoint]\r\n\r\nStreet - Bucket hat-like made with denim material\r\n\r\nThe balance between the embroidery design and the romantic impression, the \"p\" of the poppy and the denim material give a casual impression', 193.00, '', 'img/products/General_Collection/Item_3_Hat.png', 3, 1),
+(27, 'Strawberry printed T-shirts (Navy border)', 'I drew a cute strawberry attractive print T in an artistic style. A versatile item that can be combined with street, girly, sporty and wide tastes.\r\nThe key is that the \"poppy\" logo is drawn casually.\r\nIt is a thick and light texture that is easy to use.\r\n\r\nTwo sizes: M size, which can be worn in a clean casual style and L size, which can be worn loose and loose.', 290.00, 'General Collection', 'img/products/General_Collection/Item_4.png', 2, 1),
+(28, 'Blue flower see-through tops', 'Through the art-printed top, the world view of \"Day Dream\" (Fantasy), which is the theme of this semester\'s collection, is expressed.\r\nA wonderful design that attracts the eye.\r\nThe center of the body has been switched and accentuated with a mellow stitch.\r\nDespite the slim and fashionable silhouette, it is a moderate and comfortable size that does not pick up the body line too much. The long sleeve length makes the arm line very fascinating, and it is difficult to bulk when stacked on the top.\r\nOf course, as a layering item, it is a great thing to dress up with a one-piece pattern, and it plays an active role in the long season. It is also a good point that it has excellent elasticity and easy to wear, has a light and comfortable touch, and has a light texture that does not feel heavy when worn.', 368.00, 'General Collection', 'img/products/General_Collection/Item_5.png', 7, NULL),
+(29, 'Nostalgic patchwork see-through tops (round neck)', 'The design is fantastic, as if you are flying in the air and heading towards the clouds.\r\n\r\nThe vibrant pink flowers and blue background create a romantic and pop contrast.\r\n\r\n----\r\n\r\nThe longer sleeves make the lines of your arms look beautiful, making them less bulky when layered on top.\r\n\r\nThe waistline and sleeves create a clean silhouette, giving it a more stylish impression.\r\n\r\nIt is a great item that can be worn as a layered item, or can be worn casually in a single piece, making it a great item for a long season.\r\n\r\nIt has excellent elasticity, is easy to wear, and has a smooth and comfortable feel, and is light enough to make you feel the weight when wearing it.\r\n\r\n*A round neck with a clean design that opens the neck, making your décolleté even more beautiful.\r\nWe also have a high neck design made of the same fabric.\r\n\r\n\r\n \r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n', 418.00, 'General Collection', 'img/products/General_Collection/Item_6.png', 7, NULL),
+(30, 'Corset balloon mini skirt (gray)', 'The corset design gives a sophisticated impression, making it a versatile item that will enhance your style.\r\n\r\nThe mini length adds an airy feel.\r\n\r\nThe firm texture and volume create a silhouette with a three-dimensional feel that looks like it contains wind.\r\n\r\n*We also have a long version of the \"corset long balloon skirt\" made from the same fabric.', 406.00, 'General Collection', 'img/products/General_Collection/Item_7.png', 5, 1),
+(31, 'Organdy tiered cami dress (Blue message)', '\"\" Truth \"is always in your heart. Now, let\'s gently bloom the\" truth \"wrapped in petals.\"\r\n\r\nThe concept of Poppy \"Bloom Collection\" is drawn with various typography. A warm and gentle message phrase that snuggles up every day.\r\n\r\n--\r\nOne piece of dressy with a soft and light silhouette. The chest is switched to the chest and gathered to make a delicate but three -dimensional feel. You can enjoy a variety of styling, such as layering T -shirts and sea -through tops, using cut -and -sews and shirts as a skirt. It is an excellent one that can be worn all season.\r\n\r\n\r\n* The shoulder straps can be adjusted with an adjuster.\r\n(This is two sizes of S/M, three colors of navy flower/blue message/navy).', 634.00, 'General Collection', 'img/products/General_Collection/Item_8.png', 1, 1),
+(32, 'Organdy tiered cami dress (Memory collage)', 'The first place is a landscape filled with many memories.\r\n\r\nThe depth of the collage design woven with photos and art will bring you a nostalgic and nostalgic mood.\r\n\r\n--\r\n\r\nA dress with a soft and gentle silhouette. The chest is switched to the chest and gathered, giving you a subtle but three-dimensional feeling. You can enjoy a variety of shapes, such as using a cut-out and a shirt and a blouse as a skirt, and matching a T-shirt and a layered top and a sea. It is a great choice that can be worn all season long.', 643.00, 'General Collection', 'img/products/General_Collection/Item_9.png', 1, 1),
+(33, 'Pearl flower half pants\r\n', 'Romantic shorts with pearls embellished with floral prints.\r\n\r\nThe gray body adds a sophisticated vibe and aligns the balance with romanticism.\r\n\r\nIt is also perfect for layering with sheer dresses and outerwear.\r\n\r\n* The hip pockets are fake.\r\n\r\n* Regarding the stitching of the hem, the stitching specifications of the product are no longer available.', 643.00, 'General Collection', 'img/products/General_Collection/Item_10.png', 5, 1),
+(34, 'Ditsy Daisy Off Shoulders Midi Dress', 'Jacquard-style midi dress with a small floral pattern.\r\nLined, the puffed body is treated with spaced puff sleeves.\r\n\r\nThe sleeves are dropped - exposed sleeves. With adjustable straps\r\nWith a bubble hem skirt.\r\n\r\nDaisy world in a mesmerizing midi dress.\r\n\r\nA unique puffy nature adds a romantic impression to the bold blue shade and small floral jacard.\r\n\r\n==\r\n\r\nCami style midi dress in a dittsy floral jacquard fabric.\r\nFully lined, detailed with a puffed body, with comfortable puff sleeves.\r\n\r\nFinished with adjustable straps and a bubble hem skirt.', 668.00, 'POPPY x sister jane', 'img/products/General_Collection/Item_11.png', 1, 1),
+(35, 'Satin cargo pants (green)', 'Feminine with cargo pants designed with work.\r\n\r\nThe piping on the center enhances the design, highlighting the vertical lines to create a design that gives it a stylish look.\r\n\r\nThe satin fabric has a sheen and drape, giving a soft impression and adding a little bit of sophistication.\r\n\r\nThe hem is a zipper design, so you can adjust it to your preference.', 643.00, 'General Collection', 'img/products/General_Collection/Item_12.png', 5, 0),
+(36, 'Floral Hood Bubble Hem Mini Dress', 'Floral jacquard loose dress.\r\n\r\nLined, adjustable drawstring neckline\r\nApplied bubble hem skirt details.\r\n\r\nFood dress that combines street and feminine elements.\r\n\r\nRoomy design with soft green and blue floral jacquard.\r\n\r\nFun bubble hem and adjustable drawstring hood create a cool and cool vibe.\r\n\r\nPerfect for those who want to mix details and edgy twists.\r\n\r\n==\r\n\r\nLoose design in floral jacquard fabric.\r\n\r\nFully lined and detailed with adjustable drawstring neckline, side slit pockets and bubble hem skirt.', 765.00, 'POPPY x sister jane', 'img/products/General_Collection/Item_13.png', 1, 1),
+(37, 'pointe backpack (khaki)', 'I want to carry a lot of luggage easily\r\nFor those who can\'t find the perfect backpack\r\n\r\n\"Pointe\" is\r\nInspired by the elegance of ballerinas\r\nA backpack with shortness, delicacy, dignity and luster\r\n\r\nUsing original quilted fabric on the entire surface.\r\nThe floral pattern and the design of the Wafeline express gorgeousness and friendliness.\r\nIn addition, a small floral pattern is embroidered on the scale part of the flap, giving a subtle impression.\r\n\r\nA smooth material is used for the shoulder rope so as not to become too sporty.\r\nWith a light design that is easy to match with feminine and girly styles.\r\n\r\nThe size of the A4 size is perfect, and the size is easy for daily life/business.\r\n\r\n*Original plate with poppy on the back\r\n*Base plate is used (not removable)', 643.00, 'General Collection', 'img/products/General_Collection/Item_14.png', 4, 0),
+(38, 'Tulle Frill Bag (blue)', 'It is a loose dress with floral jacquard with metallic thread details.\r\n\r\nPut seam pockets on the side of the lining.\r\n\r\nA small dress that combines romantic floral patterns with a relaxed style.\r\n\r\nA loose matching design woven with metallic yarn, a cool and moderate edge on an impressive rose pattern.\r\n\r\nIt is a long-lasting specification that can be worn even on a cold day, and it is the best way to add a romantic essence to the outfit.\r\n\r\n==\r\n\r\nLoose dress with floral jacquard fabric with metallic thread details.\r\n\r\nFully lined with side seam pockets.', 199.00, 'General Collection', 'img/products/General_Collection/Item_15.png', 4, 0),
+(39, 'FLOWER LACE SILVER CAP', 'A romantic hat item.\r\nThe key is the contrast between the three-dimensional lace and the edgy silver.\r\n\r\nJust add one to the style to change the impression and give an accent.\r\nA versatile hat that matches a variety of tastes from girly to sporty and cool styling.\r\n\r\n(This is a free size and one color development.)', 199.00, 'General Collection', 'img/products/General_Collection/Item_16.png', 4, 0),
+(40, 'Wide boston bag', 'A wide Boston bag made of shiny and textured silver/catchy gingham check PU fabric that will add an accent to any outfit.\r\n\r\nThe brand\'s message \"possibilities of imagination\" is embroidered on the front, giving it a pop and sharp design.\r\n\r\nThe length of the handle makes it easy to carry on the shoulder, making it a practical item that is also easy to use.\r\n\r\n*Silver: Comes with POPPY original carabiner\r\n\r\n*Gingham check: Comes with ribbon charm\r\n\r\nBottom gusset 8 cm\r\nHeight 15 cm\r\nBottom width 31.5 cm', 578.00, 'General Collection', 'img/products/General_Collection/Item_17.png', 4, 0),
+(41, 'POPPY shopper tote bag', 'An item that reproduces a new shopping poppy shopper with a tote bag.\r\nThe key is the plump print and casual embroidery on the side.\r\nThe handle is made long so that it can be easily hung on the shoulder with a large amount of luggage, and it has a wide burr.\r\nThere are two pockets inside, and the storage of small items is perfect.\r\n\r\n* For sample photography, the appearance of color/specification/design/print may differ from the published photo.\r\n\r\n* The color of the product is as close to the naked eye as possible, but depending on the light when shooting and the light when viewing the browser, the color may differ slightly from the real substance. Thank you for your understanding and understanding.\r\n\r\n* Due to the production of the fabric, this product may not end. Please note in advance.\r\n\r\n<< Precautions when washing >>\r\n\r\n・ Please handle according to the washing symbol.', 203.00, 'General Collection', 'img/products/General_Collection/Item_18.png', 4, 0);
 
 -- --------------------------------------------------------
 
@@ -288,7 +331,31 @@ INSERT INTO `product_variants` (`id`, `product_id`, `size`, `stock`) VALUES
 (372, 12, NULL, 14),
 (373, 17, NULL, 20),
 (374, 20, NULL, 9),
-(375, 23, NULL, 13);
+(375, 23, NULL, 13),
+(376, 24, '', 17),
+(377, 25, 'Free Size', 11),
+(382, 26, NULL, 3),
+(383, 25, '', 11),
+(384, 28, 'M', 12),
+(385, 28, 'L', 7),
+(386, 29, 'M', 6),
+(387, 29, 'L', 2),
+(390, 30, 'S', 15),
+(391, 30, 'M', 10),
+(392, 30, 'L', 12),
+(393, 31, 'S', 10),
+(394, 31, 'M', 3),
+(395, 31, 'L', 8),
+(396, 32, 'S', 7),
+(397, 32, 'M', 14),
+(398, 32, 'L', 19),
+(399, 33, 'S', 6),
+(400, 33, 'M', 20),
+(401, 33, 'L', 17),
+(402, 34, 'XS', 20),
+(403, 34, 'S', 17),
+(404, 36, 'XS', 13),
+(405, 36, 'S', 21);
 
 -- --------------------------------------------------------
 
@@ -394,7 +461,7 @@ ALTER TABLE `category`
 -- 使用表AUTO_INCREMENT `image_list`
 --
 ALTER TABLE `image_list`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
 
 --
 -- 使用表AUTO_INCREMENT `orders`
@@ -412,13 +479,13 @@ ALTER TABLE `order_items`
 -- 使用表AUTO_INCREMENT `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- 使用表AUTO_INCREMENT `product_variants`
 --
 ALTER TABLE `product_variants`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=376;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=406;
 
 --
 -- 使用表AUTO_INCREMENT `users`
