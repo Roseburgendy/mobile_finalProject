@@ -1,182 +1,134 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
-
-    <link rel="stylesheet" href="style.css">
-</head>
-
-<body class="sub-page">
-
-    <!-- Header/Navbar Section -->
-    <header id="header">
-        <!-- Logo -->
-        <a href="index.php"><img src="img/Icon.png" class="logo" alt="Poppy Logo"></a>
-        <!-- Desktop Navigation -->
-        <div>
-            <ul id="navbar">
-                <li><a class="active" href="index.html">Home</a></li>
-                <!--SHOP: Dropdown Menus -->
-                <li>
-                    <a href="shop.php">Shop</a>
-                </li>
-
-                <!-- COLLECTION: Dropdown Menu -->
-                <li class="dropdown">
-                    <div class="dropdown-toggle">
-                        <a href="#">Collections</a>
-                        <button class="dropdown-btn"><span class="arrow">▾</span></button>
-                    </div>
-                    <ul class="dropdown-menu">
-                        <li><a href="black_collection.php">Black Collection 2025</a></li>
-                        <li><a href="poppy_keita.php">POPPY X KEITAMARUYAMA</a></li>
-                        <li><a href="summer_collection.php">Early Summer Collection</a></li>
-                        <li><a href="spring_collection.php">Spring Collection</a></li>
-                    </ul>
-                </li>
-
-                <li><a href="news.php">News</a></li>
-
-                <!-- LOOKBOOK: Dropdown Menu -->
-                <li class="dropdown">
-                    <div class="dropdown-toggle">
-                        <a href="lookbook.html">LookBook</a>
-                        <button class="dropdown-btn"><span class="arrow">▾</span></button>
-                    </div>
-                    <ul class="dropdown-menu">
-                        <li><a href="editorial.php">Editorial</a></li>
-                        <li><a href="style.php">Style Inspo</a></li>
-                        <li><a href="video.php">Videos</a></li>
-                    </ul>
-                </li>
-                 <li><a href="about.html">About</a></li>
-                <!-- Icons: Wishlist, Profile, Cart -->
-                <li><a href="wishlist.html" title="Wishlist">
-                        <i class="far fa-heart"></i>
-                        <span class="link-text">Wishlist</span>
-                    </a></li>
-                <li><a href="wy_login.php" title="Profile">
-                        <i class="far fa-user"></i>
-                        <span class="link-text">Profile</span>
-                    </a></li>
-                <li><a href="cart.html" title="Cart">
-                        <i class="far fa-shopping-cart"></i>
-                        <span class="link-text">Cart</span>
-                    </a></li>
-                <a href="#" id="close"><i class="far fa-times"></i></a>
-            </ul>
-        </div>
-        <!-- Mobile Icons -->
-        <div id="mobile">
-            <a href="cart.html" title="Cart"><i class="far fa-shopping-cart"></i></a>
-            <i id="bar" class="far fa-bars"></i>
-        </div>
-    </header>
-    <section id="login-form">
-
-        <?php
+<?php
+ob_start(); // 避免 header already sent 错误
+session_start();
 include 'config.php';
 
+$errorMsg = "";
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST['username'];
     $email = $_POST['email'];
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $birthday = $_POST['birthday'];
+    $gender = $_POST['gender'];
 
-    $sql = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
+    $sql = "INSERT INTO users (email, password, birthday, gender) VALUES (?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sss", $username, $email, $password);
+    $stmt->bind_param("ssss", $email, $password, $birthday, $gender);
 
     if ($stmt->execute()) {
-         echo "<script>alert('Register Successfully!'); window.location.href='index.php';</script>";
+        $_SESSION['user_id'] = $conn->insert_id;
+        header("Location: wy_register_success.php");
+        exit();
     } else {
-         $errorMsg = "Registration Failed: " . $conn->error;
+        $errorMsg = "Registration Failed: " . $conn->error;
     }
 
     $stmt->close();
-    $conn->close();
 }
 ?>
-<!-- REGISTER FORM -->
-        <form method="post">
-            <h2>REGISTER</h2>
-            <label>Username</label>
-            <input type="text" name="username" required>
-            <label>Email</label>
-            <input type="text" name="email" required>
-            <label>Password</label>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create an Account</title>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+    .register-container {
+        max-width: 800px;
+        margin: 60px auto;
+        border: 1px solid #ccc;
+        padding: 40px;
+        background: #fff;
+    }
+
+    .register-container h2 {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 30px;
+    }
+
+    .register-form label {
+        display: block;
+        font-weight: bold;
+        margin-top: 20px;
+    }
+
+    .register-form input[type="text"],
+    .register-form input[type="email"],
+    .register-form input[type="password"],
+    .register-form input[type="date"] {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .gender-options {
+        display: flex;
+        gap: 20px;
+        margin-top: 10px;
+    }
+
+    .register-form button {
+        margin-top: 30px;
+        padding: 12px 24px;
+        background-color: #000;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .register-form button:hover {
+        background-color: #444;
+    }
+
+    .notice {
+        font-size: 14px;
+        color: #777;
+        margin-top: 10px;
+    }
+    </style>
+</head>
+
+<body class="sub-page">
+    <?php include 'wy_header.php'; ?>
+
+    <div class="register-container">
+        <h2>CREATE AN ACCOUNT</h2>
+        <p class="notice">You will receive a confirmation mail to your email address associated with account.</p>
+
+        <form method="post" class="register-form">
+            <label>EMAIL ADDRESS *</label>
+            <input type="email" name="email" required>
+
+            <label>PASSWORD *</label>
             <input type="password" name="password" required>
-            <button class="white">REGISTER</button>
+
+            <label>BIRTHDAY</label>
+            <input type="date" name="birthday">
+
+            <label>GENDER</label>
+            <div class="gender-options">
+                <label><input type="radio" name="gender" value="Male"> Male</label>
+                <label><input type="radio" name="gender" value="Female"> Female</label>
+                <label><input type="radio" name="gender" value="Prefer not to state" checked> Prefer Not To State</label>
+            </div>
+
+            <button type="submit">REGISTER</button>
         </form>
-    </section>
 
-    <footer class="section-p1">
-        <div class="col">
-            <img class="logo" src="img/logo.png" alt="">
-            <h4>Contact</h4>
-            <p><strong>Address:</strong> 562 Wellington Road, Street 32, San Francisco</p>
-            <p><strong>Phone:</strong> +01 2222 365 /(+91) 01 2345 6789</p>
-            <p><strong>Hours:</strong> 10:00 - 18:00, Mon - Sat</p>
-            <div class="follow">
-                <h4>Follow Us</h4>
-                <div class="icon">
-                    <i class="fab fa-facebook-f"></i>
-                    <i class="fab fa-twitter"></i>
-                    <i class="fab fa-instagram"></i>
-                    <i class="fab fa-pinterest-p"></i>
-                    <i class="fab fa-youtube"></i>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <h4>About</h4>
-            <a href="#">About Us</a>
-            <a href="#">Delivery Information</a>
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms & Conditions</a>
-            <a href="#">Contact Us</a>
-        </div>
-        <div class="col">
-            <h4>My Account</h4>
-            <a href="#">Sign In</a>
-            <a href="#">View Cart</a>
-            <a href="#">My Wishlist</a>
-            <a href="#">Track My Order</a>
-            <a href="#">Help</a>
-        </div>
-        <div class="col install">
-            <h4>Install App</h4>
-            <p>From App Store or Google Play </p>
-            <div class="row">
-                <img src="img/pay/app.jpg" alt="">
-                <img src="img/pay/play.jpg" alt="">
-            </div>
-            <p>Secured Payment Gateways </p>
-            <img src="img/pay/pay.png" alt="">
-        </div>
+        <?php if (!empty($errorMsg)) : ?>
+        <script>
+            alert("<?php echo addslashes($errorMsg); ?>");
+        </script>
+        <?php endif; ?>
+    </div>
 
-        <!-- Copyright Footer -->
-        <div class="copyright">
-            <p>© 2025, Poppy Fashion</p>
-        </div>
-    </footer>
-
-
-<?php if (!empty($errorMsg)) : ?>
-<script>
-    window.onload = function () {
-        alert("<?php echo addslashes($errorMsg); ?>");
-    };
-</script>
-<?php endif; ?>
-
-    <script src="script.js"></script>
-
+    <?php include 'wy_footer.php'; ?>
 </body>
-
 </html>
+<?php ob_end_flush(); ?>

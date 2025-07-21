@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- 主机： 127.0.0.1:3307
--- 生成日期： 2025-07-21 10:56:03
+-- 主机： 127.0.0.1
+-- 生成日期： 2025-07-21 21:57:30
 -- 服务器版本： 10.4.32-MariaDB
 -- PHP 版本： 8.2.12
 
@@ -34,6 +34,13 @@ CREATE TABLE `cart` (
   `size` varchar(10) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- 转存表中的数据 `cart`
+--
+
+INSERT INTO `cart` (`id`, `quantity`, `product_id`, `size`, `user_id`) VALUES
+(162, 1, 2, 'M', 6);
 
 -- --------------------------------------------------------
 
@@ -282,9 +289,6 @@ INSERT INTO `product_variants` (`id`, `product_id`, `size`, `stock`) VALUES
 (199, 2, 'S', 4),
 (200, 2, 'M', 20),
 (201, 2, 'L', 16),
-(202, 3, 'S', 8),
-(203, 3, 'M', 2),
-(204, 3, 'L', 6),
 (205, 5, 'S', 18),
 (206, 5, 'M', 9),
 (207, 5, 'L', 8),
@@ -355,7 +359,8 @@ INSERT INTO `product_variants` (`id`, `product_id`, `size`, `stock`) VALUES
 (402, 34, 'XS', 20),
 (403, 34, 'S', 17),
 (404, 36, 'XS', 13),
-(405, 36, 'S', 21);
+(405, 36, 'S', 21),
+(406, 3, NULL, 14);
 
 -- --------------------------------------------------------
 
@@ -365,19 +370,28 @@ INSERT INTO `product_variants` (`id`, `product_id`, `size`, `stock`) VALUES
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
-  `username` varchar(50) NOT NULL,
+  `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `email` varchar(100) NOT NULL
+  `first_name` varchar(100) DEFAULT NULL,
+  `last_name` varchar(100) DEFAULT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  `gender` enum('Male','Female','Prefer not to state') DEFAULT 'Prefer not to state',
+  `birthday` date DEFAULT NULL,
+  `address1` varchar(255) DEFAULT NULL,
+  `address2` varchar(255) DEFAULT NULL,
+  `city` varchar(100) DEFAULT NULL,
+  `state` varchar(100) DEFAULT NULL,
+  `postal_code` varchar(10) DEFAULT NULL,
+  `country` varchar(100) DEFAULT 'Malaysia'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- 转存表中的数据 `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `password`, `email`) VALUES
-(1, 'RoseWang', '$2y$10$UQUBuo9QtSMFZ4I8ioTuQeDUTOV34v7FpfFo.ti2FMCsCqhneMzvK', 'DMT2209231@xmu.edu.my'),
-(2, '12', '$2y$10$bsQfvSE.XQEtehW9mWfvr.OEs04TOFgob/UAmp.FfiJv1c0UFBKeG', 'rosewuxi@gmail.com'),
-(3, 'lzj', '$2y$10$3zgn9kI8TMlumykTZcCHNuwlgghLyMIgiKwdOkD1fYOmX4yrgzESi', 'lzj@xmu.edu.my');
+INSERT INTO `users` (`id`, `email`, `password`, `first_name`, `last_name`, `phone`, `gender`, `birthday`, `address1`, `address2`, `city`, `state`, `postal_code`, `country`) VALUES
+(6, 'rosewuxi@gmail.com', '$2y$10$40JR85pCXFmpvKYuDfMDtO/nFDHVwmskimWWMkBy8TWDezKdswke2', 'Wang', 'Ye', '0176571431', 'Female', '2004-07-15', 'Xiamen University Malaysia', 'Kota Warison', 'Sepang', 'Selangor', '43900', 'Malaysia'),
+(7, 'DMT2209231@xmu.edu.my', '$2y$10$YkV9Bb8OG5tvWtESTRhS/.IfbmE0/clcYqSHROuLtFTAHRMGfnbT2', 'Fujii', 'Kaze', '0176571431', 'Male', '1997-06-17', 'Xiamen University Malaysia', 'Kota Warison', 'Sepang', 'Selangor', '43900', 'Malaysia');
 
 --
 -- 转储表的索引
@@ -438,7 +452,6 @@ ALTER TABLE `product_variants`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `username` (`username`),
   ADD UNIQUE KEY `email` (`email`);
 
 --
@@ -449,7 +462,7 @@ ALTER TABLE `users`
 -- 使用表AUTO_INCREMENT `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=163;
 
 --
 -- 使用表AUTO_INCREMENT `category`
@@ -485,13 +498,13 @@ ALTER TABLE `products`
 -- 使用表AUTO_INCREMENT `product_variants`
 --
 ALTER TABLE `product_variants`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=406;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=407;
 
 --
 -- 使用表AUTO_INCREMENT `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- 限制导出的表

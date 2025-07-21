@@ -57,15 +57,23 @@ if ($cat_result->num_rows > 0) {
 
 $size_stock_map = [];
 
-// 查询所有该商品的 size 和库存
+// looking for size, stock in database
+// logic: handle both no size/ have size
 $variant_stmt = $conn->prepare("SELECT size, stock FROM product_variants WHERE product_id = ?");
 $variant_stmt->bind_param("i", $product_id);
 $variant_stmt->execute();
 $variant_result = $variant_stmt->get_result();
 
 while ($variant = $variant_result->fetch_assoc()) {
-    $size_stock_map[$variant['size']] = $variant['stock'];
+    // if no size, just leave the column empty
+    // bind the key(size) with the stock
+    // ex: bag: null|15
+    // ex: top: M|13
+    // ex: top: L|11  
+    $key = $variant['size'] ?? '';
+    $size_stock_map[$key] = $variant['stock'];
 }
+
 
 
 $conn->close();
@@ -76,74 +84,15 @@ $conn->close();
 <body class="sub-page">
 
     <!-- Header/Navbar Section -->
-    <header id="header">
-        <!-- Logo -->
-        <a href="index.php"><img src="img/Icon.png" class="logo" alt="Poppy Logo"></a>
-        <!-- Desktop Navigation -->
-        <div>
-            <ul id="navbar">
-                <li><a class="active" href="index.php">Home</a></li>
-                <!--SHOP: Dropdown Menus -->
-                <li>
-                    <a href="shop.php">Shop</a>
-                </li>
-
-                <!-- COLLECTION: Dropdown Menu -->
-                <li class="dropdown">
-                    <div class="dropdown-toggle">
-                        <a href="#">Collections</a>
-                        <button class="dropdown-btn"><span class="arrow">▾</span></button>
-                    </div>
-                    <ul class="dropdown-menu">
-                        <li><a href="black_collection.php">Black Collection 2025</a></li>
-                        <li><a href="poppy_keita.php">POPPY X KEITAMARUYAMA</a></li>
-                        <li><a href="summer_collection.php">Early Summer Collection</a></li>
-                        <li><a href="spring_collection.php">Spring Collection</a></li>
-                    </ul>
-                </li>
-
-                <li><a href="news.php">News</a></li>
-
-                <!-- LOOKBOOK: Dropdown Menu -->
-                <li class="dropdown">
-                    <div class="dropdown-toggle">
-                        <a href="lookbook.html">LookBook</a>
-                        <button class="dropdown-btn"><span class="arrow">▾</span></button>
-                    </div>
-                    <ul class="dropdown-menu">
-                        <li><a href="editorial.php">Editorial</a></li>
-                        <li><a href="style.php">Style Inspo</a></li>
-                        <li><a href="video.php">Videos</a></li>
-                    </ul>
-                </li>
-                <li><a href="about.html">About</a></li>
-                <!-- Icons: Wishlist, Profile, Cart -->
-                <li><a href="wishlist.html" title="Wishlist">
-                        <i class="far fa-heart"></i>
-                        <span class="link-text">Wishlist</span>
-                    </a></li>
-                <li><a href="wy_login.php" title="Profile">
-                        <i class="far fa-user"></i>
-                        <span class="link-text">Profile</span>
-                    </a></li>
-                <li><a href="wy_cart.php" title="Cart">
-                        <i class="far fa-shopping-cart"></i>
-                        <span class="link-text">Cart</span>
-                    </a></li>
-                <a href="#" id="close"><i class="far fa-times"></i></a>
-            </ul>
-        </div>
-        <!-- Mobile Icons -->
-        <div id="mobile">
-            <a href="cart.html" title="Cart"><i class="far fa-shopping-cart"></i></a>
-            <i id="bar" class="far fa-bars"></i>
-        </div>
-    </header>
-
+    <?php include 'wy_header.php'; ?>
     <!-- PRODUCT DETAILS -->
     <section id="prodetails" class="section-p1">
         <!-- PRODUCT IMAGES -->
         <div class="single-pro-image">
+            <!-- WISHLIST -->
+            <a class='floating-wishlist' href="wishlist.php?add=<?= $row['id'] ?>">
+                <i class="far fa-heart cart" title="Add to Wishlist"></i>
+            </a>
             <!-- MAIN IMAGE -->
             <img src="<?php echo $product['main_image_url']; ?>" width="100%" id="MainImg" alt="">
             <!--IMAGE LISTS-->
@@ -172,8 +121,9 @@ $no_size_categories = [3, 4];
 // If not in the no-need-to-show category
 if (!in_array($category_id, $no_size_categories)):
 ?>
-<div class="size-selector">
-    <?php
+            <!-- SIZE SELECTOR -->
+            <div class="size-selector">
+                <?php
     $sizes = ['S', 'M', 'L'];
     foreach ($sizes as $size) {
         $stock = $size_stock_map[$size] ?? 0;
@@ -183,29 +133,23 @@ if (!in_array($category_id, $no_size_categories)):
         echo "<button class='$class' data-size='$size' $disabled>$size</button>";
     }
     ?>
-</div>
-<input type="hidden" id="selectedSize" name="size" value="M">
-
-
+            </div>
+            <input type="hidden" id="selectedSize" name="size" value="M">
             <?php endif; ?>
 
-            <p id="stockText">
-                <?php
-if (!in_array($product['category_id'], $no_size_categories)) {
-    $stock = $size_stock_map['M'] ?? 0;
-    echo $stock > 0 ? "In stock: $stock item(s)" : "<span style='color:red;'>Out of stock</span>";
-} else {
-    // PRODUCTS THAT DONT HAVE SIZE
-    $stock = $size_stock_map[NULL] ?? 0;
-    echo $stock > 0 ? "In stock: $stock item(s)" : "<span style='color:red;'>Out of stock</span>";
-}
-?>
-            </p>
+            <!-- STOCK DISPLAY -->
+            <p id="stockText" class="stockText"></p>
 
-            <input id="quantityInput" type="number" value="1" min="1" max="<?php echo $stock; ?>">
-            <a href="add_to_cart.php">
-                <button class="white">Add To Cart</button>
-            </a>
+            <!-- QUATITY INPUT & ADD TO CART OPERATIONS-->
+            <!-- IF IN STOCK -->
+            <div id="cartControls">
+                <input id="quantityInput" type="number" value="1" min="1" max="<?php echo $stock; ?>">
+                <a href="add_to_cart.php">
+                    <button class="white">Add To Cart</button>
+                </a>
+            </div>
+            <!-- NOT IN STOCK -->
+            <p id="outOfStockText" style="display: none; color: gray;">This size is currently unavailable.</p>
             <!-- DETAILS -->
             <h4>Product Details</h4>
             <span><?php echo nl2br(htmlspecialchars($product['description'])); ?></span>
@@ -214,7 +158,7 @@ if (!in_array($product['category_id'], $no_size_categories)) {
 
     <div id="cartModal" class="modal">
         <div class="modal-content">
-            <h3>1 Items added to your cart</h3>
+            <h3 id="cart-title"></h3>
             <p><strong>Subtotal</strong> (<span id="cart-count"></span> item): RM <span id="cart-total"></span></p>
 
             <div class="modal-divider"></div>
@@ -316,59 +260,7 @@ if (!in_array($product['category_id'], $no_size_categories)) {
         </div>
     </section>
 
-    <footer class="section-p1">
-        <div class="col">
-            <img class="logo" src="img/logo.png" alt="">
-            <h4>Contact</h4>
-            <p><strong>Address: </strong> 562 Wellington Road, Street 32, San Francisco</p>
-            <p><strong>Phone:</strong> +01 2222 365 /(+91) 01 2345 6789</p>
-            <p><strong>Hours:</strong> 10:00 - 18:00, Mon - Sat</p>
-            <div class="follow">
-                <h4>Follow Us</h4>
-                <div class="icon">
-                    <i class="fab fa-facebook-f"></i>
-                    <i class="fab fa-twitter"></i>
-                    <i class="fab fa-instagram"></i>
-                    <i class="fab fa-pinterest-p"></i>
-                    <i class="fab fa-youtube"></i>
-                </div>
-            </div>
-        </div>
-
-        <div class="col">
-            <h4>About</h4>
-            <a href="#">About Us</a>
-            <a href="#">Delivery Information</a>
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms & Conditions</a>
-            <a href="#">Contact Us</a>
-        </div>
-
-        <div class="col">
-            <h4>My Account</h4>
-            <a href="#">Sign In</a>
-            <a href="#">View Cart</a>
-            <a href="#">My Wishlist</a>
-            <a href="#">Track My Order</a>
-            <a href="#">Help</a>
-        </div>
-
-        <div class="col install">
-            <h4>Install App</h4>
-            <p>From App Store or Google Play</p>
-            <div class="row">
-                <img src="img/pay/app.jpg" alt="">
-                <img src="img/pay/play.jpg" alt="">
-            </div>
-            <p>Secured Payment Gateways </p>
-            <img src="img/pay/pay.png" alt="">
-        </div>
-
-        <!-- Copyright Footer -->
-        <div class="copyright">
-            <p>© 2025, Poppy Fashion</p>
-        </div>
-    </footer>
+<?php include 'wy_footer.php'; ?>
 
     <script>
     // HANDLE IMAGE PICKER LOGIC
@@ -378,46 +270,87 @@ if (!in_array($product['category_id'], $no_size_categories)) {
         });
     });
 
-    // HANDLE SIZE SELECTOR LOGIC
-
+    // GLOBAL STOCK MAP
     const stockMap = <?php echo json_encode($size_stock_map); ?>;
 
-    document.querySelectorAll('.size-option').forEach(button => {
-        button.addEventListener('click', () => {
-            const size = button.dataset.size;
-            const stock = stockMap[size] || 0;
-            const stockText = stock > 0 ? `In stock: ${stock} item(s)` : 'Out of stock';
-            document.getElementById('stockText').innerText = stockText;
-        });
-    });
+    // FUNCTION TO 
+    // * LIMIT QUANTITY INPUT 
+    // * DISPLAY STOCK 
+    // BASED ON STOCK OF SIZE OF EVERY PRODUCT
+    function updateCartControlsByStock(size) {
+        const cartControls = document.getElementById('cartControls');
+        const outOfStockText = document.getElementById('outOfStockText');
+        const quantityInput = document.getElementById('quantityInput');
+        const stockText = document.getElementById('stockText');
+        const maxStock = size !== null ? (stockMap[size] || 0) : (stockMap[''] || 0);
 
-    const sizeStock = <?php echo json_encode($size_stock_map); ?>;
+        // SHOW/ HIDE CART CONTROLS(HIDE IF NOT IN STOCK)
+        if (maxStock <= 0) {
+            if (cartControls) cartControls.style.display = 'none';
+            if (outOfStockText) outOfStockText.style.display = 'block';
+        } else {
+            if (cartControls) cartControls.style.display = 'block';
+            if (outOfStockText) outOfStockText.style.display = 'none';
+        }
+
+        // UPDATE STOCK TEXT
+        if (stockText) {
+            if (maxStock > 0) {
+                stockText.innerText = `In stock: ${maxStock} item(s)`;
+                stockText.style.color = '#333'; 
+            } else {
+                stockText.innerText = 'Out of stock';
+                stockText.style.color = 'red'; 
+            }
+        }
+
+        // UPDATE QUANTITY INPUT CONSTRAINTS
+        if (quantityInput) {
+            quantityInput.max = maxStock;
+            if (parseInt(quantityInput.value) > maxStock) {
+                quantityInput.value = maxStock;
+            }
+        }
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
         const sizeButtons = document.querySelectorAll('.size-option');
         const selectedSizeInput = document.getElementById('selectedSize');
-        const quantityInput = document.getElementById('quantityInput');
+        // IF HAVE SIZE BUTTONS
+        if (sizeButtons.length > 0) {
+            // button behavior
+            sizeButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    sizeButtons.forEach(b => b.classList.remove('selected'));
+                    this.classList.add('selected');
+                    const size = this.dataset.size;
+                    selectedSizeInput.value = size;
+                    updateCartControlsByStock(size);
+                });
 
-        sizeButtons.forEach(btn => {
-            btn.addEventListener('click', function() {
-                sizeButtons.forEach(b => b.classList.remove('selected'));
-                this.classList.add('selected');
-                const size = this.dataset.size;
-                selectedSizeInput.value = size;
-
-                // 设置数量最大值
-                const maxStock = sizeStock[size] || 0;
-                quantityInput.max = maxStock;
-                if (parseInt(quantityInput.value) > maxStock) {
-                    quantityInput.value = maxStock;
+                // disabled button
+                if (btn.hasAttribute('disabled')) {
+                    btn.classList.add('disabled');
                 }
             });
-
-            // 初始禁用按钮样式
-            if (btn.hasAttribute('disabled')) {
-                btn.classList.add('disabled');
+            // load upon refresh
+            const defaultBtn = document.querySelector('.size-option.selected');
+            if (defaultBtn) {
+                const defaultSize = defaultBtn.dataset.size;
+                updateCartControlsByStock(defaultSize);
             }
-        });
+            // check if all the size is out of stock
+            const allOut = Object.values(stockMap).every(stock => parseInt(stock) <= 0);
+            if (allOut) {
+                updateCartControlsByStock(null);
+            }
+        }
+        // NO SIZE: ACCESSORY & BAGS
+         else {
+            updateCartControlsByStock(null);
+        }
     });
+
 
 
     // HANDLE ADD TO CART LOGIC
@@ -437,6 +370,8 @@ if (!in_array($product['category_id'], $no_size_categories)) {
                 // PARSE JSON DATA FROM DATABASE
                 function(response) {
                     const data = JSON.parse(response);
+                    $('#cart-title').text(
+                        `${quantity} Item${quantity > 1 ? 's' : ''} added to your cart`);
                     // IF NOT LOGED IN REQUIRE USER TO LOG IN
                     if (data.status === 'not_logged_in') {
                         alert("Please log in first!");

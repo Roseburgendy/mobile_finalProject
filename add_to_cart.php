@@ -3,13 +3,37 @@ session_start();
 include 'config.php';
 
 // HANDLE LOGIN BEHAVIOR
+// IF NOT LOGIN
 if (!isset($_SESSION['user_id'])) {
+    // INITIALIZE THE CART
+    if (!isset($_SESSION['cart'])) {
+        $_SESSION['cart'] = [];
+    }
+
+    $product_id = $_POST['product_id'];
+    $quantity = $_POST['quantity'] ?? 1;
+    $size = $_POST['size'] ?? null;
+
+    $key = $product_id . '_' . ($size ?? 'nosize');
+
+    if (isset($_SESSION['cart'][$key])) {
+        $_SESSION['cart'][$key]['quantity'] += $quantity;
+    } else {
+        $_SESSION['cart'][$key] = [
+            'product_id' => $product_id,
+            'quantity' => $quantity,
+            'size' => $size
+        ];
+    }
+
+    // OUT PUT CART
     echo json_encode([
-        'status' => 'not_logged_in',
-        'message' => 'Please log in before adding to cart.'
+        'status' => 'guest_cart',
+        'cart_count' => array_sum(array_column($_SESSION['cart'], 'quantity'))
     ]);
     exit;
 }
+
 
 // IF THE USER LOGGED IN, READ $_POST FROM JAVA
 $product_id = $_POST['product_id'];
@@ -58,7 +82,7 @@ $sql = "SELECT id, name, price, main_image_url,collection FROM products
         WHERE (category_id = (SELECT category_id FROM products WHERE id = ?) 
                OR collection = (SELECT collection FROM products WHERE id = ?)) 
         AND id != ? ORDER BY RAND()
-        LIMIT 3";
+        LIMIT 4";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("iii", $product_id, $product_id, $product_id);
 $stmt->execute();
@@ -86,7 +110,8 @@ while ($row = $result->fetch_assoc()) {
 echo json_encode([
     'status' => 'success',
     'cart_count' => $count,
-    'cart_total' => number_format($total, decimals: 2),
+    'quantity_added' => $quantity,
+    'cart_total' => number_format($total, 2),
     'recommendations' => $recommendations
 ]);
 ?>

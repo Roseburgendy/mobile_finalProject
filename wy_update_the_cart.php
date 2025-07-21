@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $existing = $cart_result->fetch_assoc();
     $existing_qty = $existing ? $existing['quantity'] : 0;
 
-    $new_total_qty = $existing_qty + $qty;
+    $new_total_qty =$qty;
 
     // 检查库存限制
     if ($new_total_qty > $stock) {
@@ -51,6 +51,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if ($existing) {
+    if ($new_total_qty == 0) {
+        // 删除该商品
+        if ($size !== null && $size !== '') {
+            $stmt = $conn->prepare("DELETE FROM cart WHERE user_id = ? AND product_id = ? AND size = ?");
+            $stmt->bind_param("iis", $user_id, $product_id, $size);
+        } else {
+            $stmt = $conn->prepare("DELETE FROM cart WHERE user_id = ? AND product_id = ? AND size IS NULL");
+            $stmt->bind_param("ii", $user_id, $product_id);
+        }
+
+        $stmt->execute();
+    } 
+    else {
         // 更新购物车数量
         if ($size !== null && $size !== '') {
             $stmt = $conn->prepare("UPDATE cart SET quantity = ? WHERE user_id = ? AND product_id = ? AND size = ?");
@@ -59,11 +72,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt = $conn->prepare("UPDATE cart SET quantity = ? WHERE user_id = ? AND product_id = ? AND size IS NULL");
             $stmt->bind_param("iii", $new_total_qty, $user_id, $product_id);
         }
-    } else {
+
+        $stmt->execute();
+    }
+} else {
+    if ($new_total_qty > 0) {
         // 插入新记录
         $stmt = $conn->prepare("INSERT INTO cart (user_id, product_id, quantity, size) VALUES (?, ?, ?, ?)");
         $stmt->bind_param("iiis", $user_id, $product_id, $qty, $size);
+        $stmt->execute();
     }
+}
+
 
     $stmt->execute();
 

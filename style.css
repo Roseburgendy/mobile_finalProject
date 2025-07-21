@@ -36,7 +36,7 @@ h4 { font-size: 1.777rem; } /* 28.48px */
 h5 { font-size: 1.333rem; } /* 21.28px */
 small { font-size: 0.750rem; } /* 12px */
 
-  :root {
+:root {
     --text-50: #0d0d0d;
     --text-100: #1a1a1a;
     --text-200: #333333;
@@ -190,12 +190,11 @@ body.home-page #header.scrolled {
 
 /* HOVER BEHAVIOR:
 Scrolled + not scrolled will have same behavior
-change from ori color to highlighted color: primary-500 */
-body:not(.home-page) #header #navbar li a:hover,
-body:not(.home-page) #header #navbar li a.active {
+change from ori color to highlighted color: primary-500*/
+body not(.home-page) #header #navbar li a:hover,
+body not(.home-page) #header #navbar li a.active {
    color: var(--primary-500);
 }
-
 
 .logo {
   width: 120px;
@@ -592,7 +591,7 @@ display: none;
     border-radius: 50px;
     background-color: var( --primary-950);
     font-weight: 500;
-    color:var(--primary-400);;
+    color:var(--primary-400);
     border: 1px solid var(--primary-400);
     transition: 0.2s;
     position: absolute;
@@ -604,6 +603,8 @@ display: none;
     color: #fff;
     background:var( --primary-400);
     font-weight: 400;
+      transform: scale(1.1);
+  box-shadow: 0 0 8px rgba(139, 3, 3, 0.44);
 }
 
 
@@ -1020,6 +1021,7 @@ footer a:hover {
 }
 
 #prodetails .single-pro-image {
+    position:relative;
     width: 40%;
     margin-right: 50px;
 }
@@ -1032,6 +1034,31 @@ footer a:hover {
 .small-img-col {
     flex-basis: 24%;
     cursor: pointer;
+}
+
+
+/*WISHLIST*/
+.floating-wishlist {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background-color: rgba(255, 255, 255, 0.85);
+  border: none;
+  border-radius: 50%;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 10;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.floating-wishlist i {
+  color: var(--primary-400);
+  font-size: 18px;
+}
+
+.floating-wishlist:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 8px rgba(139, 3, 3, 0.44);
 }
 
 #prodetails .single-pro-details {
@@ -1058,7 +1085,7 @@ footer a:hover {
 .size-selector {
   display: flex;
   gap: 10px;
-  margin: 10px 0;
+  margin: 20px 0;
 }
 
 .size-option {
@@ -1083,7 +1110,7 @@ footer a:hover {
     opacity: 0.6;
 }
 
-/* 遮罩层 */
+/* ADD TO CART MODAL */
 .modal {
   display: none;
   position: fixed;
@@ -1093,107 +1120,157 @@ footer a:hover {
   background-color: rgba(0, 0, 0, 0.4);
   z-index: 9999;
   overflow: auto;
+  backdrop-filter: blur(2px);
 }
 
-/* 内容区域居中 */
+/* 中心内容区域 */
 .modal-content {
   position: relative;
-  width: 760px;               
-  margin: 60px auto;         
+  width: 90%;
+  max-width: 760px;
+  margin: 80px auto;
   background: #fff;
-  border-radius: 8px;
-  padding: 30px 20px;
+  border-radius: 12px;
+  padding: 32px 28px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  animation: fadeInScale 0.3s ease;
   box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
 }
 
-/* 顶部与中间分隔线 */
-.modal-content h3,
+/* ANIMATION */
+@keyframes fadeInScale {
+  from { opacity: 0; transform: scale(0.9); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.modal-content h3 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
 .modal-content h4 {
-  margin: 0 0 15px;
+  font-size: 16px;
+  font-weight: 500;
+  margin-top: 20px;
+  margin-bottom: 10px;
 }
 
+/* 分隔线 */
 .modal-divider {
-  border-top: 1px solid #ddd;
-  margin: 20px 0;
+  border-top: 1px solid #e0e0e0;
+  margin: 24px 0;
 }
 
-/* 推荐商品容器横滑 */
+/* 推荐商品滚动区域 */
 .recommend-grid {
-     width: 100vw;
   display: flex;
   overflow-x: auto;
   gap: 16px;
   scroll-snap-type: x mandatory;
-  padding-bottom: 10px;
+  padding: 4px 2px 8px 2px;
 }
 
 /* 单个推荐项 */
 .recommend-item {
-    text-decoration:none;
-    color:inherit;
   flex: 0 0 160px;
   scroll-snap-align: start;
-}
-
-/* 底部按钮对齐 */
-.modal-actions {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  margin-top: 24px;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 10px;
+  background: #fafafa;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .recommend-item:hover {
-  transform: scale(1.03);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
 }
 
 /* 图片区域 */
 .recommend-image img {
   width: 100%;
-  border-radius: 4px;
+  border-radius: 10px 10px 0 0;
   object-fit: cover;
+  height: 140px;
 }
 
-/* 推荐信息文字块 */
+/* 推荐信息文本区域 */
 .recommend-info {
-  font-family:Poppins;
-  padding: 6px 2px;
+  padding: 8px 6px;
   font-size: 13px;
-  text-decoration:none;
 }
 
-/* 商品标题 */
-.product-name {
-  font-weight: normal;
-  margin: 4px 0;
-  line-height: 1.2;
-   text-decoration:none;
-}
-
-/* 价格 */
-.price {
-  color: #000;
-  font-weight: bold;
-  margin: 4px 0;
-   text-decoration:none;
-}
-
-/* 说明文字 */
+/* 描述、名称、价格 */
 .desc {
   font-size: 11px;
-  color: #666;
-  line-height: 1.3;
-   text-decoration:none;
+  color: #888;
+  margin-bottom: 4px;
 }
+
+.product-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #333;
+  line-height: 1.3;
+  margin-bottom: 4px;
+}
+
+.price {
+  color: #111;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* 底部按钮组 */
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 30px;
+}
+
+.modal-actions button {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.modal-actions .normal {
+  background-color: #111;
+  color: #fff;
+}
+
+.modal-actions .normal:hover {
+  background-color: #333;
+}
+
+.modal-actions .continue {
+  background-color: #f1f1f1;
+  color: #333;
+}
+
+.modal-actions .continue:hover {
+  background-color: #e3e3e3;
+}
+.stockText{
+    margin: 10px 0;
+}
+
+
 /*Quantity Input*/
 #prodetails .single-pro-details input[type="number"] {
     font-family:Poppins;
     width: 60px;
-    height: 45px;
+    height: 50px;
     padding: 5px 10px;
     font-size: 16px;
     margin-right: 10px;
+    margin-top: 10px;
     border: 1px solid #ccc;
     border-radius: 8px;
     background-color: #f9f9f9;
@@ -2093,7 +2170,5 @@ footer a:hover {
         width: 100%;
         padding-top: 30px;
     }
-
-    
 
 }
