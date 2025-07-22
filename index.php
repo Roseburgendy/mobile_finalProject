@@ -77,11 +77,24 @@ include 'wy_header.php';
     <!-- Black Collection Products Section -->
     <section id="product1" class="section-p1">
         <h2>Black Collection 2025</h2>
-        <p>Summer Collection New Morden Design</p>
+        <p>Bold, sleek, and effortlessly sophisticated — embrace the power of black this season.</p>
         <div class="pro-container">
             <!-- PHP Query -->
             <?php
 require_once 'config.php';
+
+$wishlist_ids = [];
+if (isset($_SESSION['user_id'])) {
+    $uid = $_SESSION['user_id'];
+    $stmt = $conn->prepare("SELECT product_id FROM wishlist WHERE user_id = ?");
+    $stmt->bind_param("i", $uid);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    while ($row = $result->fetch_assoc()) {
+        $wishlist_ids[] = $row['product_id'];
+    }
+}
+
   // ONLY SHOW ITEMS IN COLLECTION AND LIMIT VIEW TO 4
 $sql = "SELECT * FROM products WHERE collection ='Black Collection 2025' LIMIT 4";
 $result = $conn->query($sql);
@@ -98,9 +111,11 @@ if ($result->num_rows > 0) {
                     <h5><?php echo htmlspecialchars($row['name']); ?></h5>
                     <h4>$<?php echo number_format($row['price'], 2); ?></h4>
                 </div>
-                <a href="wishlist.php?add=<?php echo $row['id']; ?>">
-                    <i class="far fa-heart cart" title="Add to Wishlist"></i>
-                </a>
+                <button type="button" class="wishlist-toggle" data-product-id="<?php echo $row['id']; ?>">
+                    <i class="<?php echo in_array($row['id'], $wishlist_ids) ? 'fas' : 'far'; ?> fa-heart heart-icon"></i>
+                </button>
+
+
             </div>
             <?php
     }
@@ -127,7 +142,7 @@ if ($result->num_rows > 0) {
     <!-- Spring Collection Products Section -->
     <section id="product1" class="section-p1">
         <h2>Spring Collection 2025</h2>
-        <p>Summer Collection New Morden Design</p>
+        <p>Breathe new life into your wardrobe with fresh florals, soft hues, and effortless charm.</p>
         <div class="pro-container">
             <!-- PHP Query -->
             <?php
@@ -148,9 +163,9 @@ if ($result->num_rows > 0) {
                     <h5><?php echo htmlspecialchars($row['name']); ?></h5>
                     <h4>$<?php echo number_format($row['price'], 2); ?></h4>
                 </div>
-                <a href="wishlist.php?add=<?php echo $row['id']; ?>">
-                    <i class="far fa-heart cart" title="Add to Wishlist"></i>
-                </a>
+                <button type="button" class="wishlist-toggle" data-product-id="<?php echo $row['id']; ?>">
+                    <i class="<?php echo in_array($row['id'], $wishlist_ids) ? 'fas' : 'far'; ?> fa-heart heart-icon"></i>
+                </button>
             </div>
             <?php
     }
@@ -187,7 +202,7 @@ if ($result->num_rows > 0) {
     <!-- Early Summer Collection Products Section -->
     <section id="product1" class="section-p1">
         <h2>Early Summer Collection 2025</h2>
-        <p>Summer Collection New Morden Design</p>
+        <p>Feel the sun, feel the breeze — light layers and sun-kissed tones for early summer days.</p>
         <div class="pro-container">
             <!-- PHP Query -->
             <?php
@@ -208,9 +223,9 @@ if ($result->num_rows > 0) {
                     <h5><?php echo htmlspecialchars($row['name']); ?></h5>
                     <h4>$<?php echo number_format($row['price'], 2); ?></h4>
                 </div>
-                <a href="wishlist.php?add=<?php echo $row['id']; ?>">
-                    <i class="far fa-heart cart" title="Add to Wishlist"></i>
-                </a>
+                <button type="button" class="wishlist-toggle" data-product-id="<?php echo $row['id']; ?>">
+                    <i class="<?php echo in_array($row['id'], $wishlist_ids) ? 'fas' : 'far'; ?> fa-heart heart-icon"></i>
+                </button>
             </div>
             <?php
     }
@@ -238,7 +253,7 @@ if ($result->num_rows > 0) {
     <!-- POPPY X KEITAMARUYAMA Products Section -->
     <section id="product1" class="section-p1">
         <h2>POPPY X KEITAMARUYAMA Special Collection</h2>
-        <p>Summer Collection New Morden Design</p>
+        <p>A special collaboration item that combines the patterns of KEITA MARUYAMA and POPPY to create a single piece of art.</p>
         <div class="pro-container">
             <!-- PHP Query -->
             <?php
@@ -259,9 +274,9 @@ if ($result->num_rows > 0) {
                     <h5><?php echo htmlspecialchars($row['name']); ?></h5>
                     <h4>$<?php echo number_format($row['price'], 2); ?></h4>
                 </div>
-                <a href="wishlist.php?add=<?php echo $row['id']; ?>">
-                    <i class="far fa-heart cart" title="Add to Wishlist"></i>
-                </a>
+                <button type="button" class="wishlist-toggle" data-product-id="<?php echo $row['id']; ?>">
+                    <i class="<?php echo in_array($row['id'], $wishlist_ids) ? 'fas' : 'far'; ?> fa-heart heart-icon"></i>
+                </button>
             </div>
             <?php
     }
@@ -310,7 +325,6 @@ if ($result->num_rows > 0) {
     </section>
 
     <?php include 'wy_footer.php'; ?>
-
     <!-- Main Script -->
     <script src="script.js"></script>
 </body>

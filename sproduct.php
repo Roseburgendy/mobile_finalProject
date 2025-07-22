@@ -14,6 +14,7 @@
 
 <!-- PHP QUERY -->
 <?php
+session_start(); 
 include 'config.php';
 
 if (!isset($_GET['id'])) {
@@ -40,6 +41,21 @@ $image_stmt->bind_param("i", $product_id);
 $image_stmt->execute();
 $image_result = $image_stmt->get_result();
 $images = [];
+
+
+$wishlist_ids = [];
+if (isset($_SESSION['user_id'])) {
+    $uid = $_SESSION['user_id'];
+    $stmt = $conn->prepare("SELECT product_id FROM wishlist WHERE user_id = ?");
+    $stmt->bind_param("i", $uid);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    while ($row = $result->fetch_assoc()) {
+        $wishlist_ids[] = $row['product_id'];
+    }
+}
+
+
 while ($img = $image_result->fetch_assoc()) {
     $images[] = $img['image_url'];
 }
@@ -90,8 +106,11 @@ $conn->close();
         <!-- PRODUCT IMAGES -->
         <div class="single-pro-image">
             <!-- WISHLIST -->
-            <a class='floating-wishlist' href="wishlist.php?add=<?= $row['id'] ?>">
-                <i class="far fa-heart cart" title="Add to Wishlist"></i>
+            <a class='floating-wishlist'>
+                <!-- 红心按钮（默认空心） -->
+                <button type="button" class="wishlist-toggle" data-product-id="<?= $product_id ?>">
+                    <i class="<?= in_array($product_id, $wishlist_ids) ? 'fas' : 'far' ?> fa-heart"></i>
+                </button>
             </a>
             <!-- MAIN IMAGE -->
             <img src="<?php echo $product['main_image_url']; ?>" width="100%" id="MainImg" alt="">
@@ -260,9 +279,9 @@ if (!in_array($category_id, $no_size_categories)):
         </div>
     </section>
 
-<?php include 'wy_footer.php'; ?>
-
+    <?php include 'wy_footer.php'; ?>
     <script>
+    const isLoggedIn = <?= isset($_SESSION['user_id']) ? 'true' : 'false' ?>;
     // HANDLE IMAGE PICKER LOGIC
     $(function() {
         $('.small-img').click(function() {
@@ -297,10 +316,10 @@ if (!in_array($category_id, $no_size_categories)):
         if (stockText) {
             if (maxStock > 0) {
                 stockText.innerText = `In stock: ${maxStock} item(s)`;
-                stockText.style.color = '#333'; 
+                stockText.style.color = '#333';
             } else {
                 stockText.innerText = 'Out of stock';
-                stockText.style.color = 'red'; 
+                stockText.style.color = 'red';
             }
         }
 
@@ -346,38 +365,42 @@ if (!in_array($category_id, $no_size_categories)):
             }
         }
         // NO SIZE: ACCESSORY & BAGS
-         else {
+        else {
             updateCartControlsByStock(null);
         }
     });
-
-
 
     // HANDLE ADD TO CART LOGIC
     $(document).ready(function() {
         $('.white').click(function(e) {
             e.preventDefault();
-            const productId = <?php echo $product_id; ?>;
+
+            if (!ensureLoggedIn()) return;
+
+
+            const product_id = <?php echo $product_id; ?>;
             const quantity = $('#quantityInput').val();
             const selectedSize = $('#selectedSize').val();
 
             // SEND TO DATABASE(BACKEND)
             $.post("add_to_cart.php", {
-                    product_id: productId,
+                    product_id: product_id,
                     quantity: quantity,
                     size: selectedSize
                 },
                 // PARSE JSON DATA FROM DATABASE
-                function(response) {
-                    const data = JSON.parse(response);
+                function(data) {
+                    // IF NOT LOGGED IN, REDIRECT
+                    if (data.status === 'error') {
+                        alert(data.message);
+                        window.location.href = 'wy_login.php';
+                        return;
+                    }
                     $('#cart-title').text(
                         `${quantity} Item${quantity > 1 ? 's' : ''} added to your cart`);
                     // IF NOT LOGED IN REQUIRE USER TO LOG IN
-                    if (data.status === 'not_logged_in') {
-                        alert("Please log in first!");
-                        window.location.href = "wy_login.php";
-                        return;
-                    }
+
+
                     // UPDATE THE CART
                     if (data.status === 'success') {
                         $('#cart-count').text(data.cart_count);
@@ -414,7 +437,43 @@ if (!in_array($category_id, $no_size_categories)):
             $('body').css('overflow', '');
         });
     });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.wishlist-toggle').forEach(button => {
+            button.addEventListener('click', function() {
+                const productId = this.dataset.productId;
+                fetch('wy_wishlist_toggle.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: `product_id=${productId}`
+                    })
+                    .then(res => res.text())
+                    .then(status => {
+                        status = status.trim(); // 去除空格、换行
+                        console.log("Server status:", status); // 打印调试
+                        location.reload(); // 页面刷新会重新加载 PHP 渲染的红心状态
+
+                        if (status === "added") {
+                            this.innerHTML = '<i class="fas fa-heart"></i>';
+                        } else if (status === "removed") {
+                            this.innerHTML = '<i class="far fa-heart"></i>';
+                        } else {
+                            alert('Failed to toggle wishlist. Please try again.');
+                        }
+                    })
+                    .catch(err => {
+                        console.error("Fetch error:", err);
+                        alert('Network error. Please try again.');
+                    });
+            });
+        });
+    });
     </script>
+
+
+
 
     <script src="script.js"></script>
 </body>

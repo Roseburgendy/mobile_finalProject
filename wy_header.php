@@ -38,45 +38,42 @@ include_once 'session_init.php'; // 避免重复调用 session_start()
             <li><a href="about.html">About</a></li>
 
             <!-- Wishlist -->
-            <li><a class="<?php echo ($activePage == 'wishlist') ? 'active' : ''; ?>" href="wishlist.php"
+            <li><a class="<?php echo ($activePage == 'wy_wishlist') ? 'active' : ''; ?>" href="wy_wishlist.php"
                     title="Wishlist">
                     <i class="far fa-heart"></i>
                     <span class="link-text">Wishlist</span>
                 </a></li>
 
-            <!-- 用户登录状态显示 -->
-            <?php if (isset($_SESSION['email'])): ?>
-            <li><a class="<?php echo ($activePage == 'wy_profile') ? 'active' : ''; ?>" href="wy_profile.php"
+            <!-- LOGIN STATUS -->
+            <?php if (isset($_SESSION['user_id'])): ?>
+            <!-- LOGGED IN: DISPLAY PROFILE AND LOG OUT ICON -->
+            <li>
+                <a class="<?php echo ($activePage == 'wy_profile') ? 'active' : ''; ?>" href="wy_profile.php"
                     title="Profile">
                     <i class="far fa-user"></i>
                     <span class="link-text">
-                        <?php
-    if (isset($_SESSION['first_name']) && isset($_SESSION['last_name'])) {
-        echo htmlspecialchars($_SESSION['first_name'] . ' ' . $_SESSION['last_name']);
-    }  else {
-        echo 'User';
-    }
-  ?>
+                        <?= htmlspecialchars($_SESSION['first_name'] ?? '') . ' ' . htmlspecialchars($_SESSION['last_name'] ?? '') ?>
                     </span>
-
-
-                </a></li>
-            <li><a class="<?php echo ($activePage == 'wy_logout') ? 'active' : ''; ?>" href="wy_logout.php"
+                </a>
+            </li>
+            <li>
+                <a class="<?php echo ($activePage == 'wy_logout') ? 'active' : ''; ?>" href="wy_logout.php"
                     title="Logout">
                     <i class="fas fa-sign-out-alt"></i>
                     <span class="link-text">Logout</span>
-                </a></li>
+                </a>
+            </li>
             <?php else: ?>
-            <li><a class="<?php echo ($activePage == 'wy_login') ? 'active' : ''; ?>" href="wy_login.php" title="Login">
+            <!-- NOT LOGIN : DISPLAY LOGIN ICON ONLY -->
+            <li>
+                <a class="<?php echo ($activePage == 'wy_login') ? 'active' : ''; ?>" href="wy_login.php" title="Login">
                     <i class="far fa-user"></i>
                     <span class="link-text">Login</span>
-                </a></li>
-            <li><a class="<?php echo ($activePage == 'wy_register') ? 'active' : ''; ?>" href="wy_register.php"
-                    title="Register">
-                    <i class="far fa-user-plus"></i>
-                    <span class="link-text">Register</span>
-                </a></li>
+                </a>
+            </li>
             <?php endif; ?>
+
+            <!-- CART STATUS -->
             <li><a class="<?php echo ($activePage == 'wy_cart') ? 'active' : ''; ?>" href="wy_cart.php" title="Cart">
                     <i class="far fa-shopping-cart"></i>
                     <span class="link-text">Cart</span>

@@ -53,3 +53,41 @@ function autoSlide() {
 }
 
 autoSlide();
+document.addEventListener('DOMContentLoaded', function() {
+    const wishlistButtons = document.querySelectorAll('.wishlist-toggle');
+    if (wishlistButtons.length === 0) return; // 没有就不做任何事
+
+    wishlistButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const productId = this.dataset.productId;
+            fetch('wy_wishlist_toggle.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `product_id=${productId}`
+            })
+            .then(res => res.text())
+            .then(status => {
+                status = status.trim();
+                if (status === "added") {
+                    this.innerHTML = '<i class="fas fa-heart heart-icon"></i>';
+                } else if (status === "removed") {
+                    this.innerHTML = '<i class="far fa-heart heart-icon"></i>';
+                } else {
+                    alert('Failed to toggle wishlist. Please try again.');
+                }
+            })
+            .catch(err => {
+                console.error("Fetch error:", err);
+                alert('Network error. Please try again.');
+            });
+        });
+    });
+});
+function ensureLoggedIn(redirectUrl = 'wy_login.php') {
+    if (!isLoggedIn) {
+        return confirm("You need to log in. Go to login page?") ? window.location.href = redirectUrl : false;
+    }
+    return true;
+}

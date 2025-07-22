@@ -47,6 +47,31 @@ $_SESSION['email'] = $row['email'];
 $_SESSION['first_name'] = $row['first_name'];
 $_SESSION['last_name'] = $row['last_name'];
 
+if (isset($_SESSION['cart'])) {
+    foreach ($_SESSION['cart'] as $item) {
+        $stmt = $conn->prepare("SELECT quantity FROM cart WHERE user_id = ? AND product_id = ? AND size = ?");
+        $stmt->bind_param("iis", $user_id, $item['product_id'], $item['size']);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($row = $result->fetch_assoc()) {
+            // 已存在，更新数量
+            $new_qty = $row['quantity'] + $item['quantity'];
+            $update = $conn->prepare("UPDATE cart SET quantity = ? WHERE user_id = ? AND product_id = ? AND size = ?");
+            $update->bind_param("iiis", $new_qty, $user_id, $item['product_id'], $item['size']);
+            $update->execute();
+        } else {
+            // 不存在，插入
+            $insert = $conn->prepare("INSERT INTO cart (user_id, product_id, quantity, size) VALUES (?, ?, ?, ?)");
+            $insert->bind_param("iiis", $user_id, $item['product_id'], $item['quantity'], $item['size']);
+            $insert->execute();
+        }
+    }
+    unset($_SESSION['cart']); // 清空 session 中的临时购物车
+}
+
+
+
            echo "<script>alert('LOGIN Successfully!'); window.location.href='index.php';</script>";
             exit();
         } 

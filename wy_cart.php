@@ -16,8 +16,12 @@
 <body class="sub-page">
 
     <!-- Header/Navbar Section -->
-    <?php include 'wy_header.php'; ?>
-    
+    <?php 
+     $activePage = 'wy_cart';
+    include 'wy_header.php'; 
+
+    ?>
+
     <section id="page-header" class="cart-banner">
 
         <h2>Cart</h2>
@@ -40,7 +44,8 @@ if (!isset($_SESSION['user_id'])) {
         if (confirm('You need to log in to check out. Do you want to log in now?')) {
             window.location.href = 'wy_login.php';
         }
-    </script>";
+    </script>"
+    ;
 }
 
 
@@ -154,7 +159,8 @@ while ($row = $result->fetch_assoc()) {
                             <?php echo number_format($total, 2); ?></strong></span>
                 </p>
 
-                <button class="checkout-btn">CHECKOUT</button>
+                <a href="wy_place_order.php"><button class="checkout-btn">CHECKOUT</button></a>
+
             </div>
 
             <div class="notice">
@@ -165,7 +171,7 @@ while ($row = $result->fetch_assoc()) {
     </section>
 
 
-<?php include 'wy_footer.php'; ?>
+    <?php include 'wy_footer.php'; ?>
 
     <!-- Delete Confirmation Modal -->
     <div id="deleteModal" class="deleteModal" style="display:none;">
@@ -201,6 +207,7 @@ while ($row = $result->fetch_assoc()) {
             $('body').css('overflow', ''); // 恢复滚动
         });
     });
+
     </script>
 
 

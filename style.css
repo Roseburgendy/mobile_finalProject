@@ -584,28 +584,7 @@ display: none;
     color: var(--primary-400);;
 }
 
-#product1 .pro .cart {
-    width: 40px;
-    height: 40px;
-    line-height: 40px;
-    border-radius: 50px;
-    background-color: var( --primary-950);
-    font-weight: 500;
-    color:var(--primary-400);
-    border: 1px solid var(--primary-400);
-    transition: 0.2s;
-    position: absolute;
-    bottom: 20px;
-    right: 10px;
-}
 
-#product1 .pro .cart:hover {
-    color: #fff;
-    background:var( --primary-400);
-    font-weight: 400;
-      transform: scale(1.1);
-  box-shadow: 0 0 8px rgba(139, 3, 3, 0.44);
-}
 
 
 /* === BANNER SECTION behavior=== */
@@ -842,8 +821,18 @@ footer a:hover {
     text-align: center;
     
     background-size: cover;
-    padding: 14px;
+    padding: 30px 50px;
 }
+#page-header p {
+    color: #fff;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    max-width: 700px;         /* 限制最大宽度 */
+    margin: 0 auto;           /* 水平居中 */
+    font-size: 1.1rem;        /* 调整字号 */
+    line-height: 1.6;         /* 行高更舒适 */
+    padding-top: 10px;        /* 与标题保持距离 */
+}
+
 .black-banner{
     height: 100vh;
     background-position: center 10%;
@@ -866,8 +855,24 @@ footer a:hover {
 }
 .cart-banner{
     height: 50vh;
-    background-position: center 10%;
-    background-image: url("img/hero_section/Hero_2.webp");
+    background-position: center 50%;
+    background-image: url("img/hero_section/cart_banner.jpg");
+}
+.wishlist-banner{
+    height: 50vh;
+    background-position: center 30%; ;
+    background-image: url("img/hero_section/wishlist_banner.jpg");
+}
+.profile-banner{
+    height: 50vh;
+    background-position: bottom ;
+    background-image: url("img/banner/Line_2.jpg");
+}
+/* 单独设置 profile-banner 中的文字为黑色 */
+.profile-banner h2,
+.profile-banner p {
+    color: #000 !important;
+    text-shadow: none !important; /* 可选：移除白色阴影效果 */
 }
 
 #page-header h2,
@@ -884,7 +889,7 @@ footer a:hover {
 .shop-banner{
     height: 80vh;
     background-position: center 10%;
-    background-image: url("img/hero_section/Hero_4.webp");
+    background-image: url("img/hero_section/shop_banner.jpg");
     
 }
 
@@ -1038,28 +1043,6 @@ footer a:hover {
 
 
 /*WISHLIST*/
-.floating-wishlist {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  background-color: rgba(255, 255, 255, 0.85);
-  border: none;
-  border-radius: 50%;
-  padding: 10px;
-  cursor: pointer;
-  z-index: 10;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.floating-wishlist i {
-  color: var(--primary-400);
-  font-size: 18px;
-}
-
-.floating-wishlist:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 8px rgba(139, 3, 3, 0.44);
-}
 
 #prodetails .single-pro-details {
     width: 50%;
@@ -1619,10 +1602,6 @@ footer a:hover {
     cursor: pointer;
     font-size: 20px;
 }
-@media (max-width: 768px) {
-
-}
-
 #cart {
     overflow-x: auto;
 }
@@ -1731,10 +1710,391 @@ footer a:hover {
     font-size: 13px;
 }
 
+/*Profile Page*/
+  #profile-container {
+    text-align: flex-start;
+    display: flex;
+    justify-content:center;
+    padding:50px 400px 50px 200px;
+    }
 
+  #profile-container  .sidebar {
+        width: 260px;
+        background: #fff;
+        padding: 30px;
+
+    border: 1px solid #e0e0e0;
+    border-radius: 20px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+
+    will-change: transform;
+        gap:20px;
+        display:flex;
+       flex-direction:column;
+    }
+  #profile-container   .sidebar .sidebar-sub h2 {
+        font-size: 22px;
+        margin-bottom: 20px;
+    }
+
+  #profile-container   .sidebar .sidebar-sub ul {
+        list-style: none;
+        padding-left: 0;
+    }
+
+  #profile-container .sidebar .sidebar-sub li {
+  margin: 12px 0;
+  }
+
+  #profile-container .sidebar .sidebar-sub li a {
+  color: #111;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  padding: 6px 10px;
+  display: inline-block;
+  border-radius: 4px;
+  }
+
+  /* 悬停时效果 */
+  #profile-container .sidebar .sidebar-sub li:hover a {
+  color: #d33;
+  text-decoration: underline;
+  }
+
+  /* 当前激活项样式 */
+  #profile-container .sidebar .sidebar-sub li a.active {
+  color: #d33;
+  text-decoration: underline;
+  font-weight: bold;
+  }
+
+
+
+  #profile-container .main-content {
+    flex: 1;
+    background: linear-gradient(135deg, #fff, #fafafa);
+    padding: 40px 60px;
+    margin-left: 24px;
+
+    border: 1px solid #e0e0e0;
+    border-radius: 20px;
+
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+
+    /* 视觉微交互：hover 提升浮层感 */
+    will-change: transform;
+  }
+  #profile-container .main-content:hover {
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+  }
+
+  #profile-container   .main-content h3 {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .info-row {
+        display: flex;
+        justify-content: space-between;
+        max-width: 500px;
+        margin-bottom: 10px;
+    }
+
+    .info-label {
+            font-family:Poppins;
+      font-weight:bold;
+        width: 160px;
+    }
+
+    .membership-card {
+      max-width:400px;
+        margin-top: 20px;
+        width: 360px;
+        height: 200px;
+        background-image: url('img/banner/Line.jpg');
+        background-size: cover;
+        background-position: center;
+        border-radius: 16px;
+        padding: 20px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        position: relative;
+        overflow: hidden;
+        color: #000;
+        font-family: Poppins;
+        text-align: center;
+        background-color: #fff;
+        border: 1px solid var(--text-900);
+    }
+
+
+    .card-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .brand {
+      font-family:Poppins;
+        color: var(--primary-500);
+        font-weight: bold;
+        font-size: 24px;
+        margin-bottom: 10px;
+        letter-spacing: 3px;
+    }
+
+    .barcode-area {
+        margin: 10px 0;
+    }
+
+    .barcode-img {
+        height: 60px;
+    }
+    .member-name {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: #d33;
+        color: white;
+        padding: 6px 12px;
+        font-weight: bold;
+        text-align: right;
+        border-bottom-left-radius: 16px;
+        border-bottom-right-radius: 16px;
+    }
+
+  /*FORM*/
+    form label {
+        display: block;
+        margin-bottom: 6px;
+        font-family:Poppins;
+      font-weight:bold;
+        color: #555;
+    }
+
+    form input,
+    form select {
+        width: 80%;
+        padding: 10px 15px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 16px;
+        transition: border 0.3s;
+    }
+
+    form input:focus,
+    form select:focus {
+        border-color: #111;
+        outline: none;
+         box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .form-group {
+        display: flex;
+        gap: 20px;
+    }
+
+    .form-group>div {
+        flex: 1;
+    }
+
+    .success-msg {
+        color: green;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .error-msg {
+        color: red;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+  /*ADDRESS*/ 
+  .address-card {
+  background-image: url('img/banner/Line_2.jpg');
+  background-size: cover;
+  background-position: center;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 24px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  max-width: 600px;
+  }
+  .address-header {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #333;
+    }
+
+  .address-body p {
+  margin: 6px 0;
+  line-height: 1.5;
+  color: #555;
+  }
+
+  /*withdrawal membership*/ 
+  .withdrawal-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 24px;
+  margin-top: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  max-width: 600px;
+}
+
+.warning-text {
+  color: #c00;
+  font-weight: 500;
+  margin-bottom: 16px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #555;
+}
+
+.checkbox-label input {
+  margin-right: 10px;
+}
+
+
+
+/*Register Success Page*/
+    #thank-you-container {
+    max-width: 800px;
+    margin: 100px auto;
+    padding: 40px 30px;
+    background-color: #fff;
+    text-align: center;
+    border: 1px solid #e0e0e0;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+    }
+
+    #thank-you-container h1 {
+    font-size: 28px;
+    color: #d33;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+    }
+
+    #thank-you-container p {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 40px;
+    }
+
+    .thank-you-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    }
+    .sidebar-toggle {
+  display: none;
+  background: #111;
+  color: #fff;
+  padding: 12px 20px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+
+/* Wishlist*/
+.floating-wishlist {
+    position: absolute;
+    top:80px;
+    right: 10px;
+}
+
+.wishlist-toggle {
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 50px;
+    background-color: #fff;
+    font-weight: 500;
+    color:var(--primary-400);
+    border: 1px solid var(--primary-400);
+    transition: 0.2s;
+    position: absolute;
+    bottom: 20px;
+    right: 10px;
+}
+.wishlist-toggle:hover {
+
+    font-weight: 400;
+      transform: scale(1.1);
+  box-shadow: 0 0 8px rgba(139, 3, 3, 0.44);
+}
+.cart-card {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+    align-items: flex-start;
+}
+.cart-img {
+    position: relative;
+}
+.cart-img img {
+    width: 180px;
+    border-radius: 8px;
+}
+.cart-info {
+    flex: 1;
+}
+
+/* Display order history*/
+.order-card {
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.order-items ul {
+    padding-left: 20px;
+    margin: 0;
+}
+
+.order-items li {
+    list-style-type: disc;
+    margin-bottom: 4px;
+}
+b
 /* Start Media Query */
 
 @media (max-width:799px) {
+  button.normal,
+button.continue,
+button.white,
+button.confirm-btn,
+button.cancel-btn {
+  font-family: Poppins;
+  font-size: 14px;
+  padding: 15px 20px;
+}
+
     .section-p1 {
         padding: 40px;
     }
@@ -1781,7 +2141,7 @@ footer a:hover {
     #navbar.active li a {
      color: var(--text-100) !important;
     }
-/* Color Change on hover*/
+  /* Color Change on hover*/
     #navbar.active li a:hover,
     #navbar.active li a.active {
         color: var(--primary-500) !important;
@@ -1791,7 +2151,7 @@ footer a:hover {
     display: block;
     background: var(--primary-500) !important; /* 如果你希望 hover 时红色，可以保留；否则改为别的 */
   }
-/* Display inline icon text for cart, profile and wishlist*/
+  /* Display inline icon text for cart, profile and wishlist*/
     #navbar li .link-text {
      display: inline;
      padding:10px
@@ -1934,14 +2294,14 @@ footer a:hover {
     }
 
 /* Shop Page */
-.desktop-only, .mobile-only {
+  .desktop-only, .mobile-only {
     display: none;
-}
+  }
   .filter-bar-wrapper {
         flex-direction: column;
         align-items: center;
     }
- .mobile-only {
+  .mobile-only {
         display: block;
         width: 80%;
         margin: 0 auto 20px;
@@ -1952,7 +2312,6 @@ footer a:hover {
     }
 
 /* Shop model Page */
-
     .modal-content {
     width: 90vw;
     margin: 40px auto;
@@ -1996,35 +2355,33 @@ footer a:hover {
   }
 
   /* 推荐信息文字块 */
-.recommend-info {
+  .recommend-info {
   font-family:Poppins;
   padding: 6px 2px;
   font-size: 15px;
    text-decoration:none;
-}
-/* 商品标题 */
-.product-name {
+  }
+  /* 商品标题 */
+  .product-name {
   font-weight: normal;
   margin: 4px 0;
   line-height: 1.2;
    text-decoration:none;
-}
-
-/* 价格 */
-.price {
+  }
+  /* 价格 */
+  .price {
   color: #000;
   font-weight: bold;
   margin: 4px 0;
    text-decoration:none;
-}
-
-/* 说明文字 */
-.desc {
+  }
+  /* 说明文字 */
+  .desc {
   font-size: 11px;
   color: #666;
   line-height: 1.3;
    text-decoration:none;
-}
+  }
 
   .cart-card {
     flex-direction: column;
@@ -2035,15 +2392,130 @@ footer a:hover {
     align-items: flex-start;
     gap: 10px;
   }
-    .cart-container {
+  .cart-container {
         flex-direction: column;
     }
-    .cart-left, .cart-right {
+  .cart-left, .cart-right {
         flex: 1 1 100%;
     }
-}
+/* PROFILE SETTINGS */
+ .sidebar {
+    display: none;
+    width: 100%;
+    padding: 20px;
+    box-shadow: none;
+    border: 1px solid #ddd;
+    background: #fff;
+    margin-bottom: 20px;
+  }
 
+  .sidebar-toggle {
+    display: block;
+  }
 
+  .sidebar ul {
+    padding-left: 0;
+  }
+
+  .sidebar-sub h2 {
+    font-size: 18px;
+    margin-top: 20px;
+  }
+
+  .sidebar li {
+    margin: 10px 0;
+  }
+
+  .sidebar a {
+    display: block;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+  }
+  #profile-container {
+      margin-top:20px;
+        display: flex;
+        flex-direction: column;
+        padding: 0 15px;
+    }
+
+    #profile-container .sidebar {
+        width: 100%;
+        box-shadow: none;
+        margin-bottom: 20px;
+        padding: 30px;
+        text-align: left;
+        gap:50px;
+        display:flex;
+       flex-direction:row;
+       justify-content:center;
+      
+    }
+
+    #profile-container .main-content {
+        margin-left: 0;
+        padding: 30px;
+        box-shadow: none;
+    }
+    #profile-container .modal-divider{
+      display:none;
+    }
+
+    .info-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .info-label {
+      font-family:Poppins;
+      font-weight:bold;
+        width: 100%;
+        margin-bottom: 4px;
+    }
+
+    .membership-card {
+        width: 100%;
+        height: auto;
+        padding: 16px;
+    }
+
+    .barcode-img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    form input,
+    form select {
+        font-size: 14px;
+        padding: 8px 12px;
+    }
+
+    .form-group {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .btn-submit {
+        font-size: 14px;
+        padding: 10px;
+    }
+/* REGISTER SUCCESS */
+ #thank-you-container {
+    padding: 40px 20px;
+  }
+
+  #thank-you-container h1 {
+    font-size: 1.5rem;
+  }
+
+  .thank-you-buttons {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .thank-you-buttons a button {
+    width: 100%;
+  }
+  }
 
 @media (max-width:477px) {
     .section-p1 {

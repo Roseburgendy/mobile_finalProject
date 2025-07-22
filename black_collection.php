@@ -43,13 +43,15 @@ $categories_result = $conn->query("SELECT * FROM category");
     <!-- Header/Navbar Section -->
     <?php
 $activePage = 'black_collection';
+require_once 'wy_wishlist_helper.php';
 include 'wy_header.php';
+$wishlist_ids = getUserWishlistIds($conn);
 ?>
 
 
     <section id="page-header" class="black-banner">
         <h2>Black Collection 2025</h2>
-        <p>Save more with coupons & up to 70% off!</p>
+        <p>Bold, sleek, and effortlessly sophisticated — embrace the power of black this season.</p>
     </section>
 
     <section class="section-p1">
@@ -94,9 +96,10 @@ include 'wy_header.php';
                     <h5><?= htmlspecialchars($row['name']) ?></h5>
                     <h4>$<?= number_format($row['price'], 2) ?></h4>
                 </div>
-                <a href="wishlist.php?add=<?= $row['id'] ?>">
-                    <i class="far fa-heart cart" title="Add to Wishlist"></i>
-                </a>
+                <!-- 红心按钮（默认空心） -->
+                <button type="button" class="wishlist-toggle" data-product-id="<?= $row['id'] ?>">
+                    <i class="<?= in_array($row['id'], $wishlist_ids) ? 'fas' : 'far' ?> fa-heart"></i>
+                </button>
             </div>
             <?php endwhile; ?>
             <?php else: ?>

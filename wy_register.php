@@ -16,10 +16,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("ssss", $email, $password, $birthday, $gender);
 
     if ($stmt->execute()) {
-        $_SESSION['user_id'] = $conn->insert_id;
-        header("Location: wy_register_success.php");
-        exit();
-    } else {
+    $newUserId = $conn->insert_id;
+    $_SESSION['user_id'] = $newUserId;
+    $_SESSION['email'] = $email;  // ✨加上这一行
+
+    $_SESSION['first_name'] = ''; // 如果你还没让用户输入
+    $_SESSION['last_name'] = '';
+
+    header("Location: wy_register_success.php");
+    exit();
+}
+ else {
         $errorMsg = "Registration Failed: " . $conn->error;
     }
 
@@ -59,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     .register-form input[type="email"],
     .register-form input[type="password"],
     .register-form input[type="date"] {
-        width: 100%;
+        width: 80%;
         padding: 10px;
         margin-top: 5px;
         border: 1px solid #ccc;
@@ -70,20 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         display: flex;
         gap: 20px;
         margin-top: 10px;
-    }
-
-    .register-form button {
-        margin-top: 30px;
-        padding: 12px 24px;
-        background-color: #000;
-        color: #fff;
-        border: none;
-        cursor: pointer;
-        font-weight: bold;
-    }
-
-    .register-form button:hover {
-        background-color: #444;
+        margin-bottom: 10px;
     }
 
     .notice {
@@ -118,7 +112,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <label><input type="radio" name="gender" value="Prefer not to state" checked> Prefer Not To State</label>
             </div>
 
-            <button type="submit">REGISTER</button>
+            <button class="white" type="submit">REGISTER</button>
         </form>
 
         <?php if (!empty($errorMsg)) : ?>

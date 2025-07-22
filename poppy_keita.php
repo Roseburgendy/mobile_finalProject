@@ -43,12 +43,14 @@ $categories_result = $conn->query("SELECT * FROM category");
     <!-- Header/Navbar Section -->
 <?php
 $activePage = 'poppy_keita';
+require_once 'wy_wishlist_helper.php';
 include 'wy_header.php';
+$wishlist_ids = getUserWishlistIds($conn);
 ?>
 
 <section id="page-header" class="keita-banner">
     <h2>POPPY X KEITAMARUYAMA Special Collection</h2>
-    <p>Save more with coupons & up to 70% off!</p>
+    <p>A special collaboration item that combines the patterns of KEITA MARUYAMA and POPPY to create a single piece of art. The two contrasting pieces of art create an exquisite balance that draws the eye. </p>
 </section>
 
 <section class="section-p1">
@@ -92,9 +94,10 @@ include 'wy_header.php';
                         <h5><?= htmlspecialchars($row['name']) ?></h5>
                         <h4>$<?= number_format($row['price'], 2) ?></h4>
                     </div>
-                    <a href="wishlist.php?add=<?= $row['id'] ?>">
-                        <i class="far fa-heart cart" title="Add to Wishlist"></i>
-                    </a>
+                <!-- 红心按钮（默认空心） -->
+                <button type="button" class="wishlist-toggle" data-product-id="<?= $row['id'] ?>">
+                    <i class="<?= in_array($row['id'], $wishlist_ids) ? 'fas' : 'far' ?> fa-heart"></i>
+                </button>
                 </div>
             <?php endwhile; ?>
         <?php else: ?>

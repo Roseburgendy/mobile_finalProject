@@ -41,6 +41,74 @@ $stmt = $conn->prepare("SELECT * FROM users WHERE id = ?");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $user = $stmt->get_result()->fetch_assoc();
+
+// Change Password
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'password') {
+    $current_password = $_POST['current_password'];
+    $new_password = $_POST['new_password'];
+
+    // 获取当前用户的密码哈希
+    $stmt = $conn->prepare("SELECT password FROM users WHERE id = ?");
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $userData = $result->fetch_assoc();
+
+    if ($userData && password_verify($current_password, $userData['password'])) {
+        // 新密码加密
+        $new_password_hashed = password_hash($new_password, PASSWORD_DEFAULT);
+
+        // 更新密码
+        $update_stmt = $conn->prepare("UPDATE users SET password = ? WHERE id = ?");
+        $update_stmt->bind_param("si", $new_password_hashed, $user_id);
+
+        if ($update_stmt->execute()) {
+            $successMsg = "Password updated successfully.";
+        } else {
+            $errorMsg = "Failed to update password. Please try again.";
+        }
+    } else {
+        $errorMsg = "Current password is incorrect.";
+    }
+}
+
+// Delete Account
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'withdraw') {
+    if (!empty($_POST['agree'])) {
+        // 从数据库删除该用户
+        $stmt = $conn->prepare("DELETE FROM users WHERE id = ?");
+        $stmt->bind_param("i", $user_id);
+
+        if ($stmt->execute()) {
+            // 注销 session 并跳转
+            session_unset();
+            session_destroy();
+            header("Location: index.php");
+            exit;
+        } else {
+            $errorMsg = "Failed to delete your account. Please try again.";
+        }
+    } else {
+        $errorMsg = "You must agree before withdrawing.";
+    }
+}
+
+
+// Check order history
+if ($action === 'orders') {
+    $stmt = $conn->prepare("SELECT o.id, o.order_date, o.total_amount, 
+                                   GROUP_CONCAT(CONCAT(p.name, IFNULL(CONCAT(' (', oi.quantity, ')'), '')) SEPARATOR ', ') AS items
+                            FROM orders o
+                            JOIN order_items oi ON o.id = oi.order_id
+                            JOIN products p ON oi.product_id = p.id
+                            WHERE o.user_id = ?
+                            GROUP BY o.id
+                            ORDER BY o.order_date DESC");
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $order_results = $stmt->get_result();
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -48,220 +116,55 @@ $user = $stmt->get_result()->fetch_assoc();
 
 <head>
     <meta charset="UTF-8">
-    <title>Membership Profile</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poppy Fashion</title>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+    <!-- Main Styles -->
     <link rel="stylesheet" href="style.css">
-    <style>
-    body {
-        font-family: Poppins;
-        margin: 0;
-        padding: 0;
-        background: #f9f9f9;
-    }
-
-    .container {
-        display: flex;
-        max-width: 1200px;
-        margin: 40px auto;
-        padding: 0 20px;
-    }
-
-    .sidebar {
-        width: 260px;
-        background: #fff;
-        padding: 30px;
-        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
-    }
-
-    .sidebar h2 {
-
-        font-size: 22px;
-        margin-bottom: 20px;
-    }
-
-    .sidebar ul {
-        list-style: none;
-        padding-left: 0;
-    }
-
-    .sidebar li {
-        margin: 12px 0;
-    }
-
-    .sidebar a {
-        text-decoration: none;
-        color: #111;
-    }
-
-    .main-content {
-        flex: 1;
-        background: #fff;
-        padding: 40px;
-        margin-left: 20px;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
-    }
-
-    .main-content h3 {
-        font-size: 24px;
-        margin-bottom: 20px;
-    }
-
-    .info-row {
-        display: flex;
-        justify-content: space-between;
-        max-width: 600px;
-        margin-bottom: 10px;
-    }
-
-    .info-label {
-        font-weight: bold;
-        width: 160px;
-    }
-
-    .membership-card {
-        margin-top: 20px;
-        width: 360px;
-        height: 200px;
-        background-image: url('img/banner/Line.jpg');
-        background-size: cover;
-        background-position: center;
-        border-radius: 16px;
-        padding: 20px;
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-        position: relative;
-        overflow: hidden;
-        color: #000;
-        font-family: Poppins;
-        text-align: center;
-        background-color: #fff;
-        border: 1px solid var(--text-900);
-    }
-
-
-    .card-content {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .brand {
-        color: #d33;
-        font-weight: bold;
-        font-size: 24px;
-        margin-bottom: 10px;
-        letter-spacing: 3px;
-    }
-
-    .barcode-area {
-        margin: 10px 0;
-    }
-
-    .barcode-img {
-        height: 60px;
-    }
-
-    .barcode-id {
-        font-size: 12px;
-        margin-top: 5px;
-    }
-
-    .member-name {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: #d33;
-        color: white;
-        padding: 6px 12px;
-        font-weight: bold;
-        text-align: right;
-        border-bottom-left-radius: 16px;
-        border-bottom-right-radius: 16px;
-    }
-
-    /*FORM*/
-    form label {
-        display: block;
-        margin-bottom: 6px;
-        font-weight: 600;
-        color: #555;
-    }
-
-    form input,
-    form select {
-        width: 100%;
-        padding: 10px 15px;
-        margin-bottom: 20px;
-        border: 1px solid #ccc;
-        border-radius: 6px;
-        font-size: 16px;
-        transition: border 0.3s;
-    }
-
-    form input:focus,
-    form select:focus {
-        border-color: #111;
-        outline: none;
-    }
-
-    .form-group {
-        display: flex;
-        gap: 20px;
-    }
-
-    .form-group>div {
-        flex: 1;
-    }
-
-    .btn-submit {
-        display: block;
-        width: 100%;
-        padding: 12px;
-        font-size: 16px;
-        background-color: #111;
-        color: #fff;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        transition: background 0.3s;
-    }
-
-    .btn-submit:hover {
-        background-color: #333;
-    }
-
-    .success-msg {
-        color: green;
-        text-align: center;
-        margin-bottom: 20px;
-    }
-
-    .error-msg {
-        color: red;
-        text-align: center;
-        margin-bottom: 20px;
-    }
-    </style>
 </head>
 
-<body>
-    <?php include 'wy_header.php'; ?>
+<body class="sub-page">
+    <?php 
+     $activePage = 'wy_profile';
+    include 'wy_header.php'; 
+       ?>
+    <section id="page-header" class="profile-banner">
 
-    <div class="container">
+        <h2>Membership</h2>
+
+        <p>Enjoy coupons and exclusive member benefits!</p>
+
+    </section>
+    <div id="profile-container" class="section-p1">
         <div class="sidebar">
-            <h2>Membership</h2>
-            <ul>
-                <a href="wy_profile.php?action=view">Profile</a>
-                <li><a href="#">Coupons</a></li>
-                <li><a href="#">Purchase history</a></li>
-                <li><a href="#">Order history</a></li>
-            </ul>
-            <h2 style="margin-top:30px;">Profile settings</h2>
-            <ul>
-                <li><a href="wy_profile.php?action=edit">Edit profile</a></li>
-                <li><a href="wy_profile.php?action=address">Address book</a></li>
-                <li><a href="wy_profile.php?action=password">Change password</a></li>
-                <li><a href="wy_profile.php?action=withdraw">Withdraw membership</a></li>
-            </ul>
+            <div class="sidebar-sub">
+                <h2>Membership</h2>
+                <ul>
+                    <li><a href="wy_profile.php?action=view" class="<?= $action === 'view' ? 'active' : '' ?>">
+                            Profile</a></li>
+                    <li><a href="#">Coupons</a></li>
+                    <li><a href="wy_profile.php?action=orders" class="<?= $action === 'orders' ? 'active' : '' ?>">Order
+                            history</a></li>
+
+                </ul>
+            </div>
+            <div class="modal-divider"></div>
+
+            <div class="sidebar-sub">
+                <h2>Profile settings</h2>
+                <ul>
+                    <li><a href="wy_profile.php?action=edit" class="<?= $action === 'edit' ? 'active' : '' ?>">Edit
+                            profile</a></li>
+                    <li><a href="wy_profile.php?action=address"
+                            class="<?= $action === 'address' ? 'active' : '' ?>">Address book</a></li>
+                    <li><a href="wy_profile.php?action=password"
+                            class="<?= $action === 'password' ? 'active' : '' ?>">Change password</a></li>
+                    <li><a href="wy_profile.php?action=withdraw"
+                            class="<?= $action === 'withdraw' ? 'active' : '' ?>">Withdraw membership</a></li>
+                </ul>
+            </div>
         </div>
 
         <div class="main-content">
@@ -292,13 +195,14 @@ $user = $stmt->get_result()->fetch_assoc();
                         <img src="https://barcode.tec-it.com/barcode.ashx?data=<?= $user_id ?>&code=Code128&dpi=96"
                             alt="barcode" class="barcode-img">
                     </div>
-                    <p class="barcode-id"><?= $user_id ?></p>
                 </div>
-                <div class="member-name"><?= htmlspecialchars($user['last_name'] . ' ' . $user['first_name']) ?></div>
+                <div class="member-name"><?= htmlspecialchars($user['last_name'] . ' ' . $user['first_name']) ?>
+                </div>
             </div>
 
-            <!-- 编辑资料模块 -->
+
             <?php elseif ($action === 'edit'): ?>
+            <!-- 编辑资料模块 -->
             <h3>EDIT PROFILE</h3>
             <form method="post">
                 <label>First Name*</label>
@@ -315,7 +219,8 @@ $user = $stmt->get_result()->fetch_assoc();
                     <option value="Male" <?= $user['gender'] == 'Male' ? 'selected' : '' ?>>Male</option>
                     <option value="Female" <?= $user['gender'] == 'Female' ? 'selected' : '' ?>>Female</option>
                     <option value="Prefer not to state"
-                        <?= $user['gender'] == 'Prefer not to state' ? 'selected' : '' ?>>Prefer not to state</option>
+                        <?= $user['gender'] == 'Prefer not to state' ? 'selected' : '' ?>>Prefer not to state
+                    </option>
                 </select>
 
                 <label>Birthday*</label>
@@ -345,16 +250,37 @@ $user = $stmt->get_result()->fetch_assoc();
             <!-- 地址簿模块 -->
             <?php elseif ($action === 'address'): ?>
             <h3>ADDRESS BOOK</h3>
-            <p><?= htmlspecialchars($user['first_name']) ?> <?= htmlspecialchars($user['last_name']) ?></p>
-            <p><?= htmlspecialchars($user['address1']) ?>, <?= htmlspecialchars($user['address2']) ?>,
-                <?= htmlspecialchars($user['postal_code']) ?>, <?= htmlspecialchars($user['city']) ?>,
-                <?= htmlspecialchars($user['state']) ?>,
-                <?= htmlspecialchars($user['country']) ?></p>
-            <p>Tel:+60-<?= htmlspecialchars($user['phone']) ?></p>
+
+            <div class="address-card">
+                <div class="address-header">
+                    <strong><?= htmlspecialchars($user['first_name']) ?>
+                        <?= htmlspecialchars($user['last_name']) ?></strong>
+                </div>
+                <div class="address-body">
+                    <p>
+                        <?= htmlspecialchars($user['address1']) ?><br>
+                        <?= htmlspecialchars($user['address2']) ? htmlspecialchars($user['address2']) . '<br>' : '' ?>
+                        <?= htmlspecialchars($user['postal_code']) ?> <?= htmlspecialchars($user['city']) ?><br>
+                        <?= htmlspecialchars($user['state']) ?>, <?= htmlspecialchars($user['country']) ?>
+                    </p>
+                    <p><strong>Phone:</strong> +6<?= htmlspecialchars($user['phone']) ?></p>
+                </div>
+            </div>
+            <a href="wy_profile.php?action=edit">
+                <button class="white" type="submit">Edit Address</button>
+            </a>
+
 
             <!-- 更改密码模块 -->
             <?php elseif ($action === 'password'): ?>
             <h3>CHANGE PASSWORD</h3>
+            <?php if (!empty($successMsg)): ?>
+            <p class="success-msg"><?= $successMsg ?></p>
+            <?php endif; ?>
+            <?php if (!empty($errorMsg)): ?>
+            <p class="error-msg"><?= $errorMsg ?></p>
+            <?php endif; ?>
+
             <form method="post" action="?action=password">
                 <label>Current Password</label>
                 <input type="password" name="current_password" required>
@@ -366,18 +292,66 @@ $user = $stmt->get_result()->fetch_assoc();
             <!-- 注销会员模块 -->
             <?php elseif ($action === 'withdraw'): ?>
             <h3>WITHDRAWAL FROM MEMBERSHIP</h3>
-            <p>You will lose access to all services.</p>
-            <form method="post" action="?action=withdraw"
-                onsubmit="return confirm('Are you sure you want to delete your account?');">
-                <label><input type="checkbox" name="agree" required> I agree to the Terms</label>
-                <button class="white" type="submit" class="danger-btn">Withdraw</button>
-            </form>
+
+            <div class="withdrawal-card">
+                <p class="warning-text">
+                    You are about to delete your membership and lose access to all services.
+                </p>
+                <?php if (!empty($successMsg)): ?>
+                <p class="success-msg"><?= $successMsg ?></p>
+                <?php endif; ?>
+                <?php if (!empty($errorMsg)): ?>
+                <p class="error-msg"><?= $errorMsg ?></p>
+                <?php endif; ?>
+
+                <form method="post" action="?action=withdraw"
+                    onsubmit="return confirm('Are you sure you want to delete your account?');">
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="agree" required> I confirm I want to withdraw and agree to the
+                        terms.
+                    </label>
+                    <button type="submit" class="normal">Withdraw Membership</button>
+                </form>
+            </div>
+
+            <!-- 历史订单 -->
+            <!-- 历史订单 -->
+            <?php elseif ($action === 'orders'): ?>
+            <h3>ORDER HISTORY</h3>
+            <?php if ($order_results->num_rows === 0): ?>
+            <p>You have not placed any orders yet.</p>
+            <?php else: ?>
+            <div class="order-history-cards">
+                <?php while ($order = $order_results->fetch_assoc()): ?>
+                <div class="order-card">
+                    <div class="order-header">
+                        <span class="order-id">Order #<?= htmlspecialchars($order['id']) ?></span>
+                        <span
+                            class="order-date"><?= htmlspecialchars(date('Y-m-d', strtotime($order['order_date']))) ?></span>
+                        <span class="order-total">Total: RM <?= number_format($order['total_amount'], 2) ?></span>
+                    </div>
+                    <div class="order-items">
+                        <ul>
+                            <?php
+                            $items = explode(',', $order['items']);
+                            foreach ($items as $item):
+                            ?>
+                            <li><?= htmlspecialchars(trim($item)) ?></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                </div>
+                <?php endwhile; ?>
+            </div>
+            <?php endif; ?>
 
             <?php endif; ?>
+
         </div>
     </div>
 
     <?php include 'wy_footer.php'; ?>
+
 </body>
 
 </html>

@@ -2,37 +2,24 @@
 session_start();
 include 'config.php';
 
+header('Content-Type: application/json');
 // HANDLE LOGIN BEHAVIOR
 // IF NOT LOGIN
 if (!isset($_SESSION['user_id'])) {
-    // INITIALIZE THE CART
-    if (!isset($_SESSION['cart'])) {
-        $_SESSION['cart'] = [];
-    }
-
-    $product_id = $_POST['product_id'];
-    $quantity = $_POST['quantity'] ?? 1;
-    $size = $_POST['size'] ?? null;
-
-    $key = $product_id . '_' . ($size ?? 'nosize');
-
-    if (isset($_SESSION['cart'][$key])) {
-        $_SESSION['cart'][$key]['quantity'] += $quantity;
-    } else {
-        $_SESSION['cart'][$key] = [
-            'product_id' => $product_id,
-            'quantity' => $quantity,
-            'size' => $size
-        ];
-    }
-
-    // OUT PUT CART
-    echo json_encode([
-        'status' => 'guest_cart',
-        'cart_count' => array_sum(array_column($_SESSION['cart'], 'quantity'))
-    ]);
     exit;
 }
+
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['product_id'])) {
+    echo json_encode(['status' => 'error', 'message' => 'Invalid request']);
+    exit;
+}
+
+$product_id = intval($_POST['product_id']);
+$quantity = isset($_POST['quantity']) ? intval($_POST['quantity']) : 1;
+$size = isset($_POST['size']) ? $_POST['size'] : null;
+
+
 
 
 // IF THE USER LOGGED IN, READ $_POST FROM JAVA
